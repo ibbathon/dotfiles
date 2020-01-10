@@ -21,6 +21,7 @@ Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'morhetz/gruvbox'
 Plugin 'Konfekt/FastFold'
 Plugin 'tmhedberg/SimpylFold'
+Plugin 'rlue/vim-fold-rspec'
 "Plugin 'nathanaelkane/vim-indent-guides'
 "Plugin 'mkitt/tabline.vim'
 call vundle#end()
@@ -55,7 +56,11 @@ set ignorecase
 set wildignorecase
 
 syntax on
-set clipboard=unnamedplus
+if system('uname -s') == "Darwin\n"
+  set clipboard=unnamed
+else
+  set clipboard=unnamedplus
+endif
 set backspace=indent,eol,start
 
 set expandtab
@@ -82,7 +87,8 @@ set undofile
 set foldmethod=syntax
 set foldlevelstart=30
 
-set mouse=
+set mouse=a
+set ttymouse=sgr
 
 " Netrw setup
 let g:netrw_mousemaps=0 " Stupid Netrw
@@ -119,9 +125,7 @@ if has("gui_running")
   if has("win32") || has("win64")
     set guifont=Consolas:h9:cANSI:qDRAFT
     set lines=65
-    set columns=161
-    :vs
-    :winc =
+    set columns=80
   endif
   "set guifont=xos4\ Terminus\ 12
   "colorscheme slate
@@ -145,3 +149,10 @@ else
   " Normal mode
   let &t_EI .= "\<Esc>[2 q"
 endif
+
+set showbreak=>>>\ 
+set breakindent
+set breakindentopt=min:40,shift:2,sbr
+
+" Close scratch buffer when leaving insert mode, to clean up my panes
+autocmd InsertLeave * if pumvisible() == 0 && bufname("%") != "[Command Line]"|pclose|endif

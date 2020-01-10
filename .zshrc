@@ -1,9 +1,16 @@
 export EDITOR=vim
 
-alias ls='ls -a --color=auto'
+if [[ $HOST == "LegalShield" ]]; then
+  alias ls='ls -aG'
+else
+  alias ls='ls -a --color=auto'
+fi
 alias cp='cp -i'
-#alias rm='rm -i'
 alias mv='mv -i'
+
+# Case-insensitive tab-completion
+autoload -Uz compinit && compinit
+zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
 
 ### Prompt setup
 PROMPT="%F{red}%? %F{magenta}%~ %F{green}%#%f "
@@ -63,4 +70,61 @@ if (( ${+terminfo[smkx]} && ${+terminfo[rmkx]} )); then
 	}
 	add-zle-hook-widget -Uz zle-line-init zle_application_mode_start
 	add-zle-hook-widget -Uz zle-line-finish zle_application_mode_stop
+fi
+
+
+### LegalShield-specific
+if [[ $HOST == "LegalShield" ]]; then
+  ## Justin's docker shortcuts, wrapped to prevent overdefinition
+  if [[ -z $DOCKER_SHORTCUTS_DEFINED ]]; then
+    DOCKER_SHORTCUTS_DEFINED="yes"
+  
+    alias dc='docker-compose'
+  
+    dcgetcid() {
+      echo $(docker-compose ps -q "$1")
+    }
+  
+    dce(){
+      CMD="${@:2}"
+      docker exec -it $(dcgetcid $1) bash -c "stty cols $COLUMNS rows $LINES && bash -c \"$CMD\"";
+    }
+  
+    # Watch the logs for all the running containers: `dcl`
+    # Watch the logs for a single container: `dcl adonis`
+    # optional tail if you want more than 25 lines: `dcl adonis 100`
+    dcl() {
+      TAIL=${2:-25}
+      docker-compose logs -f --tail="$TAIL" $1
+    }
+  
+    # Attach your terminal to a container.
+    # If you have binding.pry in your code and browse the site
+    # then run `dca adonis` in a terminal to be able to type into Pry
+    dca() {
+      docker attach $(dcgetcid "$1")
+    }
+  
+    # Opens a bash console on a container: `dcb adonis`
+    dcb() {
+      dce "$1" /bin/bash
+    }
+  
+    alias dce='noglob dce'
+  fi
+  
+  
+  ## My shortcuts for working within PPLSI
+  
+  # Shortcuts for accessing databases
+  psql_dev() {
+    psql -h localhost -U admin adonis_development
+  }
+  psql_test() {
+    psql -h localhost -U admin adonis_test
+  }
+  
+  # Fix delete key on Windows keyboard for iTerm2
+  bindkey    "^[[3~"          delete-char
+  bindkey    "^[3;5~"         delete-char
 fi
