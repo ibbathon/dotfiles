@@ -35,10 +35,14 @@ try:
 except ImportError:
     pass
 
-# Use HOST to determine if we're on a laptop, based on a hardcoded list
+# Use HOST to determine computer-specific options, such as battery/wlan widgets
 is_a_laptop = False
 if os.getenv("HOST","default") in ["WanderingMonk"]:
     is_a_laptop = True
+wlan_int = 'wlp2s0'
+if os.getenv("HOST","default") == "some_other_laptop":
+    wlan_int = "wlo1"
+
 
 mod = "mod4"
 
@@ -143,7 +147,7 @@ def build_screen_widgets():
     if is_a_laptop:
         raw_widgets.append(widget.BatteryIcon(padding=0))
         raw_widgets.append(widget.Battery(padding=0,charge_char='^',discharge_char='v',format='{percent:2.0%} {char}'))
-        raw_widgets.append(widget.Wlan(interface='wlo1',format='Wifi: {essid} {quality}/70'))
+        raw_widgets.append(widget.Wlan(interface=wlan_int,format='Wifi: {essid} {quality}/70'))
 
     widgets = []
     for i, widg in enumerate(raw_widgets):
