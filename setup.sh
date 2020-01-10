@@ -13,14 +13,14 @@ mkdir -p ~/.config/qtile
 DOTBASE=$GITWORK/dotfiles
 STANDARD_DOTFILES=(
   ".config/qtile/config.py"
+  ".inputrc"
   ".tmux.conf.local"
+  ".vimrc"
   ".xprofile"
   ".Xresources"
   ".zshrc"
 )
 for f in $STANDARD_DOTFILES; do
-  echo "source: $DOTBASE/$f"
-  echo "dest: $HOME/$f"
   ln -sf $DOTBASE/$f ~/$f
 done
 
