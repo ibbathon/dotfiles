@@ -7,5 +7,5 @@ setups.
 ## Setup Steps
 1. Clone this repo.
 1. Modify `setup.sh`, setting GITWORK to the parent directory of this repo.
-  - `setup.sh` should then be located at `$GITWORK/dotfiles/setup.sh`
+    - `setup.sh` should then be located at `$GITWORK/dotfiles/setup.sh`
 1. Run `setup.sh`.
