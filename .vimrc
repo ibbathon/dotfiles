@@ -95,6 +95,7 @@ let g:netrw_mousemaps=0 " Stupid Netrw
 let g:netrw_sort_options='i' " Ignore case
 let g:netrw_sort_by='name'
 let g:netrw_sort_sequence='[\/]$' " Display directories first, then normal sorting
+let g:netrw_browse_split=0
 
 " Shortcut to write to a file that we need sudo access for
 cmap w!! w !sudo tee > /dev/null %
