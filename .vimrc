@@ -90,6 +90,8 @@ set foldlevelstart=30
 set mouse=a
 set ttymouse=sgr
 
+set fileformats=unix,dos " Prefer unix line endings
+
 " Netrw setup
 let g:netrw_mousemaps=0 " Stupid Netrw
 let g:netrw_sort_options='i' " Ignore case
