@@ -56,11 +56,7 @@ set ignorecase
 set wildignorecase
 
 syntax on
-if system('uname -s') == "Darwin\n"
-  set clipboard=unnamed
-else
-  set clipboard=unnamedplus
-endif
+set clipboard=unnamed
 set backspace=indent,eol,start
 
 set expandtab
