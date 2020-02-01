@@ -15,17 +15,20 @@ call vundle#begin('$VIMHOME/bundle')
 Plugin 'nvie/vim-flake8' " Python linter Flake8
 Plugin 'vim-airline/vim-airline' " Status/Tabline
 Plugin 'leafgarland/typescript-vim' " TypeScript syntax
-Plugin 'Valloric/YouCompleteMe' " Auto-complete methods/variables/words
+Plugin 'ervandew/supertab' " No-prereqs auto-completion
 Plugin 'morhetz/gruvbox' " Color scheme
 Plugin 'Konfekt/FastFold' " Folding performance gains
 Plugin 'tmhedberg/SimpylFold' " Better folding for Python
 Plugin 'rlue/vim-fold-rspec' " Folding for *_spec.rb files
+Plugin 'ctrlpvim/ctrlp.vim' " Quick file search
+Plugin 'tpope/vim-fugitive' " Adds git commands like Gstatus
+Plugin 'scrooloose/syntastic' " Auto syntax checking
 " UNUSED/UNWANTED/REPLACED
-"Plugin 'ctrlpvim/ctrlp.vim' " Quick file search (useful, but I don't use it)
 "Plugin 'nathanaelkane/vim-indent-guides'
 "Plugin 'mkitt/tabline.vim'
 "Plugin 'Glench/Vim-Jinja2-Syntax' " Jinja syntax (used at Vivial)
-"Plugin 'tpope/vim-fugitive' " Needs tpope's fugitive?
+"Plugin 'ajh17/vimcompletesme' " No-prereqs auto-completion (no popup)
+"Plugin 'Valloric/YouCompleteMe' " Powerful auto-completion (requires compile)
 call vundle#end()
 filetype plugin indent on
 
@@ -121,12 +124,13 @@ autocmd BufNewFile,BufRead COMMIT_EDITMSG let g:ycm_auto_trigger = 0
 inoremap {<CR> {<CR>}<Esc>ko
 inoremap [<CR> [<CR>]<Esc>ko
 
+let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
+
 " Only do the following in macvim or gvim
 if has("gui_running")
   if has("win32") || has("win64")
     set guifont=Consolas:h9:cANSI:qDRAFT
     set lines=65
-    set columns=80
   endif
   "set guifont=xos4\ Terminus\ 12
   "colorscheme slate
