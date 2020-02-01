@@ -23,6 +23,7 @@ Plugin 'ctrlpvim/ctrlp.vim' " Quick file search
 Plugin 'tpope/vim-fugitive' " Adds git commands like Gstatus
 Plugin 'scrooloose/syntastic' " Auto syntax checking
 Plugin 'ajh17/vimcompletesme' " No-prereqs auto-completion
+Plugin 'davidhalter/jedi-vim' " Advanced Python auto-complete
 " UNUSED/UNWANTED/REPLACED
 "Plugin 'ervandew/supertab' " No-prereqs auto-completion
 "Plugin 'nathanaelkane/vim-indent-guides'
