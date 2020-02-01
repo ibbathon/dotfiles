@@ -12,18 +12,20 @@ set encoding=utf-8
 filetype off
 set rtp+=$VIMHOME/bundle/Vundle.vim
 call vundle#begin('$VIMHOME/bundle')
-Plugin 'tpope/vim-fugitive'
-Plugin 'vim-airline/vim-airline'
-Plugin 'leafgarland/typescript-vim'
-Plugin 'Glench/Vim-Jinja2-Syntax'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'morhetz/gruvbox'
-Plugin 'Konfekt/FastFold'
-Plugin 'tmhedberg/SimpylFold'
-Plugin 'rlue/vim-fold-rspec'
+Plugin 'nvie/vim-flake8' " Python linter Flake8
+Plugin 'vim-airline/vim-airline' " Status/Tabline
+Plugin 'leafgarland/typescript-vim' " TypeScript syntax
+Plugin 'Valloric/YouCompleteMe' " Auto-complete methods/variables/words
+Plugin 'morhetz/gruvbox' " Color scheme
+Plugin 'Konfekt/FastFold' " Folding performance gains
+Plugin 'tmhedberg/SimpylFold' " Better folding for Python
+Plugin 'rlue/vim-fold-rspec' " Folding for *_spec.rb files
+" UNUSED/UNWANTED/REPLACED
+"Plugin 'ctrlpvim/ctrlp.vim' " Quick file search (useful, but I don't use it)
 "Plugin 'nathanaelkane/vim-indent-guides'
 "Plugin 'mkitt/tabline.vim'
+"Plugin 'Glench/Vim-Jinja2-Syntax' " Jinja syntax (used at Vivial)
+"Plugin 'tpope/vim-fugitive' " Needs tpope's fugitive?
 call vundle#end()
 filetype plugin indent on
 
