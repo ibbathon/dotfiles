@@ -15,7 +15,6 @@ call vundle#begin('$VIMHOME/bundle')
 Plugin 'nvie/vim-flake8' " Python linter Flake8
 Plugin 'vim-airline/vim-airline' " Status/Tabline
 Plugin 'leafgarland/typescript-vim' " TypeScript syntax
-Plugin 'ervandew/supertab' " No-prereqs auto-completion
 Plugin 'morhetz/gruvbox' " Color scheme
 Plugin 'Konfekt/FastFold' " Folding performance gains
 Plugin 'tmhedberg/SimpylFold' " Better folding for Python
@@ -23,11 +22,12 @@ Plugin 'rlue/vim-fold-rspec' " Folding for *_spec.rb files
 Plugin 'ctrlpvim/ctrlp.vim' " Quick file search
 Plugin 'tpope/vim-fugitive' " Adds git commands like Gstatus
 Plugin 'scrooloose/syntastic' " Auto syntax checking
+Plugin 'ajh17/vimcompletesme' " No-prereqs auto-completion
 " UNUSED/UNWANTED/REPLACED
+"Plugin 'ervandew/supertab' " No-prereqs auto-completion
 "Plugin 'nathanaelkane/vim-indent-guides'
 "Plugin 'mkitt/tabline.vim'
 "Plugin 'Glench/Vim-Jinja2-Syntax' " Jinja syntax (used at Vivial)
-"Plugin 'ajh17/vimcompletesme' " No-prereqs auto-completion (no popup)
 "Plugin 'Valloric/YouCompleteMe' " Powerful auto-completion (requires compile)
 call vundle#end()
 filetype plugin indent on
@@ -123,8 +123,6 @@ autocmd BufNewFile,BufRead COMMIT_EDITMSG let g:ycm_auto_trigger = 0
 " Autocomplete braces
 inoremap {<CR> {<CR>}<Esc>ko
 inoremap [<CR> [<CR>]<Esc>ko
-
-let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
 
 " Only do the following in macvim or gvim
 if has("gui_running")
