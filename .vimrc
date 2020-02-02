@@ -174,3 +174,6 @@ function! LineHome()
   endif
   return ""
 endfunction
+
+" Delete netrw's buffer, so I can actually quit
+autocmd FileType netrw setl bufhidden=delete
