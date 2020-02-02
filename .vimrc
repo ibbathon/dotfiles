@@ -23,8 +23,8 @@ Plugin 'ctrlpvim/ctrlp.vim' " Quick file search
 Plugin 'tpope/vim-fugitive' " Adds git commands like Gstatus
 Plugin 'scrooloose/syntastic' " Auto syntax checking
 Plugin 'ajh17/vimcompletesme' " No-prereqs auto-completion
-Plugin 'davidhalter/jedi-vim' " Advanced Python auto-complete
 " UNUSED/UNWANTED/REPLACED
+"Plugin 'davidhalter/jedi-vim' " Advanced Python auto-complete (causes flicker)
 "Plugin 'ervandew/supertab' " No-prereqs auto-completion
 "Plugin 'nathanaelkane/vim-indent-guides'
 "Plugin 'mkitt/tabline.vim'
@@ -160,3 +160,17 @@ set breakindentopt=min:40,shift:2,sbr
 
 " Close scratch buffer when leaving insert mode, to clean up my panes
 autocmd InsertLeave * if pumvisible() == 0 && bufname("%") != "[Command Line]"|pclose|endif
+
+" jump to first non-whitespace on line, jump to begining of line if already at first non-whitespace
+map <Home> :call LineHome()<CR>:echo<CR>
+imap <Home> <C-R>=LineHome()<CR>
+map ^[[1~ :call LineHome()<CR>:echo<CR>
+imap ^[[1~ <C-R>=LineHome()<CR>
+function! LineHome()
+  let x = col('.')
+  execute "normal ^"
+  if x == col('.')
+    execute "normal 0"
+  endif
+  return ""
+endfunction
