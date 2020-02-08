@@ -1,12 +1,25 @@
-" Handle Win/Lin config first
+" Determine OS first
 if has('win32') || has('win64')
+  let os = "windows"
+elseif has('win32unix')
+  let os = "cygwin"
+elseif has('macunix')
+  let os = "mac"
+else
+  let os = "unix"
+endif
+
+" Handle Win/Lin config directory locations
+if os == "windows" || os == "cygwin"
   let $VIMHOME = $HOME."/vimfiles"
 else
   let $VIMHOME = $HOME."/.vim"
-endif
+end
 
 
-" Vundle config
+"************************************
+"***** Vundle and plugin config *****
+"************************************
 set nocompatible
 set encoding=utf-8
 filetype off
@@ -55,44 +68,69 @@ let g:airline_section_c = '%f'
 let g:airline_symbols_ascii = 1
 silent! call airline#extensions#whitespace#disable()
 
-" My config
+" Keep docstring first line visible when folding Python
+let g:SimpylFold_docstring_preview = 1
+
+" Disable ycm for commit message editing
+autocmd BufNewFile,BufRead COMMIT_EDITMSG let g:ycm_auto_trigger = 0
+
+
+"**********************
+"***** var config *****
+"**********************
 set hlsearch
 set incsearch
 set ignorecase
 set wildignorecase
-
-syntax on
-set clipboard=unnamed
+set wrap
+set linebreak
+set nolist
+set wildmode=longest:list
+set noruler
 set backspace=indent,eol,start
+set foldmethod=syntax
+set foldlevelstart=30
+set mouse=a
+set ttymouse=sgr
+set showbreak=>>>\ 
+set breakindent
+set breakindentopt=min:40,shift:2,sbr
 
+" Tab width and tabs-to-spaces
 set expandtab
 set shiftwidth=2
 set softtabstop=2
 set tabstop=2
 
-set wrap
-set linebreak
-set nolist
-
+" Syntax highlighting and other options
+syntax on
 filetype plugin indent on
 
-"set path=.,**
-set wildmode=longest:list
+" Use unnamedplus for Linux, unnamed for all other systems.
+" This is because tmux copies into unnamedplus, but not unnamed.
+if os == "unix"
+  set clipboard=unnamedplus
+else
+  set clipboard=unnamed
+end
 
-set noruler
-
+" Put swap, undo, and backup files in ~/.vim
 set directory=$VIMHOME/swap/
 set backupdir=$VIMHOME/backup/
 set undodir=$VIMHOME/undo/
-set undofile
+set undofile " Allow undo in a file that was previously open
 
-set foldmethod=syntax
-set foldlevelstart=30
+" Prefer unix line endings
+set fileformats=unix,dos
 
-set mouse=a
-set ttymouse=sgr
+" Mark the 80th column, so I know when to break
+set colorcolumn=80
 
-set fileformats=unix,dos " Prefer unix line endings
+" This only works if gruvbox Vundle is installed, but it's so much prettier
+if globpath(&runtimepath, 'colors/gruvbox.vim', 1) !=# ''
+  set background=dark
+  colorscheme gruvbox
+end
 
 " Netrw setup
 let g:netrw_mousemaps=0 " Stupid Netrw
@@ -101,6 +139,11 @@ let g:netrw_sort_by='name'
 let g:netrw_sort_sequence='[\/]$' " Display directories first, then normal sorting
 let g:netrw_browse_split=0
 
+
+"*************************************
+"***** Custom mappings and fixes *****
+"*************************************
+
 " Shortcut to write to a file that we need sudo access for
 cmap w!! w !sudo tee > /dev/null %
 
@@ -108,25 +151,44 @@ cmap w!! w !sudo tee > /dev/null %
 map [5^ :tabp<CR>
 map [6^ :tabn<CR>
 
-" This only works if gruvbox Vundle is installed, but it's so much prettier
-set background=dark
-colorscheme gruvbox
-
-" Keep docstring first line visible when folding Python
-let g:SimpylFold_docstring_preview = 1
-
-" Mark the 80th column, so I know when to break
-set colorcolumn=80
-
-" Disable ycm for commit message editing
-autocmd BufNewFile,BufRead COMMIT_EDITMSG let g:ycm_auto_trigger = 0
-
 " Autocomplete braces
 inoremap {<CR> {<CR>}<Esc>ko
 inoremap [<CR> [<CR>]<Esc>ko
 
-" Only do the following in macvim or gvim
+" Home moves to first non-whitespace on line
+" If already on first non-whitespace, jumps to actual beginning of line
+map <Home> :call LineHome()<CR>:echo<CR>
+imap <Home> <C-R>=LineHome()<CR>
+map ^[[1~ :call LineHome()<CR>:echo<CR>
+imap ^[[1~ <C-R>=LineHome()<CR>
+function! LineHome()
+  let x = col('.')
+  execute "normal ^"
+  if x == col('.')
+    execute "normal 0"
+  endif
+  return ""
+endfunction
+
+
+"************************
+"***** Autocommands *****
+"************************
+
+" Close scratch buffer when leaving insert mode, to clean up my panes
+autocmd InsertLeave * if pumvisible() == 0 && bufname("%") != "[Command Line]"|pclose|endif
+
+" Delete netrw's buffer, so I can actually quit
+autocmd FileType netrw setl bufhidden=delete
+
+
+"***************************
+"***** GUI vs terminal *****
+"***************************
+
 if has("gui_running")
+  " Only do the following in macvim or gvim
+
   if has("win32") || has("win64")
     set guifont=Consolas:h9:cANSI:qDRAFT
     set lines=65
@@ -153,27 +215,3 @@ else
   " Normal mode
   let &t_EI .= "\<Esc>[2 q"
 endif
-
-set showbreak=>>>\ 
-set breakindent
-set breakindentopt=min:40,shift:2,sbr
-
-" Close scratch buffer when leaving insert mode, to clean up my panes
-autocmd InsertLeave * if pumvisible() == 0 && bufname("%") != "[Command Line]"|pclose|endif
-
-" jump to first non-whitespace on line, jump to begining of line if already at first non-whitespace
-map <Home> :call LineHome()<CR>:echo<CR>
-imap <Home> <C-R>=LineHome()<CR>
-map ^[[1~ :call LineHome()<CR>:echo<CR>
-imap ^[[1~ <C-R>=LineHome()<CR>
-function! LineHome()
-  let x = col('.')
-  execute "normal ^"
-  if x == col('.')
-    execute "normal 0"
-  endif
-  return ""
-endfunction
-
-" Delete netrw's buffer, so I can actually quit
-autocmd FileType netrw setl bufhidden=delete
