@@ -84,6 +84,7 @@ keys = [
     # Toggle between different layouts as defined below
     Key([mod], "grave", lazy.next_layout()),
     Key([mod], "q", lazy.window.kill()),
+    Key([mod, "control"], "f", lazy.window.toggle_fullscreen()),
 
     Key([mod, "control"], "Tab", lazy.window.toggle_floating()),
 
@@ -104,6 +105,7 @@ keys = [
 groups = [Group(i) for i in "asdfuiop"]
 groups[0].label = "a "
 groups[1].label = "s "
+groups[7].label = "p "
 
 for i in groups:
     keys.extend([
@@ -208,6 +210,8 @@ floating_layout = layout.Floating(float_rules=[
     {'wname': 'branchdialog'},  # gitk
     {'wname': 'pinentry'},  # GPG key password entry
     {'wmclass': 'ssh-askpass'},  # ssh-askpass
+    {'wmclass': 'fungal-pirates.py'},
+    {'wname': 'pygame window'},
 ])
 auto_fullscreen = True
 focus_on_window_activation = "smart"

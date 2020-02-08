@@ -12,6 +12,9 @@ alias mv='mv -i'
 autoload -Uz compinit && compinit
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
 
+# Fix colors for OTHER_WRITABLE
+export LS_COLORS="ow=37;42"
+
 ### Prompt setup
 PROMPT="%F{red}%? %F{magenta}%~ %F{green}%#%f "
 # Git info
