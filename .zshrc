@@ -15,6 +15,15 @@ zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
 # Fix colors for OTHER_WRITABLE
 export LS_COLORS="ow=37;42"
 
+# Keep history between sessions
+HISTSIZE=5000
+HISTFILE=~/.zsh_history
+SAVEHIST=5000
+setopt appendhistory
+setopt sharehistory
+setopt incappendhistory
+
+
 ### Prompt setup
 PROMPT="%F{red}%? %F{magenta}%~ %F{green}%#%f "
 # Git info
@@ -28,6 +37,7 @@ zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:*' stagedstr '+'
 zstyle ':vcs_info:*' unstagedstr 'x'
+
 
 ### Key setup
 # create a zkbd compatible hash;
@@ -57,8 +67,8 @@ key[ShiftTab]="${terminfo[kcbt]}"
 [[ -n "${key[Down]}"      ]] && bindkey -- "${key[Down]}"      down-line-or-history
 [[ -n "${key[Left]}"      ]] && bindkey -- "${key[Left]}"      backward-char
 [[ -n "${key[Right]}"     ]] && bindkey -- "${key[Right]}"     forward-char
-[[ -n "${key[PageUp]}"    ]] && bindkey -- "${key[PageUp]}"    history-search-backward
-[[ -n "${key[PageDown]}"  ]] && bindkey -- "${key[PageDown]}"  history-search-forward
+[[ -n "${key[PageUp]}"    ]] && bindkey -- "${key[PageUp]}"    history-beginning-search-backward
+[[ -n "${key[PageDown]}"  ]] && bindkey -- "${key[PageDown]}"  history-beginning-search-forward
 [[ -n "${key[ShiftTab]}"  ]] && bindkey -- "${key[ShiftTab]}"  reverse-menu-complete
 
 # Finally, make sure the terminal is in application mode, when zle is
