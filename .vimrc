@@ -36,6 +36,7 @@ Plugin 'ctrlpvim/ctrlp.vim' " Quick file search
 Plugin 'tpope/vim-fugitive' " Adds git commands like Gstatus
 Plugin 'scrooloose/syntastic' " Auto syntax checking
 Plugin 'ajh17/vimcompletesme' " No-prereqs auto-completion
+Plugin 'tyru/open-browser.vim' " Replace netrw's broken gx
 " UNUSED/UNWANTED/REPLACED
 "Plugin 'davidhalter/jedi-vim' " Advanced Python auto-complete (causes flicker)
 "Plugin 'ervandew/supertab' " No-prereqs auto-completion
@@ -138,6 +139,8 @@ let g:netrw_sort_options='i' " Ignore case
 let g:netrw_sort_by='name'
 let g:netrw_sort_sequence='[\/]$' " Display directories first, then normal sorting
 let g:netrw_browse_split=0
+" Netrw's gx is broken: https://github.com/vim/vim/issues/4738
+let g:netrw_nogx=1
 
 
 "*************************************
@@ -169,6 +172,10 @@ function! LineHome()
   endif
   return ""
 endfunction
+
+" Use open-browser to open https? links
+nnoremap <silent> gx :<C-u> call openbrowser#_keymap_smart_search('n')<CR>
+xnoremap <silent> gx :<C-u> call openbrowser#_keymap_smart_search('v')<CR>
 
 
 "************************

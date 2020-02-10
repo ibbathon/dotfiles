@@ -215,6 +215,7 @@ floating_layout = layout.Floating(float_rules=[
     # For some reason, Kivy apps start without a name.
     # For now, use the class, which probably isn't unique.
     {'wmclass': 'python'},
+    {'wmclass': 'openmw-launcher'},
 ])
 auto_fullscreen = True
 focus_on_window_activation = "smart"
