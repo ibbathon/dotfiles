@@ -1,6 +1,12 @@
 export EDITOR=vim
 
-if [[ $HOST == "LegalShield" ]]; then
+if [[ $HOST == "MBIT138.local" ]]; then
+  COMPUTER="LegalShield"
+else
+  COMPUTER="$HOST"
+fi
+
+if [[ $COMPUTER == "LegalShield" ]]; then
   alias ls='ls -aG'
 else
   alias ls='ls -a --color=auto'
