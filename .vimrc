@@ -37,6 +37,7 @@ Plugin 'tpope/vim-fugitive' " Adds git commands like Gstatus
 Plugin 'scrooloose/syntastic' " Auto syntax checking
 Plugin 'ajh17/vimcompletesme' " No-prereqs auto-completion
 Plugin 'tyru/open-browser.vim' " Replace netrw's broken gx
+Plugin 'tpope/vim-rbenv' " rbenv support for vim
 " UNUSED/UNWANTED/REPLACED
 "Plugin 'davidhalter/jedi-vim' " Advanced Python auto-complete (causes flicker)
 "Plugin 'ervandew/supertab' " No-prereqs auto-completion
@@ -71,6 +72,9 @@ silent! call airline#extensions#whitespace#disable()
 
 " Keep docstring first line visible when folding Python
 let g:SimpylFold_docstring_preview = 1
+
+" Use Rubocop by default for Ruby files
+let g:syntastic_ruby_checkers = ['rubocop']
 
 " Disable ycm for commit message editing
 autocmd BufNewFile,BufRead COMMIT_EDITMSG let g:ycm_auto_trigger = 0
