@@ -93,7 +93,9 @@ fi
 
 
 ### LegalShield-specific
-if [[ $HOST == "LegalShield" ]]; then
+if [[ $COMPUTER == "LegalShield" ]]; then
+  alias be='bundle exec'
+
   # Pathing for various languages/tools
   export PATH="$HOME/.bin:$PATH"
   eval "$(rbenv init - --no-rehash)"
