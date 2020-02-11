@@ -25,19 +25,25 @@ set encoding=utf-8
 filetype off
 set rtp+=$VIMHOME/bundle/Vundle.vim
 call vundle#begin('$VIMHOME/bundle')
-Plugin 'nvie/vim-flake8' " Python linter Flake8
-Plugin 'vim-airline/vim-airline' " Status/Tabline
+" Languages
 Plugin 'leafgarland/typescript-vim' " TypeScript syntax
+" Appearance
+Plugin 'vim-airline/vim-airline' " Status/Tabline
 Plugin 'morhetz/gruvbox' " Color scheme
+" Wrappers
+Plugin 'nvie/vim-flake8' " Python linter Flake8
+Plugin 'tpope/vim-fugitive' " Adds git commands like Gstatus
+Plugin 'tpope/vim-rbenv' " rbenv support for vim
+Plugin 'scrooloose/syntastic' " Auto syntax checking
+" Folding
 Plugin 'Konfekt/FastFold' " Folding performance gains
 Plugin 'tmhedberg/SimpylFold' " Better folding for Python
 Plugin 'rlue/vim-fold-rspec' " Folding for *_spec.rb files
+" Other functionality
 Plugin 'ctrlpvim/ctrlp.vim' " Quick file search
-Plugin 'tpope/vim-fugitive' " Adds git commands like Gstatus
-Plugin 'scrooloose/syntastic' " Auto syntax checking
 Plugin 'ajh17/vimcompletesme' " No-prereqs auto-completion
 Plugin 'tyru/open-browser.vim' " Replace netrw's broken gx
-Plugin 'tpope/vim-rbenv' " rbenv support for vim
+" Unsorted/Testing
 " UNUSED/UNWANTED/REPLACED
 "Plugin 'davidhalter/jedi-vim' " Advanced Python auto-complete (causes flicker)
 "Plugin 'ervandew/supertab' " No-prereqs auto-completion
