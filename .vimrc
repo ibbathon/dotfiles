@@ -135,7 +135,7 @@ set undofile " Allow undo in a file that was previously open
 set fileformats=unix,dos
 
 " Mark the 80th column, so I know when to break
-set colorcolumn=80
+set colorcolumn=80,120
 
 " This only works if gruvbox Vundle is installed, but it's so much prettier
 if globpath(&runtimepath, 'colors/gruvbox.vim', 1) !=# ''
@@ -197,6 +197,9 @@ autocmd InsertLeave * if pumvisible() == 0 && bufname("%") != "[Command Line]"|p
 
 " Delete netrw's buffer, so I can actually quit
 autocmd FileType netrw setl bufhidden=delete
+
+" Use git's recommended line length for commits
+autocmd FileType gitcommit let &colorcolumn=72
 
 
 "***************************
