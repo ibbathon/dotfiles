@@ -34,7 +34,7 @@ Plugin 'morhetz/gruvbox' " Color scheme
 Plugin 'nvie/vim-flake8' " Python linter Flake8
 Plugin 'tpope/vim-fugitive' " Adds git commands like Gstatus
 Plugin 'tpope/vim-rbenv' " rbenv support for vim
-Plugin 'scrooloose/syntastic' " Auto syntax checking
+Plugin 'dense-analysis/ale' " as-you-type linting
 " Folding
 Plugin 'Konfekt/FastFold' " Folding performance gains
 Plugin 'tmhedberg/SimpylFold' " Better folding for Python
@@ -45,6 +45,7 @@ Plugin 'ajh17/vimcompletesme' " No-prereqs auto-completion
 Plugin 'tyru/open-browser.vim' " Replace netrw's broken gx
 " Unsorted/Testing
 " UNUSED/UNWANTED/REPLACED
+"Plugin 'scrooloose/syntastic' " Auto syntax checking
 "Plugin 'davidhalter/jedi-vim' " Advanced Python auto-complete (causes flicker)
 "Plugin 'ervandew/supertab' " No-prereqs auto-completion
 "Plugin 'nathanaelkane/vim-indent-guides'
