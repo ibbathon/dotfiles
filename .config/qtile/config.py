@@ -210,12 +210,17 @@ floating_layout = layout.Floating(float_rules=[
     {'wname': 'branchdialog'},  # gitk
     {'wname': 'pinentry'},  # GPG key password entry
     {'wmclass': 'ssh-askpass'},  # ssh-askpass
+
+    # My games/apps
     {'wmclass': 'fungal-pirates.py'},
     {'wname': 'pygame window'},
     # For some reason, Kivy apps start without a name.
     # For now, use the class, which probably isn't unique.
     {'wmclass': 'python'},
-    {'wmclass': 'openmw-launcher'},
+
+    {'wmclass': 'openmw-launcher'}, # Morrowind
+    {'wmclass': 'pavucontrol'}, # Audio controls
+    {'wmclass': 'steam'}, # All Steam windows
 ])
 auto_fullscreen = True
 focus_on_window_activation = "smart"

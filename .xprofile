@@ -1,3 +1,4 @@
+# vim: ft=zsh
 export PATH=$PATH:/home/ibb/bin
 
 source /etc/X11/xinit/xinitrc.d/50-systemd-user.sh
