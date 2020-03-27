@@ -25,19 +25,27 @@ set encoding=utf-8
 filetype off
 set rtp+=$VIMHOME/bundle/Vundle.vim
 call vundle#begin('$VIMHOME/bundle')
-Plugin 'nvie/vim-flake8' " Python linter Flake8
-Plugin 'vim-airline/vim-airline' " Status/Tabline
+" Languages
 Plugin 'leafgarland/typescript-vim' " TypeScript syntax
+" Appearance
+Plugin 'vim-airline/vim-airline' " Status/Tabline
 Plugin 'morhetz/gruvbox' " Color scheme
+" Wrappers
+Plugin 'nvie/vim-flake8' " Python linter Flake8
+Plugin 'tpope/vim-fugitive' " Adds git commands like Gstatus
+Plugin 'tpope/vim-rbenv' " rbenv support for vim
+Plugin 'dense-analysis/ale' " as-you-type linting
+" Folding
 Plugin 'Konfekt/FastFold' " Folding performance gains
 Plugin 'tmhedberg/SimpylFold' " Better folding for Python
 Plugin 'rlue/vim-fold-rspec' " Folding for *_spec.rb files
+" Other functionality
 Plugin 'ctrlpvim/ctrlp.vim' " Quick file search
-Plugin 'tpope/vim-fugitive' " Adds git commands like Gstatus
-Plugin 'scrooloose/syntastic' " Auto syntax checking
 Plugin 'ajh17/vimcompletesme' " No-prereqs auto-completion
 Plugin 'tyru/open-browser.vim' " Replace netrw's broken gx
+" Unsorted/Testing
 " UNUSED/UNWANTED/REPLACED
+"Plugin 'scrooloose/syntastic' " Auto syntax checking
 "Plugin 'davidhalter/jedi-vim' " Advanced Python auto-complete (causes flicker)
 "Plugin 'ervandew/supertab' " No-prereqs auto-completion
 "Plugin 'nathanaelkane/vim-indent-guides'
@@ -71,6 +79,9 @@ silent! call airline#extensions#whitespace#disable()
 
 " Keep docstring first line visible when folding Python
 let g:SimpylFold_docstring_preview = 1
+
+" Use Rubocop by default for Ruby files
+let g:syntastic_ruby_checkers = ['rubocop']
 
 " Disable ycm for commit message editing
 autocmd BufNewFile,BufRead COMMIT_EDITMSG let g:ycm_auto_trigger = 0
@@ -125,7 +136,7 @@ set undofile " Allow undo in a file that was previously open
 set fileformats=unix,dos
 
 " Mark the 80th column, so I know when to break
-set colorcolumn=80
+set colorcolumn=80,120
 
 " This only works if gruvbox Vundle is installed, but it's so much prettier
 if globpath(&runtimepath, 'colors/gruvbox.vim', 1) !=# ''
@@ -187,6 +198,9 @@ autocmd InsertLeave * if pumvisible() == 0 && bufname("%") != "[Command Line]"|p
 
 " Delete netrw's buffer, so I can actually quit
 autocmd FileType netrw setl bufhidden=delete
+
+" Use git's recommended line length for commits
+autocmd FileType gitcommit let &colorcolumn=72
 
 
 "***************************

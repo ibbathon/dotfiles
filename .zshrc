@@ -1,6 +1,12 @@
 export EDITOR=vim
 
-if [[ $HOST == "LegalShield" ]]; then
+if [[ $HOST == "MBIT138.local" ]]; then
+  COMPUTER="LegalShield"
+else
+  COMPUTER="$HOST"
+fi
+
+if [[ $COMPUTER == "LegalShield" ]]; then
   alias ls='ls -aG'
 else
   alias ls='ls -a --color=auto'
@@ -87,7 +93,16 @@ fi
 
 
 ### LegalShield-specific
-if [[ $HOST == "LegalShield" ]]; then
+if [[ $COMPUTER == "LegalShield" ]]; then
+  alias be='bundle exec'
+
+  # Pathing for various languages/tools
+  export PATH="$HOME/.bin:$PATH"
+  eval "$(rbenv init - --no-rehash)"
+  export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
+  export PATH="/usr/local/opt/postgresql@9.6/bin:$PATH"
+  eval "$(nodenv init -)"
+
   ## Justin's docker shortcuts, wrapped to prevent overdefinition
   if [[ -z $DOCKER_SHORTCUTS_DEFINED ]]; then
     DOCKER_SHORTCUTS_DEFINED="yes"
