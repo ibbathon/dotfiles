@@ -33,7 +33,9 @@ pa_setup() {
 pa_setup &
 
 # enable compositing
-picom &
+# disabled because it decreases performance for games and I always forget
+# to turn it off beforehand (it also doesn't provide much benefit)
+#picom &
 
 # Gimme some eye-candy!
 feh --bg-max /home/ibb/backgrounds/1352085388.jayaxer_all_business_by_jayaxer.jpg
