@@ -6,20 +6,6 @@ else
   COMPUTER="$HOST"
 fi
 
-if [[ $COMPUTER == "LegalShield" ]]; then
-  alias ls='ls -aG'
-else
-  alias ls='ls -a --color=auto'
-fi
-alias cp='cp -i'
-alias mv='mv -i'
-
-# Background-setting aliases so I can quickly switch to black for streaming
-if [[ $COMPUTER == "Archiater" ]]; then
-  alias hsetroot_stream='hsetroot -solid black'
-  alias hsetroot_normal='hsetroot -full backgrounds/1352085388.jayaxer_all_business_by_jayaxer.jpg'
-fi
-
 # Case-insensitive tab-completion
 autoload -Uz compinit && compinit
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
@@ -35,6 +21,21 @@ setopt appendhistory
 setopt sharehistory
 setopt incappendhistory
 
+
+### Aliases
+if [[ $COMPUTER == "LegalShield" ]]; then
+  alias ls='ls -aG'
+else
+  alias ls='ls -a --color=auto'
+fi
+alias cp='cp -i'
+alias mv='mv -i'
+
+# Background-setting aliases so I can quickly switch to black for streaming
+if [[ $COMPUTER == "Archiater" ]]; then
+  alias hsetroot_stream='hsetroot -solid black'
+  alias hsetroot_normal='hsetroot -full backgrounds/1352085388.jayaxer_all_business_by_jayaxer.jpg'
+fi
 
 ### Prompt setup
 PROMPT="%F{red}%? %F{magenta}%~ %F{green}%#%f "
@@ -98,6 +99,46 @@ if (( ${+terminfo[smkx]} && ${+terminfo[rmkx]} )); then
 fi
 
 
+### Docker aliases
+# Justin's docker shortcuts, wrapped to prevent overdefinition
+if [[ -z $DOCKER_SHORTCUTS_DEFINED ]]; then
+  DOCKER_SHORTCUTS_DEFINED="yes"
+
+  alias dc='docker-compose'
+
+  dcgetcid() {
+    echo $(docker-compose ps -q "$1")
+  }
+
+  dce(){
+    CMD="${@:2}"
+    docker-compose exec $1 bash -c "stty cols $COLUMNS rows $LINES && bash -c \"$CMD\"";
+  }
+
+  # Watch the logs for all the running containers: `dcl`
+  # Watch the logs for a single container: `dcl adonis`
+  # optional tail if you want more than 25 lines: `dcl adonis 100`
+  dcl() {
+    TAIL=${2:-25}
+    docker-compose logs -f --tail="$TAIL" $1
+  }
+
+  # Attach your terminal to a container.
+  # If you have binding.pry in your code and browse the site
+  # then run `dca adonis` in a terminal to be able to type into Pry
+  dca() {
+    docker attach $(dcgetcid "$1")
+  }
+
+  # Opens a bash console on a container: `dcb adonis`
+  dcb() {
+    dce "$1" /bin/bash
+  }
+
+  alias dce='noglob dce'
+fi
+
+
 ### LegalShield-specific
 if [[ $COMPUTER == "LegalShield" ]]; then
   alias be='bundle exec'
@@ -108,44 +149,6 @@ if [[ $COMPUTER == "LegalShield" ]]; then
   export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
   export PATH="/usr/local/opt/postgresql@9.6/bin:$PATH"
   eval "$(nodenv init -)"
-
-  ## Justin's docker shortcuts, wrapped to prevent overdefinition
-  if [[ -z $DOCKER_SHORTCUTS_DEFINED ]]; then
-    DOCKER_SHORTCUTS_DEFINED="yes"
-  
-    alias dc='docker-compose'
-  
-    dcgetcid() {
-      echo $(docker-compose ps -q "$1")
-    }
-  
-    dce(){
-      CMD="${@:2}"
-      docker exec -it $(dcgetcid $1) bash -c "stty cols $COLUMNS rows $LINES && bash -c \"$CMD\"";
-    }
-  
-    # Watch the logs for all the running containers: `dcl`
-    # Watch the logs for a single container: `dcl adonis`
-    # optional tail if you want more than 25 lines: `dcl adonis 100`
-    dcl() {
-      TAIL=${2:-25}
-      docker-compose logs -f --tail="$TAIL" $1
-    }
-  
-    # Attach your terminal to a container.
-    # If you have binding.pry in your code and browse the site
-    # then run `dca adonis` in a terminal to be able to type into Pry
-    dca() {
-      docker attach $(dcgetcid "$1")
-    }
-  
-    # Opens a bash console on a container: `dcb adonis`
-    dcb() {
-      dce "$1" /bin/bash
-    }
-  
-    alias dce='noglob dce'
-  fi
   
   
   ## My shortcuts for working within PPLSI
