@@ -14,6 +14,12 @@ fi
 alias cp='cp -i'
 alias mv='mv -i'
 
+# Background-setting aliases so I can quickly switch to black for streaming
+if [[ $COMPUTER == "Archiater" ]]; then
+  alias hsetroot_stream='hsetroot -solid black'
+  alias hsetroot_normal='hsetroot -full backgrounds/1352085388.jayaxer_all_business_by_jayaxer.jpg'
+fi
+
 # Case-insensitive tab-completion
 autoload -Uz compinit && compinit
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
