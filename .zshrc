@@ -110,10 +110,27 @@ if [[ -z $DOCKER_SHORTCUTS_DEFINED ]]; then
     echo $(docker-compose ps -q "$1")
   }
 
-  dce(){
-    CMD="${@:2}"
-    docker-compose exec $1 bash -c "stty cols $COLUMNS rows $LINES && bash -c \"$CMD\"";
-  }
+  if [[ $COMPUTER == "LegalShield" ]]; then
+    dce(){
+      CMD="${@:2}"
+      docker-compose exec $1 bash -c "stty cols $COLUMNS rows $LINES && bash -c \"$CMD\"";
+    }
+
+    # Opens a bash console on a container: `dcb adonis`
+    dcb() {
+      dce "$1" /bin/bash
+    }
+  elif [[ $COMPUTER == "Archiater" ]]; then
+    dce() {
+      CMD="${@:2}"
+      docker-compose exec $1 sh -c "stty cols $COLUMNS rows $LINES && sh -c \"$CMD\"";
+    }
+
+    # Opens a sh console on a container: `dcb backen`
+    dcb() {
+      dce "$1" /bin/sh
+    }
+  fi
 
   # Watch the logs for all the running containers: `dcl`
   # Watch the logs for a single container: `dcl adonis`
@@ -128,11 +145,6 @@ if [[ -z $DOCKER_SHORTCUTS_DEFINED ]]; then
   # then run `dca adonis` in a terminal to be able to type into Pry
   dca() {
     docker attach $(dcgetcid "$1")
-  }
-
-  # Opens a bash console on a container: `dcb adonis`
-  dcb() {
-    dce "$1" /bin/bash
   }
 
   alias dce='noglob dce'
