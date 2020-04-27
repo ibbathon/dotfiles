@@ -43,6 +43,7 @@ function ShutDownProtonGame() {
   kill -9 `ps aux|grep "C:"|grep -v "grep"|grep -o "ibb\s*[0-9]*"|grep -o "[0-9]*"`
   kill -9 `ps aux|grep "wine"|grep -v "grep"|grep -o "ibb\s*[0-9]*"|grep -o "[0-9]*"`
   kill -9 `ps aux|grep "explorer"|grep -v "grep"|grep -o "ibb\s*[0-9]*"|grep -o "[0-9]*"`
+  kill -9 `ps aux|grep "Empyrion"|grep -v "grep"|grep -o "ibb\s*[0-9]*"|grep -o "[0-9]*"`
 }
 alias proton_shutdown=ShutDownProtonGame
 

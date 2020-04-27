@@ -138,6 +138,9 @@ set fileformats=unix,dos
 " Mark the 80th column, so I know when to break
 set colorcolumn=80,120
 
+" Automatically reload files which have only had a timestamp change
+set autoread
+
 " This only works if gruvbox Vundle is installed, but it's so much prettier
 if globpath(&runtimepath, 'colors/gruvbox.vim', 1) !=# ''
   set background=dark
