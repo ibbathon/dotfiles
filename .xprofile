@@ -42,3 +42,4 @@ feh --bg-max /home/ibb/backgrounds/1352085388.jayaxer_all_business_by_jayaxer.jp
 
 # change caps lock to compose key (c`e to type accented e)
 setxkbmap -option compose:caps
+localectl set-x11-keymap compose:caps
