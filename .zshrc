@@ -180,7 +180,6 @@ if [[ $COMPUTER == "LegalShield" ]]; then
   export PATH="$HOME/.bin:$PATH"
   eval "$(rbenv init - --no-rehash)"
   export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
-  export PATH="/usr/local/opt/postgresql@9.6/bin:$PATH"
   eval "$(nodenv init -)"
   
   
@@ -188,10 +187,10 @@ if [[ $COMPUTER == "LegalShield" ]]; then
   
   # Shortcuts for accessing databases
   psql_dev() {
-    psql -h localhost -U admin adonis_development
+    dce postgres psql -U admin adonis_development
   }
   psql_test() {
-    psql -h localhost -U admin adonis_test
+    dce postgres psql -U admin adonis_test
   }
   
   # Fix delete key on Windows keyboard for iTerm2
