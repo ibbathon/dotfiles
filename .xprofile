@@ -32,13 +32,16 @@ pa_setup() {
 }
 pa_setup &
 
+# Qbittorrent has "issues" with UI scaling
+QT_AUTO_SCREEN_SCALE_FACTOR=0
+
 # enable compositing
 # disabled because it decreases performance for games and I always forget
 # to turn it off beforehand (it also doesn't provide much benefit)
-#picom &
+# picom &
 
 # Gimme some eye-candy!
-feh --bg-max /home/ibb/backgrounds/1352085388.jayaxer_all_business_by_jayaxer.jpg
+# feh --bg-max /home/ibb/backgrounds/1352085388.jayaxer_all_business_by_jayaxer.jpg
 
 # change caps lock to compose key (c`e to type accented e)
 setxkbmap -option compose:caps

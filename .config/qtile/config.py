@@ -87,6 +87,8 @@ keys = [
     Key([mod, "control"], "f", lazy.window.toggle_fullscreen()),
 
     Key([mod, "control"], "Tab", lazy.window.toggle_floating()),
+    Key([mod, "control"], "Left", lazy.layout.increase_ratio()),
+    Key([mod, "control"], "Right", lazy.layout.decrease_ratio()),
 
     Key([mod, "control"], "r", lazy.restart()),
     Key([mod, "control"], "q", lazy.shutdown()),
