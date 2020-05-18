@@ -31,7 +31,6 @@ Plugin 'leafgarland/typescript-vim' " TypeScript syntax
 Plugin 'vim-airline/vim-airline' " Status/Tabline
 Plugin 'morhetz/gruvbox' " Color scheme
 " Wrappers
-Plugin 'nvie/vim-flake8' " Python linter Flake8
 Plugin 'tpope/vim-fugitive' " Adds git commands like Gstatus
 Plugin 'tpope/vim-rbenv' " rbenv support for vim
 Plugin 'dense-analysis/ale' " as-you-type linting
@@ -52,6 +51,7 @@ Plugin 'tyru/open-browser.vim' " Replace netrw's broken gx
 "Plugin 'mkitt/tabline.vim'
 "Plugin 'Glench/Vim-Jinja2-Syntax' " Jinja syntax (used at Vivial)
 "Plugin 'Valloric/YouCompleteMe' " Powerful auto-completion (requires compile)
+"Plugin 'nvie/vim-flake8' " Python linter Flake8 (not actually needed?)
 call vundle#end()
 filetype plugin indent on
 

@@ -25,7 +25,7 @@ export SSH_AUTH_SOCK
 # enable audio
 pa_setup() {
   sleep 2
-  pulseaudio
+  # pulseaudio # no longer needed due to user service
   # set default output monitor
   pactl set-card-profile alsa_card.pci-0000_01_00.1 output:hdmi-stereo-extra1
   pactl set-default-sink alsa_output.pci-0000_01_00.1.hdmi-stereo-extra1
