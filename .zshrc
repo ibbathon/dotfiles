@@ -167,17 +167,20 @@ if [[ -z $DOCKER_SHORTCUTS_DEFINED ]]; then
   dca() {
     docker attach $(dcgetcid "$1")
   }
-
-  alias dce='noglob dce'
 fi
 
 
 ### LegalShield-specific
 if [[ $COMPUTER == "LegalShield" ]]; then
   alias be='bundle exec'
+  alias rails='bundle exec rails'
+  alias rspec='bundle exec rspec'
+  alias rubocop='bundle exec rubocop'
+  alias rake='bundle exec rake'
 
   # Pathing for various languages/tools
   export PATH="$HOME/.bin:$PATH"
+  export PATH="$PATH:/usr/local/opt/postgresql@10/bin"
   eval "$(rbenv init - --no-rehash)"
   export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
   eval "$(nodenv init -)"
