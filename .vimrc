@@ -205,6 +205,9 @@ autocmd FileType netrw setl bufhidden=delete
 " Use git's recommended line length for commits
 autocmd FileType gitcommit let &colorcolumn=72
 
+" JBuilder is a ruby filetype
+autocmd BufRead,BufNewFile *.jbuilder set filetype=ruby
+
 
 "***************************
 "***** GUI vs terminal *****
