@@ -123,8 +123,8 @@ for i in groups:
     ])
 
 layouts = [
-    layout.Max(),
-    layout.Tile(),
+    layout.Max(border_width=0),
+    layout.Tile(border_width=0),
 ]
 
 widget_defaults = dict(
