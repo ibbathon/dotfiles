@@ -29,6 +29,7 @@ from libqtile.command import lazy
 from libqtile import layout, bar, widget
 import copy
 import os
+import platform
 
 try:
     from typing import List  # noqa: F401
@@ -37,10 +38,10 @@ except ImportError:
 
 # Use HOST to determine computer-specific options, such as battery/wlan widgets
 is_a_laptop = False
-if os.getenv("HOST","default") in ["WanderingMonk"]:
+if platform.node() in ["WanderingMonk"]:
     is_a_laptop = True
 wlan_int = 'wlp2s0'
-if os.getenv("HOST","default") == "some_other_laptop":
+if platform.node() == "some_other_laptop":
     wlan_int = "wlo1"
 
 
