@@ -38,9 +38,11 @@ except ImportError:
 
 # Use HOST to determine computer-specific options, such as battery/wlan widgets
 is_a_laptop = False
+wlan_int = 'wlp2s0'
+is_creative_machine = False
 if platform.node() in ["WanderingMonk"]:
     is_a_laptop = True
-wlan_int = 'wlp2s0'
+    is_creative_machine = True
 if platform.node() == "some_other_laptop":
     wlan_int = "wlo1"
 
@@ -106,9 +108,10 @@ keys = [
 ]
 
 groups = [Group(i) for i in "asdfuiop"]
-groups[0].label = "a "
-groups[1].label = "s "
-groups[7].label = "p "
+if not is_creative_machine:
+    groups[0].label = "a "
+    groups[1].label = "s "
+    groups[7].label = "p "
 
 for i in groups:
     keys.extend([
@@ -150,9 +153,9 @@ def build_screen_widgets():
     }
 
     if is_a_laptop:
-        raw_widgets.append(widget.BatteryIcon(padding=0))
-        raw_widgets.append(widget.Battery(padding=0,charge_char='^',discharge_char='v',format='{percent:2.0%} {char}'))
-        raw_widgets.append(widget.Wlan(interface=wlan_int,format='Wifi: {essid} {quality}/70'))
+        raw_widgets.append(widget.BatteryIcon(padding=0,background=colors["gray2"]))
+        raw_widgets.append(widget.Battery(padding=0,charge_char='^',discharge_char='v',format='{percent:2.0%} {char}',background=colors["gray2"]))
+        raw_widgets.append(widget.Wlan(interface=wlan_int,format='Wifi: {essid} {quality}/70',background=colors["gray1"]))
 
     widgets = []
     for i, widg in enumerate(raw_widgets):
