@@ -141,13 +141,13 @@ if [[ -z $DOCKER_SHORTCUTS_DEFINED ]]; then
     dcb() {
       dce "$1" /bin/bash
     }
-  elif [[ $COMPUTER == "Archiater" ]]; then
+  else
     dce() {
       CMD="${@:2}"
       docker-compose exec $1 sh -c "stty cols $COLUMNS rows $LINES && sh -c \"$CMD\"";
     }
 
-    # Opens a sh console on a container: `dcb backen`
+    # Opens a sh console on a container: `dcb backend`
     dcb() {
       dce "$1" /bin/sh
     }
