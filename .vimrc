@@ -42,6 +42,7 @@ Plugin 'rlue/vim-fold-rspec' " Folding for *_spec.rb files
 Plugin 'ctrlpvim/ctrlp.vim' " Quick file search
 Plugin 'ajh17/vimcompletesme' " No-prereqs auto-completion
 Plugin 'tyru/open-browser.vim' " Replace netrw's broken gx
+Plugin 'othree/xml.vim' " Better XML support (such as auto-folding)
 " Unsorted/Testing
 " UNUSED/UNWANTED/REPLACED
 "Plugin 'scrooloose/syntastic' " Auto syntax checking
