@@ -23,7 +23,7 @@ export SSH_AUTH_SOCK
 (sleep 2; pulseaudio) &
 
 # disable touchpad screen
-xrandr --output HDMI1 --off
+[ `hostname` = "Tripitaka" ] && xrandr --output HDMI1 --off
 
 # change caps lock to compose key (c`e to type accented e)
 setxkbmap -option compose:caps
