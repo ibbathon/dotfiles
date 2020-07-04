@@ -22,6 +22,9 @@ export SSH_AUTH_SOCK
 # enable audio
 (sleep 2; pulseaudio) &
 
+# disable touchpad screen
+xrandr --output HDMI1 --off
+
 # change caps lock to compose key (c`e to type accented e)
 setxkbmap -option compose:caps
 
