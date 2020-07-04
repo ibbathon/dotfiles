@@ -1,3 +1,4 @@
+! If failing due to preprocessor nonsense, install gcc
 Xft.dpi: 72
 Xft.autohint: 1
 Xft.lcdfilter: lcddefault
