@@ -40,9 +40,11 @@ except ImportError:
 is_a_laptop = False
 wlan_int = 'wlp2s0'
 is_creative_machine = False
-if platform.node() in ["WanderingMonk"]:
+if platform.node() in ["WanderingMonk", "Tripitaka"]:
     is_a_laptop = True
     is_creative_machine = True
+if platform.node() in ["Tripitaka"]:
+    wlan_int = 'wlan0'
 if platform.node() == "some_other_laptop":
     wlan_int = "wlo1"
 

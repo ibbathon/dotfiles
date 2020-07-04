@@ -26,7 +26,7 @@ export SSH_AUTH_SOCK
 setxkbmap -option compose:caps
 
 # Bluetooth support
-#blueman-applet &
+blueman-applet &
 
 feh --bg-max ~/wallpaper/default
 
