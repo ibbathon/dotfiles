@@ -43,6 +43,7 @@ Plugin 'ctrlpvim/ctrlp.vim' " Quick file search
 Plugin 'ajh17/vimcompletesme' " No-prereqs auto-completion
 Plugin 'tyru/open-browser.vim' " Replace netrw's broken gx
 Plugin 'othree/xml.vim' " Better XML support (such as auto-folding)
+Plugin 'AnsiEsc.vim' " Interpret color codes in log files (call `:AnsiEsc` to use)
 " Unsorted/Testing
 " UNUSED/UNWANTED/REPLACED
 "Plugin 'scrooloose/syntastic' " Auto syntax checking
