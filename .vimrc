@@ -157,6 +157,11 @@ let g:netrw_browse_split=0
 " Netrw's gx is broken: https://github.com/vim/vim/issues/4738
 let g:netrw_nogx=1
 
+" ALE setup
+let g:ale_lint_on_text_changed = 'always' " check during both normal and insert, might want to disable on battery
+" TODO: add check for battery, based on proc status, might want to attach to
+" CursorHold
+
 
 "*************************************
 "***** Custom mappings and fixes *****

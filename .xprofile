@@ -36,7 +36,7 @@ pa_setup &
 QT_AUTO_SCREEN_SCALE_FACTOR=0
 
 # disable touchpad screen
-[ `hostname` = "Tripitaka" ] && xrandr --output HDMI1 --off
+#[ `hostname` = "Tripitaka" ] && xrandr --output HDMI1 --off
 
 # enable compositing
 # disabled because it decreases performance for games and I always forget
