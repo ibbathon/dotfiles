@@ -27,6 +27,7 @@ set rtp+=$VIMHOME/bundle/Vundle.vim
 call vundle#begin('$VIMHOME/bundle')
 " Languages
 Plugin 'leafgarland/typescript-vim' " TypeScript syntax
+Plugin 'omnisharp/omnisharp-vim' " C-Sharp syntax/completion/linting
 " Appearance
 Plugin 'vim-airline/vim-airline' " Status/Tabline
 Plugin 'morhetz/gruvbox' " Color scheme
