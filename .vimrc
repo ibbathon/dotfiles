@@ -27,6 +27,8 @@ set rtp+=$VIMHOME/bundle/Vundle.vim
 call vundle#begin('$VIMHOME/bundle')
 " Languages
 Plugin 'leafgarland/typescript-vim' " TypeScript syntax
+Plugin 'peitalin/vim-jsx-typescript' " TypeScript-React syntax
+Plugin 'quramy/tsuquyomi' " Typescript completion
 Plugin 'omnisharp/omnisharp-vim' " C-Sharp syntax/completion/linting
 " Appearance
 Plugin 'vim-airline/vim-airline' " Status/Tabline
@@ -119,6 +121,7 @@ set tabstop=2
 
 " Syntax highlighting and other options
 syntax on
+set smartindent
 filetype plugin indent on
 
 " Use unnamedplus for Linux, unnamed for all other systems.

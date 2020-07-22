@@ -1,3 +1,3 @@
-set shiftwidth=4
-set softtabstop=4
-set tabstop=4
+let &shiftwidth=4
+let &softtabstop=4
+let &tabstop=4
