@@ -121,7 +121,6 @@ set tabstop=2
 
 " Syntax highlighting and other options
 syntax on
-set smartindent
 filetype plugin indent on
 
 " Use unnamedplus for Linux, unnamed for all other systems.
