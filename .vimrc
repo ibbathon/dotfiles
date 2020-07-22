@@ -30,6 +30,7 @@ Plugin 'leafgarland/typescript-vim' " TypeScript syntax
 Plugin 'peitalin/vim-jsx-typescript' " TypeScript-React syntax
 Plugin 'quramy/tsuquyomi' " Typescript completion
 Plugin 'omnisharp/omnisharp-vim' " C-Sharp syntax/completion/linting
+Plugin 'adamclerk/vim-razor' " *.cshtml files
 " Appearance
 Plugin 'vim-airline/vim-airline' " Status/Tabline
 Plugin 'morhetz/gruvbox' " Color scheme
