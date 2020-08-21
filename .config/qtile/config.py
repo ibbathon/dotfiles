@@ -92,6 +92,7 @@ keys = [
     Key([mod, "control"], "f", lazy.window.toggle_fullscreen()),
 
     Key([mod, "control"], "Tab", lazy.window.toggle_floating()),
+    Key([mod, "control"], "g", lazy.window.toggle_maximize()),
     Key([mod, "control"], "Left", lazy.layout.increase_ratio()),
     Key([mod, "control"], "Right", lazy.layout.decrease_ratio()),
 
@@ -127,6 +128,7 @@ for i in groups:
 layouts = [
     layout.Max(border_width=0),
     layout.Tile(border_width=0),
+    layout.Floating(border_width=2),
 ]
 
 widget_defaults = dict(
@@ -192,7 +194,7 @@ screens = [
 mouse = [
     Drag([mod], "Button1", lazy.window.set_position_floating(),
          start=lazy.window.get_position()),
-    Drag([mod], "Button2", lazy.window.set_size_floating(),
+    Drag([mod], "Button3", lazy.window.set_size_floating(),
          start=lazy.window.get_size()),
     #Click([mod], "Button2", lazy.window.bring_to_front())
 ]
