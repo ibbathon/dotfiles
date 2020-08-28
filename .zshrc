@@ -1,6 +1,6 @@
 export EDITOR=vim
 
-if [[ $HOST == "MBIT138.local" ]]; then
+if [[ $HOST == "MBIT138.local" || ! -z `echo $HOST|grep "\.pplsi\.com"` ]]; then
   COMPUTER="LegalShield"
 else
   COMPUTER="$HOST"
