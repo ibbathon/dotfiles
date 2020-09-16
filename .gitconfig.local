@@ -1,0 +1,12 @@
+# vim: ft=gitconfig
+# Always commit with personal user uncommented
+
+# Personal user
+[user]
+  name = Ibbathon
+  email = ibbathon@gmail.com
+
+# Legalshield user
+;[user]
+;  name = Ibb Fears
+;  email = ibbfears@legalshieldcorp.com

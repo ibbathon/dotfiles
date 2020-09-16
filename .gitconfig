@@ -1,0 +1,19 @@
+[alias]
+  frequency = "!f() { \
+    test -z \"$1\" || REVISION=\"$1\"; \
+    git log --pretty=format: --name-only $REVISION \
+      | sort | uniq -c | sort -rg | less; \
+    }; f"
+  prstat = "!f() { \
+    if git show-ref --verify --quiet refs/remotes/origin/develop; then \
+      BASE=\"origin/develop\"; \
+    elif git show-ref --verify --quiet refs/remotes/origin/main; then \
+      BASE=\"origin/main\"; \
+    else \
+      BASE=\"origin/master\"; \
+    fi; \
+    git diff --stat $(git merge-base HEAD $BASE); \
+    }; f"
+
+[include]
+  path = ~/.gitconfig.local
