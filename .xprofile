@@ -9,6 +9,7 @@ light-locker &
 # tray apps
 udiskie --tray &
 blueman-applet &
+solaar -w hide &
 (sleep 2; nextcloud) &
 
 # disable screensaver
