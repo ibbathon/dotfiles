@@ -146,7 +146,7 @@ def build_screen_widgets():
         widget.CheckUpdates(background=colors["gray1"],colour_have_updates='ff6666',colour_no_updates='444444',execute='notify-send "Updates available" "`checkupdates`" -t 0'),
         widget.Systray(background=colors["gray2"]),
         widget.Clock(background=colors["gray1"],format='%Y-%m-%d %a %H:%M'),
-        widget.Volume(background=colors["gray2"]),
+        widget.PulseVolume(background=colors["gray2"]),
         widget.CurrentLayout(background=colors["gray1"]),
     ]
     left_end = 1
