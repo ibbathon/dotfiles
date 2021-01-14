@@ -24,11 +24,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from libqtile.config import Key, Screen, Group, Drag, Click
+from libqtile.config import Key, Screen, Group, Drag
 from libqtile.command import lazy
 from libqtile import layout, bar, widget
-import copy
-import os
 import platform
 
 try:
@@ -80,10 +78,10 @@ keys = [
     # Split = all windows displayed
     # Unsplit = 1 window displayed, like Max layout, but still with
     # multiple stack panes
-    #Key([mod, "shift"], "Return", lazy.layout.toggle_split()),
+    # Key([mod, "shift"], "Return", lazy.layout.toggle_split()),
     Key([mod], "Return", lazy.spawn("uxterm -e 'tmux -2'")),
     Key([mod], "x", lazy.spawn("chromium")),
-    Key([mod], "l", lazy.spawn("light-locker-command -l")),
+    # Key([mod], "l", lazy.spawn("light-locker-command -l")),
     Key([], "Print", lazy.spawn("flameshot gui")),
 
     # Toggle between different layouts as defined below
@@ -101,27 +99,38 @@ keys = [
     Key([mod], "space", lazy.spawncmd()),
 
     # Audio control
-    Key([], "XF86AudioRaiseVolume", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ +5%")),
-    Key([], "XF86AudioLowerVolume", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ -5%")),
-    Key([], "XF86AudioMute", lazy.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle")),
+    Key([], "XF86AudioRaiseVolume",
+        lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ +5%")),
+    Key([], "XF86AudioLowerVolume",
+        lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ -5%")),
+    Key([], "XF86AudioMute",
+        lazy.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle")),
 
     # Brightness control
     Key([], "XF86MonBrightnessDown", lazy.spawn("xbacklight -set 0.5")),
     Key([], "XF86MonBrightnessUp", lazy.spawn("xbacklight -set 100")),
 ]
 
-groups = [Group(i) for i in "asdfuiop"]
-if not is_creative_machine:
+groups = [Group(i) for i in "asdfjkl"]
+if is_creative_machine:
+    groups[0].label = "a "  # Chrome
+    groups[1].label = "s "  # Slack
+    groups[2].label = "d "  # Terminal
+    groups[3].label = "f "  # Games
+    groups[4].label = "j "  # Misc
+    groups[5].label = "k "  # Misc
+    groups[6].label = "l "  # Misc
+else:
     groups[0].label = "a "
     groups[1].label = "s "
-    groups[7].label = "p "
 
 for i in groups:
     keys.extend([
         # mod1 + letter of group = switch to group
         Key([mod], i.name, lazy.group[i.name].toscreen()),
 
-        # mod1 + shift + letter of group = switch to & move focused window to group
+        # mod1 + shift + letter of group =
+        #  switch to & move focused window to group
         Key([mod, "shift"], i.name, lazy.window.togroup(i.name)),
     ])
 
@@ -138,14 +147,19 @@ widget_defaults = dict(
 )
 extension_defaults = widget_defaults.copy()
 
+
 def build_screen_widgets():
     raw_widgets = [
         widget.GroupBox(background=colors["gray1"]),
         widget.Prompt(background=colors["green"]),
         widget.WindowName(background=colors["darkblue"]),
-        widget.CheckUpdates(background=colors["gray1"],colour_have_updates='ff6666',colour_no_updates='444444',execute='notify-send "Updates available" "`checkupdates`" -t 0'),
+        widget.CheckUpdates(
+            background=colors["gray1"],
+            colour_have_updates='ff6666',
+            colour_no_updates='444444',
+            execute='notify-send "Updates available" "`checkupdates`" -t 0'),
         widget.Systray(background=colors["gray2"]),
-        widget.Clock(background=colors["gray1"],format='%Y-%m-%d %a %H:%M'),
+        widget.Clock(background=colors["gray1"], format='%Y-%m-%d %a %H:%M'),
         widget.PulseVolume(background=colors["gray2"]),
         widget.CurrentLayout(background=colors["gray1"]),
     ]
@@ -157,9 +171,14 @@ def build_screen_widgets():
     }
 
     if is_a_laptop:
-        raw_widgets.append(widget.BatteryIcon(padding=0,background=colors["gray2"]))
-        raw_widgets.append(widget.Battery(padding=0,charge_char='^',discharge_char='v',format='{percent:2.0%} {char}',background=colors["gray2"]))
-        raw_widgets.append(widget.Wlan(interface=wlan_int,format='Wifi: {essid} {quality}/70',background=colors["gray1"]))
+        raw_widgets.append(widget.BatteryIcon(
+            padding=0, background=colors["gray2"]))
+        raw_widgets.append(widget.Battery(
+            padding=0, charge_char='^', discharge_char='v',
+            format='{percent:2.0%} {char}', background=colors["gray2"]))
+        raw_widgets.append(widget.Wlan(
+            interface=wlan_int, format='Wifi: {essid} {quality}/70',
+            background=colors["gray1"]))
 
     widgets = []
     for i, widg in enumerate(raw_widgets):
@@ -172,7 +191,8 @@ def build_screen_widgets():
                 padding=0,
             ))
         if i in prefix_symbols:
-            widgets.append(widget.TextBox(background=widg.background,text=prefix_symbols[i]))
+            widgets.append(widget.TextBox(
+                background=widg.background, text=prefix_symbols[i]))
         widgets.append(widg)
         if i <= left_end:
             widgets.append(widget.TextBox(
@@ -185,9 +205,10 @@ def build_screen_widgets():
 
     return widgets
 
+
 screens = [
-    Screen(top=bar.Bar(build_screen_widgets(),24)),
-    Screen(top=bar.Bar(build_screen_widgets(),24)),
+    Screen(top=bar.Bar(build_screen_widgets(), 24)),
+    Screen(top=bar.Bar(build_screen_widgets(), 24)),
 ]
 
 # Drag floating layouts.
@@ -196,7 +217,7 @@ mouse = [
          start=lazy.window.get_position()),
     Drag([mod], "Button3", lazy.window.set_size_floating(),
          start=lazy.window.get_size()),
-    #Click([mod], "Button2", lazy.window.bring_to_front())
+    # Click([mod], "Button2", lazy.window.bring_to_front())
 ]
 
 dgroups_key_binder = None
@@ -228,9 +249,9 @@ floating_layout = layout.Floating(float_rules=[
     # For now, use the class, which probably isn't unique.
     {'wmclass': 'python'},
 
-    {'wmclass': 'openmw-launcher'}, # Morrowind
-    {'wmclass': 'pavucontrol'}, # Audio controls
-    {'wmclass': 'steam'}, # All Steam windows
+    {'wmclass': 'openmw-launcher'},  # Morrowind
+    {'wmclass': 'pavucontrol'},  # Audio controls
+    {'wmclass': 'steam'},  # All Steam windows
 ])
 auto_fullscreen = True
 focus_on_window_activation = "smart"
