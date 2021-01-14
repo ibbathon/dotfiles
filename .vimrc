@@ -167,6 +167,9 @@ let g:ale_lint_on_text_changed = 'always' " check during both normal and insert,
 " TODO: add check for battery, based on proc status, might want to attach to
 " CursorHold
 
+" OmniSharp setup
+let g:OmniSharp_diagnostic_showid = 1 " show offending rule ID in linter messages
+
 
 "*************************************
 "***** Custom mappings and fixes *****
