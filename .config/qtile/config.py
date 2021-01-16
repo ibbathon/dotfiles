@@ -28,6 +28,7 @@ from libqtile.config import Key, Screen, Group, Drag
 from libqtile.command import lazy
 from libqtile import layout, bar, widget
 import platform
+import datetime
 
 try:
     from typing import List  # noqa: F401
@@ -153,6 +154,11 @@ def build_screen_widgets():
         widget.GroupBox(background=colors["gray1"]),
         widget.Prompt(background=colors["green"]),
         widget.WindowName(background=colors["darkblue"]),
+        widget.Countdown(
+            background=colors["green"],
+            date=datetime.datetime(2021, 2, 21, 8, 0, 0, 0),
+            format="{D}d {H}h 'til freedom",
+            update_interval=3600),
         widget.CheckUpdates(
             background=colors["gray1"],
             colour_have_updates='ff6666',
