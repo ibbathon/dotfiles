@@ -172,8 +172,8 @@ def build_screen_widgets():
     left_end = 1
     right_start = 3
     prefix_symbols = {
-        6: "",
-        7: "",
+        7: "",
+        8: "",
     }
 
     if is_a_laptop:
