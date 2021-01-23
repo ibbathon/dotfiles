@@ -85,16 +85,18 @@ keys = [
     # Key([mod], "l", lazy.spawn("light-locker-command -l")),
     Key([], "Print", lazy.spawn("flameshot gui")),
 
-    # Toggle between different layouts as defined below
+    # Change/modify layouts
     Key([mod], "grave", lazy.next_layout()),
-    Key([mod], "q", lazy.window.kill()),
-    Key([mod, "control"], "f", lazy.window.toggle_fullscreen()),
-
-    Key([mod, "control"], "Tab", lazy.window.toggle_floating()),
-    Key([mod, "control"], "g", lazy.window.toggle_maximize()),
     Key([mod, "control"], "Left", lazy.layout.increase_ratio()),
     Key([mod, "control"], "Right", lazy.layout.decrease_ratio()),
 
+    # Modify current window
+    Key([mod], "q", lazy.window.kill()),
+    Key([mod, "control"], "f", lazy.window.toggle_fullscreen()),
+    Key([mod, "control"], "Tab", lazy.window.toggle_floating()),
+    Key([mod, "control"], "g", lazy.window.toggle_maximize()),
+
+    # Qtile system commands
     Key([mod, "control"], "r", lazy.restart()),
     Key([mod, "control"], "q", lazy.shutdown()),
     Key([mod], "space", lazy.spawncmd()),
@@ -110,6 +112,9 @@ keys = [
     # Brightness control
     Key([], "XF86MonBrightnessDown", lazy.spawn("xbacklight -set 0.5")),
     Key([], "XF86MonBrightnessUp", lazy.spawn("xbacklight -set 100")),
+
+    # Quick-pause for games
+    Key([mod, "control"], "m", lazy.spawn("/home/ibb/bin/toggle-game-pause")),
 ]
 
 groups = [Group(i) for i in "asdfjkl"]
