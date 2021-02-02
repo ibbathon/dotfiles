@@ -161,7 +161,7 @@ def build_screen_widgets():
         widget.WindowName(background=colors["darkblue"]),
         widget.Countdown(
             background=colors["green"],
-            date=datetime.datetime(2021, 2, 21, 8, 0, 0, 0),
+            date=datetime.datetime(2021, 2, 19, 9, 0, 0, 0),
             format="{D}d {H}h 'til freedom",
             update_interval=3600),
         widget.CheckUpdates(
