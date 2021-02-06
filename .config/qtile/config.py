@@ -81,7 +81,7 @@ keys = [
     # multiple stack panes
     # Key([mod, "shift"], "Return", lazy.layout.toggle_split()),
     Key([mod], "Return", lazy.spawn("uxterm -e 'tmux -2'")),
-    Key([mod], "x", lazy.spawn("chromium")),
+    Key([mod], "x", lazy.spawn("firefox")),
     # Key([mod], "l", lazy.spawn("light-locker-command -l")),
     Key([], "Print", lazy.spawn("flameshot gui")),
 
