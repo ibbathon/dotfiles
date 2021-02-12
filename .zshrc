@@ -72,6 +72,9 @@ zstyle ':vcs_info:git*+set-message:*' hooks git-untracked
   fi
 }
 
+# Prefer IPython when executing `python`
+export PYTHONSTARTUP=${HOME}/helpers/ipython_startup.py
+
 
 ### Key setup
 # create a zkbd compatible hash;
