@@ -72,6 +72,10 @@ zstyle ':vcs_info:git*+set-message:*' hooks git-untracked
   fi
 }
 
+
+### Python setup
+# Local Python exes
+export PATH=$PATH:~/.local/bin
 # Prefer IPython when executing `python`
 export PYTHONSTARTUP=${HOME}/helpers/ipython_startup.py
 
