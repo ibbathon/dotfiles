@@ -167,7 +167,7 @@ def build_screen_widgets():
             background=colors["green"],
             date=datetime.datetime(2021, 2, 19, 9, 0, 0, 0),
             format="{D}d {H}h {M}m 'til freedom",
-            update_interval=3600),
+            update_interval=60),
         widget.CheckUpdates(
             background=colors["gray1"],
             colour_have_updates='ff6666',
