@@ -163,11 +163,11 @@ def build_screen_widgets():
         widget.GroupBox(background=colors["gray1"]),
         widget.Prompt(background=colors["green"]),
         widget.WindowName(background=colors["darkblue"]),
-        widget.Countdown(
-            background=colors["green"],
-            date=datetime.datetime(2021, 2, 19, 9, 0, 0, 0),
-            format="{D}d {H}h {M}m 'til freedom",
-            update_interval=60),
+        # widget.Countdown(
+        #    background=colors["green"],
+        #    date=datetime.datetime(2021, 2, 19, 9, 0, 0, 0),
+        #    format="{D}d {H}h {M}m 'til freedom",
+        #    update_interval=60),
         widget.CheckUpdates(
             background=colors["gray1"],
             colour_have_updates='ff6666',
@@ -181,8 +181,8 @@ def build_screen_widgets():
     left_end = 1
     right_start = 3
     prefix_symbols = {
-        7: "",
-        8: "",
+        6: "",
+        7: "",
     }
 
     if is_a_laptop:
