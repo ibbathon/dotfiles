@@ -183,8 +183,9 @@ map [5^ :tabp<CR>
 map [6^ :tabn<CR>
 
 " Autocomplete braces
-inoremap {<CR> {<CR>}<Esc>ko
-inoremap [<CR> [<CR>]<Esc>ko
+" These are annoying, so I'm commenting them out for now
+" inoremap {<CR> {<CR>}<Esc>ko
+" inoremap [<CR> [<CR>]<Esc>ko
 
 " Home moves to first non-whitespace on line
 " If already on first non-whitespace, jumps to actual beginning of line
