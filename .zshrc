@@ -177,6 +177,10 @@ if [[ -z $DOCKER_SHORTCUTS_DEFINED ]]; then
 fi
 
 
+### Version Managers
+eval "$(nodenv init -)"
+
+
 ### LegalShield-specific
 if [[ $COMPUTER == "LegalShield" ]]; then
   alias be='bundle exec'
@@ -190,7 +194,6 @@ if [[ $COMPUTER == "LegalShield" ]]; then
   export PATH="$PATH:/usr/local/opt/postgresql@10/bin"
   eval "$(rbenv init - --no-rehash)"
   export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
-  eval "$(nodenv init -)"
 
   export GIT_USERNAME="ibbathon"
   export GIT_PERSONAL_ACCESS_TOKEN=`cat ${HOME}/.ssh/github-pat`
