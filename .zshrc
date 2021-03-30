@@ -178,6 +178,7 @@ fi
 
 
 ### Version Managers
+export PATH="$PATH:$HOME/.nodenv/bin"
 eval "$(nodenv init -)"
 
 
