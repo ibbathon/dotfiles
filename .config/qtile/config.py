@@ -28,7 +28,7 @@ from libqtile.config import Key, Screen, Group, Drag
 from libqtile.command import lazy
 from libqtile import layout, bar, widget
 import platform
-import datetime
+import datetime  # noqa: F401
 
 try:
     from typing import List  # noqa: F401
@@ -48,20 +48,32 @@ if platform.node() == "some_other_laptop":
     wlan_int = "wlo1"
 
 
+countdown_date = datetime.datetime(2021, 4, 29, 14, 30, 0)
+countdown_text = "until immunity"
+
 mod = "mod4"
 
-colors = {
+raw_colors = {
     "black": "000000",
     "darkred": "220000",
     "red": "550000",
+    "lightred": "ff6666",
     "green": "005500",
     "white": "ffffff",
     "yellow": "555500",
     "darkblue": "000022",
     "blue": "000055",
     "pink": "550055",
-    "gray1": "222222",
-    "gray2": "333333",
+    "gray2": "222222",
+    "gray3": "333333",
+}
+
+colors = {
+    "bar-alt1": raw_colors["gray3"],
+    "bar-alt2": raw_colors["gray2"],
+    "bar-important": raw_colors["green"],
+    "bar-center": raw_colors["darkblue"],
+    "bar-updates": raw_colors["lightred"],
 }
 
 keys = [
@@ -158,72 +170,138 @@ widget_defaults = dict(
 extension_defaults = widget_defaults.copy()
 
 
-def build_screen_widgets():
-    raw_widgets = [
-        widget.GroupBox(background=colors["gray1"]),
-        widget.Prompt(background=colors["green"]),
-        widget.WindowName(background=colors["darkblue"]),
-        # widget.Countdown(
-        #    background=colors["green"],
-        #    date=datetime.datetime(2021, 2, 19, 9, 0, 0, 0),
-        #    format="{D}d {H}h {M}m 'til freedom",
-        #    update_interval=60),
-        widget.CheckUpdates(
-            background=colors["gray1"],
-            colour_have_updates='ff6666',
-            colour_no_updates='444444',
-            execute='notify-send "Updates available" "`checkupdates`" -t 0'),
-        widget.Systray(background=colors["gray2"]),
-        widget.Clock(background=colors["gray1"], format='%Y-%m-%d %a %H:%M'),
-        widget.PulseVolume(background=colors["gray2"]),
-        widget.CurrentLayout(background=colors["gray1"]),
-    ]
-    left_end = 1
-    right_start = 3
-    prefix_symbols = {
-        6: "",
-        7: "",
-    }
+class CustomVolume(widget.PulseVolume):
+    def _update_drawer(self):
+        """The main Volume doesn't include a way to show both emoji and text,
+        for some insane reason."""
+        text = ""
 
-    if is_a_laptop:
-        raw_widgets.append(widget.BatteryIcon(
-            padding=0, background=colors["gray2"]))
-        raw_widgets.append(widget.Battery(
-            padding=0, charge_char='^', discharge_char='v',
-            format='{percent:2.0%} {char}', background=colors["gray2"]))
-        raw_widgets.append(widget.Wlan(
-            interface=wlan_int, format='Wifi: {essid} {quality}/70',
-            background=colors["gray1"]))
+        if self.volume <= 0:
+            text = u'\U0001f507'
+        elif self.volume <= 30:
+            text = u'\U0001f508'
+        elif self.volume < 80:
+            text = u'\U0001f509'
+        elif self.volume >= 80:
+            text = u'\U0001f50a'
+        if self.volume == -1:
+            text += ' M'
+        else:
+            text += ' {}%'.format(self.volume)
+
+        self.text = text
+
+
+widget_settings = dict(
+    groupbox=dict(klass=widget.GroupBox),
+    prompt=dict(
+        klass=widget.Prompt,
+        settings=dict(background=colors["bar-important"])),
+    windowname=dict(
+        klass=widget.WindowName,
+        settings=dict(background=colors["bar-center"])),
+    countdown=dict(
+        klass=widget.Countdown,
+        settings=dict(
+            background=colors["bar-center"], date=countdown_date,
+            update_interval=60, format="{D}d {H}h {M}m " + countdown_text)),
+    updates=dict(
+        klass=widget.CheckUpdates,
+        settings=dict(
+            background=colors["bar-important"],
+            colour_have_updates=colors["bar-updates"])),
+    systray=dict(klass=widget.Systray),
+    clock=dict(
+        klass=widget.Clock,
+        settings=dict(format='%Y-%m-%d %a %H:%M')),
+    volume=dict(
+        klass=CustomVolume,
+        settings=dict(emoji=True)),
+    battery=dict(
+        klass=widget.Battery,
+        settings=dict(
+            charge_char="^", discharge_char="v", hide_threshold=0.999,
+            format=" {percent:2.0%} {char}")),
+    wifi=dict(
+        klass=widget.Wlan,
+        settings=dict(
+            interface=wlan_int, format="Wifi: {essid} {quality}/70")),
+    layout=dict(klass=widget.CurrentLayout),
+)
+
+main_screen_widgets = [[
+    "layout",
+    "groupbox",
+    "prompt",
+], [
+    "windowname",
+    "countdown",
+], [
+    "updates",
+    "systray",
+    "clock",
+    "volume",
+]]
+second_screen_widgets = [list(main_screen_widgets[i]) for i in range(3)]
+second_screen_widgets[2].remove("systray")
+if is_a_laptop:
+    main_screen_widgets[2].append("wifi")
+    main_screen_widgets[2].append("battery")
+    second_screen_widgets[2].append("wifi")
+    second_screen_widgets[2].append("battery")
+
+
+def build_arrow(widgets, char, foreground, background):
+    widgets.append(widget.TextBox(
+        background=background,
+        foreground=foreground,
+        fontsize=18,
+        text=char,
+        padding=0,
+    ))
+
+
+def build_screen_widgets(widget_keys):
+    all_widget_keys = [k for g in widget_keys for k in g]
+    widget_colors = []
+    for i, key in enumerate(all_widget_keys):
+        ws = widget_settings[key]
+        if "settings" in ws and "background" in ws["settings"]:
+            widget_colors.append(ws["settings"]["background"])
+        elif i % 2:
+            widget_colors.append(colors["bar-alt2"])
+        else:
+            widget_colors.append(colors["bar-alt1"])
 
     widgets = []
-    for i, widg in enumerate(raw_widgets):
-        if i >= right_start:
-            widgets.append(widget.TextBox(
-                background=raw_widgets[i-1].background,
-                foreground=widg.background,
-                fontsize=18,
-                text=u"\uE0B2",
-                padding=0,
-            ))
-        if i in prefix_symbols:
-            widgets.append(widget.TextBox(
-                background=widg.background, text=prefix_symbols[i]))
-        widgets.append(widg)
-        if i <= left_end:
-            widgets.append(widget.TextBox(
-                background=raw_widgets[i+1].background,
-                foreground=widg.background,
-                fontsize=18,
-                text=u"\uE0B0",
-                padding=0,
-            ))
+    for i, key in enumerate(all_widget_keys):
+        ws = widget_settings[key]
+        settings = dict(
+            background=colors[f"bar-{'alt2' if i % 2 else 'alt1'}"])
+        if "settings" in ws:
+            settings.update(ws["settings"])
+        bg = settings["background"]
+
+        if key in widget_keys[2]:
+            fg = raw_colors["black"]
+            if i > 0:
+                fg = widget_colors[i - 1]
+            build_arrow(widgets, u"\uE0B2", bg, fg)
+
+        widgets.append(ws["klass"](**settings))
+
+        if key in widget_keys[0]:
+            fg = raw_colors["black"]
+            if i < len(widget_colors) - 1:
+                fg = widget_colors[i + 1]
+            build_arrow(widgets, u"\uE0B0", bg, fg)
 
     return widgets
 
 
 screens = [
-    Screen(top=bar.Bar(build_screen_widgets(), 24)),
-    Screen(top=bar.Bar(build_screen_widgets(), 24)),
+    Screen(top=bar.Bar(build_screen_widgets(main_screen_widgets), 24)),
+    Screen(top=bar.Bar(build_screen_widgets(second_screen_widgets), 24)),
 ]
 
 # Drag floating layouts.
