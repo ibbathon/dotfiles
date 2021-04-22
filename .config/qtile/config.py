@@ -126,8 +126,8 @@ keys = [
     Key([], "XF86AudioNext", lazy.spawn("playerctl next")),
 
     # Brightness control
-    Key([], "XF86MonBrightnessDown", lazy.spawn("xbacklight -set 0.5")),
-    Key([], "XF86MonBrightnessUp", lazy.spawn("xbacklight -set 100")),
+    Key([], "XF86MonBrightnessDown", lazy.spawn("sudo xbacklight -set 1")),
+    Key([], "XF86MonBrightnessUp", lazy.spawn("sudo xbacklight -set 100")),
 
     # Quick-pause for games
     Key([mod, "control"], "m", lazy.spawn("/home/ibb/bin/toggle-game-pause")),
