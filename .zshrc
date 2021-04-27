@@ -21,6 +21,11 @@ setopt appendhistory
 setopt sharehistory
 setopt incappendhistory
 
+# direnv setup
+if [ ! -z "`which direnv`" ]; then
+  eval "$(direnv hook zsh)"
+fi
+
 
 ### Aliases
 if [[ $COMPUTER == "LegalShield" ]]; then
