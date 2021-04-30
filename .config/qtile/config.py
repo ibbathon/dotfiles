@@ -235,7 +235,7 @@ main_screen_widgets = [[
     "prompt",
 ], [
     "windowname",
-    "countdown",
+    # "countdown",
 ], [
     "updates",
     "systray",
