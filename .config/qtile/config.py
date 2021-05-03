@@ -24,7 +24,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from libqtile.config import Key, Screen, Group, Drag
+import re
+from libqtile.config import Key, Screen, Group, Drag, Match
 from libqtile.command import lazy
 from libqtile import layout, bar, widget
 import platform
@@ -133,18 +134,15 @@ keys = [
     Key([mod, "control"], "m", lazy.spawn("/home/ibb/bin/toggle-game-pause")),
 ]
 
-groups = [Group(i) for i in "asdfjkl"]
-if is_creative_machine:
-    groups[0].label = "a "  # Chrome
-    groups[1].label = "s "  # Slack
-    groups[2].label = "d "  # Terminal
-    groups[3].label = "f "  # Games
-    groups[4].label = "j "  # Misc
-    groups[5].label = "k "  # Misc
-    groups[6].label = "l "  # Misc
-else:
-    groups[0].label = "a "
-    groups[1].label = "s "
+groups = [
+    Group("a", label="a "),  # Chrome
+    Group("s", label="s "),  # Slack
+    Group("d", label="d "),  # Terminal
+    Group("f", label="f "),  # Games
+    Group("j", label="j ", matches=[Match(wm_class="zoom")]),  # Zoom
+    Group("k", label="k "),  # Misc
+    Group("l", label="l "),  # Misc
+]
 
 for i in groups:
     keys.extend([
@@ -345,6 +343,10 @@ floating_layout = layout.Floating(float_rules=[
     {'wmclass': 'openmw-launcher'},  # Morrowind
     {'wmclass': 'pavucontrol'},  # Audio controls
     {'wmclass': 'steam'},  # All Steam windows
+    # Zoom "you're using audio!" window
+    # This isn't perfect, as it still floats the main zoom window, but at
+    # least the meeting window isn't floated
+    Match(wm_class='zoom', title=re.compile(r'^zoom$')),
 ])
 auto_fullscreen = True
 focus_on_window_activation = "smart"
