@@ -39,6 +39,7 @@ Plugin 'tpope/vim-fugitive' " Adds git commands like Gstatus
 Plugin 'tpope/vim-rbenv' " rbenv support for vim
 Plugin 'dense-analysis/ale' " as-you-type linting
 Plugin 'vim-test/vim-test' " run tests within vim
+Plugin 'direnv/direnv.vim' " use direnv for env setup
 " Folding
 Plugin 'Konfekt/FastFold' " Folding performance gains
 Plugin 'tmhedberg/SimpylFold' " Better folding for Python
