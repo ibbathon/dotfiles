@@ -45,6 +45,8 @@ if platform.node() in ["WanderingMonk", "Tripitaka"]:
     is_creative_machine = True
 if platform.node() in ["Tripitaka"]:
     wlan_int = 'wlan0'
+if platform.node() in ["Azeban"]:
+    wlan_int = 'wlan0'
 if platform.node() == "some_other_laptop":
     wlan_int = "wlo1"
 
@@ -135,7 +137,7 @@ keys = [
 ]
 
 groups = [
-    Group("a", label="a "),  # Chrome
+    Group("a", label="a "),  # Chrome
     Group("s", label="s "),  # Slack
     Group("d", label="d "),  # Terminal
     Group("f", label="f "),  # Games
