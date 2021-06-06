@@ -249,6 +249,7 @@ if is_a_laptop:
     main_screen_widgets[2].append("battery")
     second_screen_widgets[2].append("wifi")
     second_screen_widgets[2].append("battery")
+third_screen_widgets = [list(second_screen_widgets[i]) for i in range(3)]
 
 
 def build_arrow(widgets, char, foreground, background):
@@ -302,6 +303,7 @@ def build_screen_widgets(widget_keys):
 screens = [
     Screen(top=bar.Bar(build_screen_widgets(main_screen_widgets), 24)),
     Screen(top=bar.Bar(build_screen_widgets(second_screen_widgets), 24)),
+    Screen(top=bar.Bar(build_screen_widgets(third_screen_widgets), 24)),
 ]
 
 # Drag floating layouts.
