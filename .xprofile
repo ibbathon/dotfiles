@@ -48,7 +48,7 @@ QT_AUTO_SCREEN_SCALE_FACTOR=0
 
 # Gimme some eye-candy!
 # feh --bg-max /home/ibb/backgrounds/1352085388.jayaxer_all_business_by_jayaxer.jpg
-[ "`cat /etc/hostname`" = "Azeban" ] && feh --bg-max /home/ibb/backgrounds/spirit-raccoon-2.jpg -B white
+[ "`cat /etc/hostname`" = "Azeban" ] && feh --bg-max /home/ibb/backgrounds/raccoon-in-dark.jpg
 
 # change caps lock to compose key (c`e to type accented e)
 setxkbmap -option compose:caps
