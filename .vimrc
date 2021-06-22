@@ -122,6 +122,10 @@ set shiftwidth=2
 set softtabstop=2
 set tabstop=2
 
+" Visibly show tab characters, trailing whitespace
+set list
+set listchars=tab:>·,trail:·
+
 " Syntax highlighting and other options
 syntax on
 filetype plugin indent on
