@@ -42,13 +42,13 @@ if [[ $COMPUTER == "Archiater" ]]; then
   alias hsetroot_normal='hsetroot -full backgrounds/1352085388.jayaxer_all_business_by_jayaxer.jpg'
 fi
 
-# Alias for shutting down Assassin's creed, because it refuses to do so gracefully
+# Alias for shutting down proton games, because it refuses to do so gracefully
 function ShutDownProtonGame() {
-  kill -9 `ps aux|grep "steamapp"|grep -v "grep"|grep -o "ibb\s*[0-9]*"|grep -o "[0-9]*"`
-  kill -9 `ps aux|grep "C:"|grep -v "grep"|grep -o "ibb\s*[0-9]*"|grep -o "[0-9]*"`
-  kill -9 `ps aux|grep "wine"|grep -v "grep"|grep -o "ibb\s*[0-9]*"|grep -o "[0-9]*"`
-  kill -9 `ps aux|grep "explorer"|grep -v "grep"|grep -o "ibb\s*[0-9]*"|grep -o "[0-9]*"`
-  kill -9 `ps aux|grep "Empyrion"|grep -v "grep"|grep -o "ibb\s*[0-9]*"|grep -o "[0-9]*"`
+  pkill -9 -f "steamapp"
+  pkill -9 -f "C:"
+  pkill -9 -f "wine"
+  pkill -9 -f "explorer"
+  pkill -9 -f "Disgaea"
 }
 alias proton_shutdown=ShutDownProtonGame
 
