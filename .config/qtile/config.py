@@ -27,9 +27,10 @@
 import re
 from libqtile.config import Key, Screen, Group, Drag, Match
 from libqtile.command import lazy
-from libqtile import layout, bar, widget
+from libqtile import layout, bar, widget, hook
 import platform
 import datetime  # noqa: F401
+import subprocess
 
 try:
     from typing import List  # noqa: F401
@@ -37,18 +38,25 @@ except ImportError:
     pass
 
 # Use HOST to determine computer-specific options, such as battery/wlan widgets
-is_a_laptop = False
+use_battery_widget = False
+use_wlan_widget = False
 wlan_int = 'wlp2s0'
 is_creative_machine = False
 if platform.node() in ["WanderingMonk", "Tripitaka"]:
-    is_a_laptop = True
     is_creative_machine = True
 if platform.node() in ["Tripitaka"]:
     wlan_int = 'wlan0'
+    use_wlan_widget = True
+    use_battery_widget = True
 if platform.node() in ["Azeban"]:
     wlan_int = 'wlan0'
+    use_wlan_widget = True
+if platform.node() in ["BelowTheArch"]:
+    wlan_int = 'wlan0'
+    use_wlan_widget = True
 if platform.node() == "some_other_laptop":
     wlan_int = "wlo1"
+    use_wlan_widget = True
 
 
 countdown_date = datetime.datetime(2021, 4, 29, 14, 30, 0)
@@ -244,10 +252,11 @@ main_screen_widgets = [[
 ]]
 second_screen_widgets = [list(main_screen_widgets[i]) for i in range(3)]
 second_screen_widgets[2].remove("systray")
-if is_a_laptop:
+if use_wlan_widget:
     main_screen_widgets[2].append("wifi")
-    main_screen_widgets[2].append("battery")
     second_screen_widgets[2].append("wifi")
+if use_battery_widget:
+    main_screen_widgets[2].append("battery")
     second_screen_widgets[2].append("battery")
 third_screen_widgets = [list(second_screen_widgets[i]) for i in range(3)]
 
@@ -354,6 +363,12 @@ floating_layout = layout.Floating(float_rules=[
 ])
 auto_fullscreen = True
 focus_on_window_activation = "smart"
+
+
+if platform.node() == "BelowTheArch":
+    @hook.subscribe.startup_once
+    def autostart():
+        subprocess.Popen('kodi')
 
 # XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this
 # string besides java UI toolkits; you can see several discussions on the
