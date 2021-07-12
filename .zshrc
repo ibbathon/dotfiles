@@ -1,7 +1,7 @@
 export EDITOR=vim
 
-if [[ $HOST == "MBIT138.local" || ! -z `echo $HOST|grep "\.pplsi\.com"` ]]; then
-  COMPUTER="LegalShield"
+if [[ $HOST == "Richards-MacBook-Pro.local" ]]; then
+  COMPUTER="MacBook"
 else
   COMPUTER="$HOST"
 fi
@@ -28,7 +28,7 @@ fi
 
 
 ### Aliases
-if [[ $COMPUTER == "LegalShield" ]]; then
+if [[ $COMPUTER == "MacBook" ]]; then
   alias ls='ls -aG'
 else
   alias ls='ls -a --color=auto'
