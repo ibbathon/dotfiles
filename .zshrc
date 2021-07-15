@@ -1,7 +1,7 @@
 export EDITOR=vim
 
 if [[ $HOST == "Richards-MacBook-Pro.local" ]]; then
-  COMPUTER="MacBook"
+  COMPUTER="VaultHealth"
 else
   COMPUTER="$HOST"
 fi
@@ -21,14 +21,9 @@ setopt appendhistory
 setopt sharehistory
 setopt incappendhistory
 
-# direnv setup
-if [ ! -z "`which direnv`" ]; then
-  eval "$(direnv hook zsh)"
-fi
-
 
 ### Aliases
-if [[ $COMPUTER == "MacBook" ]]; then
+if [[ $COMPUTER == "VaultHealth" ]]; then
   alias ls='ls -aG'
 else
   alias ls='ls -a --color=auto'
@@ -182,11 +177,6 @@ if [[ -z $DOCKER_SHORTCUTS_DEFINED ]]; then
 fi
 
 
-### Version Managers
-export PATH="$PATH:$HOME/.nodenv/bin"
-eval "$(nodenv init -)"
-
-
 ### Security
 export GIT_USERNAME="ibbathon"
 export GIT_PERSONAL_ACCESS_TOKEN=`cat ${HOME}/.ssh/github-pat`
@@ -220,4 +210,44 @@ if [[ $COMPUTER == "LegalShield" ]]; then
   # Fix delete key on Windows keyboard for iTerm2
   bindkey    "^[[3~"          delete-char
   bindkey    "^[3;5~"         delete-char
+fi
+
+
+### Env Managers
+if command -v nodenv &> /dev/null; then
+  export PATH="$PATH:$HOME/.nodenv/bin"
+  eval "$(nodenv init -)"
+fi
+
+if command -v direnv &> /dev/null; then
+  eval "$(direnv hook zsh)"
+fi
+
+
+### VaultHealth-specific code
+if [[ $COMPUTER == "VaultHealth" ]]; then
+  export PYENV_ROOT="$HOME/.pyenv"
+  # pyenv github says to use /bin, but my version is installing in
+  # /shims. Make sure to check your .pyenv dir for the correct one.
+  export PATH=$PYENV_ROOT/shims:$PATH
+  eval "$(pyenv init -)"
+
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+  export AWS_PROFILE="vlt"
+  alias aws-docker-login="\
+    aws-google-auth --profile=vlt && \
+    aws ecr get-login-password --region us-east-2 --profile=vlt \
+    | docker login --username AWS \
+    --password-stdin 291140025886.dkr.ecr.us-east-2.amazonaws.com"
+  alias dc="docker-compose"
+  alias dcd="docker-compose -f docker-compose-dev.yml"
+
+
+  #!!! These two are automatically added by terraform and so shouldn't
+  # be in the README.
+  autoload -U +X bashcompinit && bashcompinit
+  complete -o nospace -C /usr/local/bin/terraform terraform
 fi

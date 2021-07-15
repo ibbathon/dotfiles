@@ -31,6 +31,8 @@ Plugin 'peitalin/vim-jsx-typescript' " TypeScript-React syntax
 Plugin 'quramy/tsuquyomi' " Typescript completion
 Plugin 'omnisharp/omnisharp-vim' " C-Sharp syntax/completion/linting
 Plugin 'adamclerk/vim-razor' " *.cshtml files
+Plugin 'othree/xml.vim' " Better XML support (such as auto-folding)
+Plugin 'JamshedVesuna/vim-markdown-preview' " Preview MD with Ctrl-P
 " Appearance
 Plugin 'vim-airline/vim-airline' " Status/Tabline
 Plugin 'morhetz/gruvbox' " Color scheme
@@ -48,7 +50,6 @@ Plugin 'rlue/vim-fold-rspec' " Folding for *_spec.rb files
 Plugin 'ctrlpvim/ctrlp.vim' " Quick file search
 Plugin 'ajh17/vimcompletesme' " No-prereqs auto-completion
 Plugin 'tyru/open-browser.vim' " Replace netrw's broken gx
-Plugin 'othree/xml.vim' " Better XML support (such as auto-folding)
 Plugin 'AnsiEsc.vim' " Interpret color codes in log files (call `:AnsiEsc` to use)
 " Unsorted/Testing
 " UNUSED/UNWANTED/REPLACED
@@ -181,6 +182,11 @@ let g:OmniSharp_diagnostic_showid = 1 " show offending rule ID in linter message
 "***** Custom mappings and fixes *****
 "*************************************
 
+" Change C-p MD preview key to C-m (to avoid conflict with the ctrlp)
+let vim_markdown_preview_hotkey='<C-m>'
+let vim_markdown_preview_browser='Google Chrome'
+let vim_markdown_preview_github=1
+
 " Shortcut to write to a file that we need sudo access for
 cmap w!! w !sudo tee > /dev/null %
 
@@ -239,8 +245,9 @@ if has("gui_running")
 
   if has("win32") || has("win64")
     set guifont=Consolas:h9:cANSI:qDRAFT
-    set lines=65
   endif
+  set lines=78
+  set columns=161
   "set guifont=xos4\ Terminus\ 12
   "colorscheme slate
   "set transparency=15
