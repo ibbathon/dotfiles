@@ -133,6 +133,7 @@ if [[ -z $DOCKER_SHORTCUTS_DEFINED ]]; then
   DOCKER_SHORTCUTS_DEFINED="yes"
 
   alias dc='docker-compose'
+  alias dcd='docker-compose -f docker-compose-dev.yml'
 
   dcgetcid() {
     echo $(docker-compose ps -q "$1")
