@@ -16,6 +16,10 @@ else
   let $VIMHOME = $HOME."/.vim"
 end
 
+" Need to disable ALE's LSP before loading plugins, so it doesn't conflict
+" with COC's LSP. Also need to edit CocConfig and add
+" "diagnostic.displayByAle": true
+" let g:ale_disable_lsp = 1
 
 "************************************
 "***** Vundle and plugin config *****
@@ -25,6 +29,8 @@ set encoding=utf-8
 filetype off
 set rtp+=$VIMHOME/bundle/Vundle.vim
 call vundle#begin('$VIMHOME/bundle')
+" Necessary to prevent cleaning the main plugin
+Plugin 'VundleVim/Vundle.vim'
 " Languages
 Plugin 'leafgarland/typescript-vim' " TypeScript syntax
 Plugin 'peitalin/vim-jsx-typescript' " TypeScript-React syntax
@@ -33,6 +39,7 @@ Plugin 'omnisharp/omnisharp-vim' " C-Sharp syntax/completion/linting
 Plugin 'adamclerk/vim-razor' " *.cshtml files
 Plugin 'othree/xml.vim' " Better XML support (such as auto-folding)
 Plugin 'JamshedVesuna/vim-markdown-preview' " Preview MD with Ctrl-P
+Plugin 'davidhalter/jedi-vim' " Python auto-completion through Jedi
 " Appearance
 Plugin 'vim-airline/vim-airline' " Status/Tabline
 Plugin 'morhetz/gruvbox' " Color scheme
@@ -54,6 +61,8 @@ Plugin 'AnsiEsc.vim' " Interpret color codes in log files (call `:AnsiEsc` to us
 Plugin 'gcmt/taboo.vim' " Rename tabs with TabooRename; reset with TabooReset
 " Unsorted/Testing
 " UNUSED/UNWANTED/REPLACED
+" Plugin 'neoclide/coc.nvim' " Add additional LSP support
+" Plugin 'pappasam/coc-jedi' " Python LSP IDE support
 "Plugin 'scrooloose/syntastic' " Auto syntax checking
 "Plugin 'davidhalter/jedi-vim' " Advanced Python auto-complete (causes flicker)
 "Plugin 'ervandew/supertab' " No-prereqs auto-completion
@@ -127,6 +136,10 @@ set tabstop=2
 " Visibly show tab characters, trailing whitespace
 set list
 set listchars=tab:>·,trail:·
+
+" Split to the right/below, instead of left/above
+set splitright
+set splitbelow
 
 " Syntax highlighting and other options
 syntax on
@@ -248,7 +261,7 @@ if has("gui_running")
     set guifont=Consolas:h9:cANSI:qDRAFT
   endif
   set lines=78
-  set columns=161
+  set columns=242
   "set guifont=xos4\ Terminus\ 12
   "colorscheme slate
   "set transparency=15
@@ -270,4 +283,36 @@ else
   let &t_SR .= "\<Esc>[3 q"
   " Normal mode
   let &t_EI .= "\<Esc>[2 q"
+endif
+
+
+"******************************
+"***** Experimental stuff *****
+"******************************
+if os == "mac"
+  function! CreateUsualBuffers()
+    " First tab is notes
+    :TabooRename NOTES
+    :e ~/quicknotes
+    :vs
+    :e ~/standupnotes
+    :vs
+    :e ~/questions
+    " Second tab is terminal stuff
+    :tabnew
+    :TabooRename TERMINAL
+    :terminal ++curwin tmux
+    :vs
+    :terminal ++curwin tmux
+    :vs
+    :terminal ++curwin tmux
+    " Finally, a normal tab
+    :tabnew
+    :vs
+    :vs
+  endfunction
+  command! Usuals :call CreateUsualBuffers()
+
+  " Go to fixture definition
+  map gf :execute "lvimgrep /\\(def \\<" . expand("<cword>") . "\\>\\<Bar>\\<" . expand("<cword>") . "\\> =\\)/ tests/fixtures/**/*.py"<CR>
 endif
