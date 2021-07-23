@@ -19,7 +19,7 @@ end
 " Need to disable ALE's LSP before loading plugins, so it doesn't conflict
 " with COC's LSP. Also need to edit CocConfig and add
 " "diagnostic.displayByAle": true
-" let g:ale_disable_lsp = 1
+let g:ale_disable_lsp = 1
 
 "************************************
 "***** Vundle and plugin config *****
@@ -40,6 +40,7 @@ Plugin 'adamclerk/vim-razor' " *.cshtml files
 Plugin 'othree/xml.vim' " Better XML support (such as auto-folding)
 Plugin 'JamshedVesuna/vim-markdown-preview' " Preview MD with Ctrl-P
 Plugin 'davidhalter/jedi-vim' " Python auto-completion through Jedi
+Plugin 'pappasam/coc-jedi' " Python LSP IDE support
 " Appearance
 Plugin 'vim-airline/vim-airline' " Status/Tabline
 Plugin 'morhetz/gruvbox' " Color scheme
@@ -49,6 +50,7 @@ Plugin 'tpope/vim-rbenv' " rbenv support for vim
 Plugin 'dense-analysis/ale' " as-you-type linting
 Plugin 'vim-test/vim-test' " run tests within vim
 Plugin 'direnv/direnv.vim' " use direnv for env setup
+Plugin 'neoclide/coc.nvim' " Add additional LSP support
 " Folding
 Plugin 'Konfekt/FastFold' " Folding performance gains
 Plugin 'tmhedberg/SimpylFold' " Better folding for Python
@@ -61,8 +63,6 @@ Plugin 'AnsiEsc.vim' " Interpret color codes in log files (call `:AnsiEsc` to us
 Plugin 'gcmt/taboo.vim' " Rename tabs with TabooRename; reset with TabooReset
 " Unsorted/Testing
 " UNUSED/UNWANTED/REPLACED
-" Plugin 'neoclide/coc.nvim' " Add additional LSP support
-" Plugin 'pappasam/coc-jedi' " Python LSP IDE support
 "Plugin 'scrooloose/syntastic' " Auto syntax checking
 "Plugin 'davidhalter/jedi-vim' " Advanced Python auto-complete (causes flicker)
 "Plugin 'ervandew/supertab' " No-prereqs auto-completion
@@ -291,6 +291,7 @@ endif
 "******************************
 if os == "mac"
   function! CreateUsualBuffers()
+    cd ~/gitwork/monorepo/server
     " First tab is notes
     :TabooRename NOTES
     :e ~/quicknotes
@@ -314,5 +315,7 @@ if os == "mac"
   command! Usuals :call CreateUsualBuffers()
 
   " Go to fixture definition
-  map gf :execute "lvimgrep /\\(def \\<" . expand("<cword>") . "\\>\\<Bar>\\<" . expand("<cword>") . "\\> =\\)/ tests/fixtures/**/*.py"<CR>
+  nmap <silent>gf :execute "lvimgrep /\\(def \\<" . expand("<cword>") . "\\>\\<Bar>\\<" . expand("<cword>") . "\\> = generate_mutation_fixture\\)/ tests/fixtures/**/*.py"<CR>
+  " Use COC to jump to the definition
+  nmap <silent>gd <Plug>(coc-definition)
 endif
