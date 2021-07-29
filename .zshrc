@@ -251,4 +251,7 @@ if [[ $COMPUTER == "VaultHealth" ]]; then
   # be in the README.
   autoload -U +X bashcompinit && bashcompinit
   complete -o nospace -C /usr/local/bin/terraform terraform
+
+
+  alias ngrok-admin-api="ngrok http 127.0.0.1:5001"
 fi
