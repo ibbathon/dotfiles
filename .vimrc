@@ -318,4 +318,7 @@ if os == "mac"
   nmap <silent>gf :execute "lvimgrep /\\(def \\<" . expand("<cword>") . "\\>\\<Bar>\\<" . expand("<cword>") . "\\> = generate_mutation_fixture\\)/ tests/fixtures/**/*.py"<CR>
   " Use COC to jump to the definition
   nmap <silent>gd <Plug>(coc-definition)
+
+  " Change linters based on project
+  au BufNewFile,BufRead /Users/ibb/gitwork/monorepo/**/*.py let b:ale_linters = ["flake8", "mypy"]
 endif
