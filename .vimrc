@@ -322,5 +322,11 @@ if os == "mac"
   nmap <silent>gd <Plug>(coc-definition)
 
   " Change linters based on project
-  au BufNewFile,BufRead /Users/ibb/gitwork/monorepo/**/*.py let b:ale_linters = ["flake8", "mypy"]
+  " Note: mypy is told to skip import-checking to reduce feedback lag
+  "       The full version will run on commit, so I can catch it there.
+  au BufNewFile,BufRead /Users/ibb/gitwork/monorepo/**/*.py
+    \   let b:ale_linters = ["flake8", "mypy"]
+    \ | let b:ale_fixers = ["black"]
+    \ | let b:ale_fix_on_save = 1
+    \ | let b:ale_python_mypy_options = '--follow-imports=skip'
 endif
