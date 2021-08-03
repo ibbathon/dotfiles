@@ -187,6 +187,8 @@ let g:netrw_nogx=1
 let g:ale_lint_on_text_changed = 'always' " check during both normal and insert, might want to disable on battery
 " TODO: add check for battery, based on proc status, might want to attach to
 " CursorHold
+let g:ale_echo_msg_format = '[%linter%][%severity%] %s'
+let g:ale_loclist_msg_format = '[%linter%][%severity%] %s'
 
 " OmniSharp setup
 let g:OmniSharp_diagnostic_showid = 1 " show offending rule ID in linter messages
