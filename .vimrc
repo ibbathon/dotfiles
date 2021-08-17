@@ -61,6 +61,7 @@ Plugin 'ajh17/vimcompletesme' " No-prereqs auto-completion
 Plugin 'tyru/open-browser.vim' " Replace netrw's broken gx
 Plugin 'AnsiEsc.vim' " Interpret color codes in log files (call `:AnsiEsc` to use)
 Plugin 'gcmt/taboo.vim' " Rename tabs with TabooRename; reset with TabooReset
+Plugin 'knsh14/vim-github-link' " Allow copying GitHub link directly from Vim
 " Unsorted/Testing
 " UNUSED/UNWANTED/REPLACED
 "Plugin 'scrooloose/syntastic' " Auto syntax checking
