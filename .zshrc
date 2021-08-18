@@ -1,6 +1,6 @@
 export EDITOR=vim
 
-if [[ $HOST == "Richards-MacBook-Pro.local" ]]; then
+if [[ $HOST == "Richards-MacBook-Pro.local" || $HOST == *"us-east-2.compute.internal" ]]; then
   COMPUTER="VaultHealth"
 else
   COMPUTER="$HOST"
