@@ -1,3 +1,14 @@
+" Install before opening vim
+" mkdir -p ~/.vim/bundle
+" git clone https://github.com/VundleVim/Vundle.vim ~/.vim/bundle/Vundle.vim
+" brew install rg || pacman -S ripgrep
+" install nodejs >= 12.12
+
+" Install after opening vim
+" :PluginInstall
+" reopen vim
+" :CocInstall coc-lists
+
 " Determine OS first
 if has('win32') || has('win64')
   let os = "windows"
@@ -55,6 +66,8 @@ Plugin 'neoclide/coc.nvim' " Add additional LSP support
 Plugin 'Konfekt/FastFold' " Folding performance gains
 Plugin 'tmhedberg/SimpylFold' " Better folding for Python
 Plugin 'rlue/vim-fold-rspec' " Folding for *_spec.rb files
+" Fuzzy-finding within files
+Plugin 'neoclide/coc-lists' " Allow CocList grep and other things
 " Other functionality
 Plugin 'ctrlpvim/ctrlp.vim' " Quick file search
 Plugin 'ajh17/vimcompletesme' " No-prereqs auto-completion
@@ -234,6 +247,9 @@ endfunction
 " Use open-browser to open https? links
 nnoremap <silent> gx :<C-u> call openbrowser#_keymap_smart_search('n')<CR>
 xnoremap <silent> gx :<C-u> call openbrowser#_keymap_smart_search('v')<CR>
+
+" Find-in-files interactively
+map <Leader>p :CocList -I grep -i<CR>
 
 
 "************************
