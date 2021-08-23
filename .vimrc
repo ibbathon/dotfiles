@@ -321,17 +321,19 @@ if os == "mac"
     " Second tab is terminal stuff
     :tabnew
     :TabooRename TERMINAL
-    :terminal ++curwin tmux
+    " :terminal ++curwin tmux
     :vs
-    :terminal ++curwin tmux
+    " :terminal ++curwin tmux
     :vs
-    :terminal ++curwin tmux
+    " :terminal ++curwin tmux
     " Finally, a normal tab
     :tabnew
     :vs
     :vs
   endfunction
   command! Usuals :call CreateUsualBuffers()
+
+  nmap <Leader>t :terminal ++curwin tmux<CR>
 
   " Go to fixture definition
   nmap <silent>gf :execute "lvimgrep /\\(def \\<" . expand("<cword>") . "\\>\\<Bar>\\<" . expand("<cword>") . "\\> = generate_mutation_fixture\\)/ tests/fixtures/**/*.py"<CR>
