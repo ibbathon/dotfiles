@@ -319,12 +319,13 @@ if os == "mac"
     :vs
     :e ~/questions
     " Second tab is terminal stuff
-    :tabnew
-    :TabooRename TERMINAL
+    " removed for now because it's better to just have spontaneous terminals
+    " :tabnew
+    " :TabooRename TERMINAL
     " :terminal ++curwin tmux
-    :vs
+    " :vs
     " :terminal ++curwin tmux
-    :vs
+    " :vs
     " :terminal ++curwin tmux
     " Finally, a normal tab
     :tabnew
