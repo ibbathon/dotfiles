@@ -234,8 +234,12 @@ if [[ $COMPUTER == "VaultHealth" ]]; then
   eval "$(pyenv init -)"
 
   export NVM_DIR="$HOME/.nvm"
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+  # Standard loader that autoloads from current directory
+  # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+  # [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+  # Alternate NVM loader that hard-codes to a single version
+  export PATH=~/.nvm/versions/node/v12.22.3/bin:$PATH
+  [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh" --no-use
 
   export AWS_PROFILE="vlt"
   alias aws-docker-login="\

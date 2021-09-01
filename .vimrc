@@ -49,7 +49,7 @@ Plugin 'quramy/tsuquyomi' " Typescript completion
 Plugin 'omnisharp/omnisharp-vim' " C-Sharp syntax/completion/linting
 Plugin 'adamclerk/vim-razor' " *.cshtml files
 Plugin 'othree/xml.vim' " Better XML support (such as auto-folding)
-Plugin 'JamshedVesuna/vim-markdown-preview' " Preview MD with Ctrl-P
+Plugin 'JamshedVesuna/vim-markdown-preview' " Preview MD with Ctrl-m
 Plugin 'davidhalter/jedi-vim' " Python auto-completion through Jedi
 Plugin 'pappasam/coc-jedi' " Python LSP IDE support
 " Appearance
