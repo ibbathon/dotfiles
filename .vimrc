@@ -2,10 +2,11 @@
 " mkdir -p ~/.vim/bundle
 " git clone https://github.com/VundleVim/Vundle.vim ~/.vim/bundle/Vundle.vim
 " brew install rg || pacman -S ripgrep
-" install nodejs >= 12.12
+" install nodejs >= 12.12 and npm
 
 " Install after opening vim
 " :PluginInstall
+" close vim, go to .vim/bundle/coc.nvim and run npm i
 " reopen vim
 " :CocInstall coc-lists
 
