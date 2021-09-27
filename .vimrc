@@ -208,6 +208,10 @@ let g:ale_loclist_msg_format = '[%linter%][%severity%] %s'
 " OmniSharp setup
 let g:OmniSharp_diagnostic_showid = 1 " show offending rule ID in linter messages
 
+" Prevent vim.zip from loading (why would I want Vim to open my zips for me?!)
+let g:loaded_zipPlugin = 1
+let g:loaded_zip = 1
+
 
 "*************************************
 "***** Custom mappings and fixes *****
