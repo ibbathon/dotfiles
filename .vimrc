@@ -76,6 +76,7 @@ Plugin 'tyru/open-browser.vim' " Replace netrw's broken gx
 Plugin 'AnsiEsc.vim' " Interpret color codes in log files (call `:AnsiEsc` to use)
 Plugin 'gcmt/taboo.vim' " Rename tabs with TabooRename; reset with TabooReset
 Plugin 'knsh14/vim-github-link' " Allow copying GitHub link directly from Vim
+Plugin 'sotte/presenting.vim' " Vim slideshows!
 " Unsorted/Testing
 " UNUSED/UNWANTED/REPLACED
 "Plugin 'scrooloose/syntastic' " Auto syntax checking
@@ -86,6 +87,7 @@ Plugin 'knsh14/vim-github-link' " Allow copying GitHub link directly from Vim
 "Plugin 'Glench/Vim-Jinja2-Syntax' " Jinja syntax (used at Vivial)
 "Plugin 'Valloric/YouCompleteMe' " Powerful auto-completion (requires compile)
 "Plugin 'nvie/vim-flake8' " Python linter Flake8 (not actually needed?)
+"Plugin 'ashisha/image.vim' " auto-ascii-art (doesn't work with MacVim)
 call vundle#end()
 filetype plugin indent on
 
