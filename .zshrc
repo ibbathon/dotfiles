@@ -257,5 +257,8 @@ if [[ $COMPUTER == "VaultHealth" ]]; then
   complete -o nospace -C /usr/local/bin/terraform terraform
 
 
-  alias ngrok-admin-api="ngrok http 127.0.0.1:5001"
+  alias ngrok-admin-api="ngrok http 127.0.0.1:5000"
+  alias ngrok-api="ngrok http 127.0.0.1:5001"
+  alias setup-stage-api="export FLASK_APP=application.py FLASK_ENV=development RX_CONFIG=stage.StageConfig RETOOL_AUTH_HEADER=123"
+  alias setup-stage-admin-api="export FLASK_APP=admin-application.py FLASK_ENV=development RX_CONFIG=stage.StageConfig RETOOL_AUTH_HEADER=123"
 fi

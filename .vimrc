@@ -28,6 +28,14 @@ else
   let $VIMHOME = $HOME."/.vim"
 end
 
+" Before anything else, force MacVim to use Python3
+if os == "mac"
+  " set pythondll=/Users/ibb/.pyenv/versions/3.8.10/Library/Frameworks/Python.framework/Versions/3.8/Python
+  " set pythonhome=/Users/ibb/.pyenv/versions/3.8.10/Library/Frameworks/Python.framework/Versions/3.8
+  " set pythonthreedll=/Users/ibb/.pyenv/versions/3.8.10/Library/Frameworks/Python.framework/Versions/3.8/Python
+  " set pythonthreehome=/Users/ibb/.pyenv/versions/3.8.10/Library/Frameworks/Python.framework/Versions/3.8
+end
+
 " Need to disable ALE's LSP before loading plugins, so it doesn't conflict
 " with COC's LSP. Also need to edit CocConfig and add
 " "diagnostic.displayByAle": true
