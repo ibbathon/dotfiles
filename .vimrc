@@ -61,6 +61,7 @@ Plugin 'othree/xml.vim' " Better XML support (such as auto-folding)
 Plugin 'JamshedVesuna/vim-markdown-preview' " Preview MD with Ctrl-m
 Plugin 'davidhalter/jedi-vim' " Python auto-completion through Jedi
 Plugin 'pappasam/coc-jedi' " Python LSP IDE support
+Plugin 'hashivim/vim-terraform' " Terraform support
 " Appearance
 Plugin 'vim-airline/vim-airline' " Status/Tabline
 Plugin 'morhetz/gruvbox' " Color scheme
@@ -364,4 +365,8 @@ if os == "mac"
     \ | let b:ale_fixers = ["black"]
     \ | let b:ale_fix_on_save = 1
     \ | let b:ale_python_mypy_options = '--follow-imports=skip'
+
+  au BufNewFile,BufRead /Users/ibb/gitwork/infra/**/*.tf
+    \   let b:ale_fixers = ["terraform"]
+    \ | let b:ale_fix_on_save = 1
 endif
