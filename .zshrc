@@ -232,7 +232,7 @@ if command -v pyenv &> /dev/null; then
   eval "$(pyenv init -)"
 fi
 
-if ls /usr/share/nvm/nvm.sh &> /dev/null; then
+if ls ~/.nvm/nvm.sh &> /dev/null; then
   export NVM_DIR="$HOME/.nvm"
   # Standard loader that autoloads from current directory
   # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
