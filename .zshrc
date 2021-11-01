@@ -224,15 +224,15 @@ if command -v direnv &> /dev/null; then
   eval "$(direnv hook zsh)"
 fi
 
-
-### VaultHealth-specific code
-if [[ $COMPUTER == "VaultHealth" ]]; then
+if command -v pyenv &> /dev/null; then
   export PYENV_ROOT="$HOME/.pyenv"
   # pyenv github says to use /bin, but my version is installing in
   # /shims. Make sure to check your .pyenv dir for the correct one.
   export PATH=$PYENV_ROOT/shims:$PATH
   eval "$(pyenv init -)"
+fi
 
+if ls /usr/share/nvm/nvm.sh &> /dev/null; then
   export NVM_DIR="$HOME/.nvm"
   # Standard loader that autoloads from current directory
   # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
@@ -240,7 +240,11 @@ if [[ $COMPUTER == "VaultHealth" ]]; then
   # Alternate NVM loader that hard-codes to a single version
   export PATH=~/.nvm/versions/node/v12.22.3/bin:$PATH
   [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh" --no-use
+fi
 
+
+### VaultHealth-specific code
+if [[ $COMPUTER == "VaultHealth" ]]; then
   export AWS_PROFILE="vlt"
   alias aws-docker-login="\
     aws-google-auth --profile=vlt && \
