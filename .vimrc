@@ -1,4 +1,6 @@
 " Install before opening vim
+" mkdir -p ~/.vim/undo ~/.vim/swap ~/.vim/backup
+" mkdir -p ~/.vim/nundo ~/.vim/nswap ~/.vim/nbackup
 " mkdir -p ~/.vim/bundle
 " git clone https://github.com/VundleVim/Vundle.vim ~/.vim/bundle/Vundle.vim
 " brew install rg || pacman -S ripgrep
@@ -148,10 +150,12 @@ set backspace=indent,eol,start
 set foldmethod=syntax
 set foldlevelstart=30
 set mouse=a
-set ttymouse=sgr
 set showbreak=>>>\ 
 set breakindent
 set breakindentopt=min:40,shift:2,sbr
+if !has("nvim")
+  set ttymouse=sgr
+endif
 
 " Tab width and tabs-to-spaces
 set expandtab
@@ -180,10 +184,18 @@ else
 end
 
 " Put swap, undo, and backup files in ~/.vim
-set directory=$VIMHOME/swap/
-set backupdir=$VIMHOME/backup/
-set undodir=$VIMHOME/undo/
-set undofile " Allow undo in a file that was previously open
+if has("nvim")
+  " use different directories, because nvim is weird
+  set directory=$VIMHOME/nswap/
+  set backupdir=$VIMHOME/nbackup/
+  set undodir=$VIMHOME/nundo/
+  set undofile " Allow undo in a file that was previously open
+else
+  set directory=$VIMHOME/swap/
+  set backupdir=$VIMHOME/backup/
+  set undodir=$VIMHOME/undo/
+  set undofile " Allow undo in a file that was previously open
+endif
 
 " Prefer unix line endings
 set fileformats=unix,dos
