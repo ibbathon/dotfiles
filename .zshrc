@@ -1,4 +1,4 @@
-export EDITOR=vim
+export EDITOR=nvim
 
 if [[ $HOST == "Ibbs-MacBook-Pro.local" || $HOST == "Richards-MacBook-Pro.local" || $HOST == *"us-east-2.compute.internal" ]]; then
   COMPUTER="VaultHealth"
@@ -30,6 +30,8 @@ else
 fi
 alias cp='cp -i'
 alias mv='mv -i'
+alias vi=vim
+alias vim=nvim
 
 # Background-setting aliases so I can quickly switch to black for streaming
 if [[ $COMPUTER == "Archiater" ]]; then
