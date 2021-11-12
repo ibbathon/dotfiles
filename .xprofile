@@ -11,6 +11,7 @@ udiskie --tray &
 blueman-applet &
 solaar -w hide &
 (sleep 2; nextcloud) &
+which gkraken && gkraken --hide-window &
 
 # disable screensaver
 xset dpms 0 0 0
