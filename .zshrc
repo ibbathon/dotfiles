@@ -255,6 +255,7 @@ if [[ $COMPUTER == "VaultHealth" ]]; then
     --password-stdin 291140025886.dkr.ecr.us-east-2.amazonaws.com"
   alias dc="docker-compose"
   alias dcd="docker-compose -f docker-compose-dev.yml"
+  alias dcd-build="dcd build api admin-api lambda"
 
 
   #!!! These two are automatically added by terraform and so shouldn't
