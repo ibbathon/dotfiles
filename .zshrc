@@ -1,6 +1,7 @@
 export EDITOR=nvim
 
-if [[ $HOST == "Ibbs-MacBook-Pro.local" || $HOST == "Richards-MacBook-Pro.local" || $HOST == *"us-east-2.compute.internal" ]]; then
+export UNAME=$(uname)
+if [[ $UNAME == "Darwin" ]]; then
   COMPUTER="VaultHealth"
 else
   COMPUTER="$HOST"
