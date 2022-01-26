@@ -249,11 +249,18 @@ fi
 ### VaultHealth-specific code
 if [[ $COMPUTER == "VaultHealth" ]]; then
   export AWS_PROFILE="vlt"
-  alias aws-docker-login="\
-    aws-google-auth --profile=vlt && \
-    aws ecr get-login-password --region us-east-2 --profile=vlt \
-    | docker login --username AWS \
-    --password-stdin 291140025886.dkr.ecr.us-east-2.amazonaws.com"
+  function aws_docker_login {
+    aws-google-auth $@
+    aws ecr get-login-password $@ | \
+      docker login --username AWS --password-stdin \
+      291140025886.dkr.ecr.us-east-2.amazonaws.com
+  }
+  function aws_google_auth_creds {
+    AUTHOUT="$(aws-google-auth $@ --print-creds 1>&1 1>&2)"
+    if [ $? -eq 0 ]; then
+      $(echo "$AUTHOUT"|tail -n 1)
+    fi
+  }
   alias dc="docker-compose"
   alias dcd="docker-compose -f docker-compose-dev.yml"
   alias dcd-build="dcd build api admin-api lambda"
