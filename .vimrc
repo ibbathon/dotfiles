@@ -279,6 +279,10 @@ xnoremap <silent> gx :<C-u> call openbrowser#_keymap_smart_search('v')<CR>
 " Find-in-files interactively
 map <Leader>p :CocList -I grep -i<CR>
 
+" Run tests
+map <Leader>t :TestNearest<CR>
+map<Leader>T :TestFile<CR>
+
 
 "************************
 "***** Autocommands *****
