@@ -366,7 +366,8 @@ if os == "mac"
   endfunction
   command! Usuals :call CreateUsualBuffers()
 
-  nmap <Leader>t :terminal ++curwin tmux<CR>
+  " Changed dev process, so this has been replaced by a quick pytest run
+  " nmap <Leader>t :terminal ++curwin tmux<CR>
 
   " Go to fixture definition
   nmap <silent>gf :execute "lvimgrep /\\(def \\<" . expand("<cword>") . "\\>\\<Bar>\\<" . expand("<cword>") . "\\> = generate_mutation_fixture\\)/ tests/fixtures/**/*.py"<CR>
