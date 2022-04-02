@@ -22,6 +22,9 @@ xset s off
 # screenshots
 flameshot &
 
+# Disables using PS4 touchpad as mouse (interferes with games)
+xinput set-prop "Wireless Controller Touchpad" "Device Enabled" 0 &
+
 # enable keyring
 eval $(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)
 export SSH_AUTH_SOCK
