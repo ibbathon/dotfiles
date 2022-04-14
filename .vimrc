@@ -379,7 +379,7 @@ if os == "mac"
   "       The full version will run on commit, so I can catch it there.
   au BufNewFile,BufRead /Users/ibb/gitwork/monorepo/**/*.py
     \   let b:ale_linters = ["flake8", "mypy"]
-    \ | let b:ale_fixers = ["black"]
+    \ | let b:ale_fixers = ["black", "isort"]
     \ | let b:ale_fix_on_save = 1
     \ | let b:ale_python_mypy_options = '--follow-imports=skip'
 
