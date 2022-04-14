@@ -1,3 +1,17 @@
+" Install before opening vim
+" mkdir -p ~/.vim/undo ~/.vim/swap ~/.vim/backup
+" mkdir -p ~/.vim/nundo ~/.vim/nswap ~/.vim/nbackup
+" mkdir -p ~/.vim/bundle
+" git clone https://github.com/VundleVim/Vundle.vim ~/.vim/bundle/Vundle.vim
+" brew install rg || pacman -S ripgrep
+" install nodejs >= 12.12 and npm
+
+" Install after opening vim
+" :PluginInstall
+" close vim, go to .vim/bundle/coc.nvim and run npm i
+" reopen vim
+" :CocInstall coc-lists
+
 " Determine OS first
 if has('win32') || has('win64')
   let os = "windows"
@@ -16,6 +30,18 @@ else
   let $VIMHOME = $HOME."/.vim"
 end
 
+" Before anything else, force MacVim to use Python3
+if os == "mac"
+  " set pythondll=/Users/ibb/.pyenv/versions/3.8.10/Library/Frameworks/Python.framework/Versions/3.8/Python
+  " set pythonhome=/Users/ibb/.pyenv/versions/3.8.10/Library/Frameworks/Python.framework/Versions/3.8
+  " set pythonthreedll=/Users/ibb/.pyenv/versions/3.8.10/Library/Frameworks/Python.framework/Versions/3.8/Python
+  " set pythonthreehome=/Users/ibb/.pyenv/versions/3.8.10/Library/Frameworks/Python.framework/Versions/3.8
+end
+
+" Need to disable ALE's LSP before loading plugins, so it doesn't conflict
+" with COC's LSP. Also need to edit CocConfig and add
+" "diagnostic.displayByAle": true
+let g:ale_disable_lsp = 1
 
 "************************************
 "***** Vundle and plugin config *****
@@ -25,12 +51,19 @@ set encoding=utf-8
 filetype off
 set rtp+=$VIMHOME/bundle/Vundle.vim
 call vundle#begin('$VIMHOME/bundle')
+" Necessary to prevent cleaning the main plugin
+Plugin 'VundleVim/Vundle.vim'
 " Languages
 Plugin 'leafgarland/typescript-vim' " TypeScript syntax
 Plugin 'peitalin/vim-jsx-typescript' " TypeScript-React syntax
 Plugin 'quramy/tsuquyomi' " Typescript completion
 Plugin 'omnisharp/omnisharp-vim' " C-Sharp syntax/completion/linting
 Plugin 'adamclerk/vim-razor' " *.cshtml files
+Plugin 'othree/xml.vim' " Better XML support (such as auto-folding)
+Plugin 'JamshedVesuna/vim-markdown-preview' " Preview MD with Ctrl-m
+Plugin 'davidhalter/jedi-vim' " Python auto-completion through Jedi
+Plugin 'pappasam/coc-jedi' " Python LSP IDE support
+Plugin 'hashivim/vim-terraform' " Terraform support
 " Appearance
 Plugin 'vim-airline/vim-airline' " Status/Tabline
 Plugin 'morhetz/gruvbox' " Color scheme
@@ -40,16 +73,21 @@ Plugin 'tpope/vim-rbenv' " rbenv support for vim
 Plugin 'dense-analysis/ale' " as-you-type linting
 Plugin 'vim-test/vim-test' " run tests within vim
 Plugin 'direnv/direnv.vim' " use direnv for env setup
+Plugin 'neoclide/coc.nvim' " Add additional LSP support
 " Folding
 Plugin 'Konfekt/FastFold' " Folding performance gains
 Plugin 'tmhedberg/SimpylFold' " Better folding for Python
 Plugin 'rlue/vim-fold-rspec' " Folding for *_spec.rb files
+" Fuzzy-finding within files
+Plugin 'neoclide/coc-lists' " Allow CocList grep and other things
 " Other functionality
 Plugin 'ctrlpvim/ctrlp.vim' " Quick file search
 Plugin 'ajh17/vimcompletesme' " No-prereqs auto-completion
 Plugin 'tyru/open-browser.vim' " Replace netrw's broken gx
-Plugin 'othree/xml.vim' " Better XML support (such as auto-folding)
 Plugin 'AnsiEsc.vim' " Interpret color codes in log files (call `:AnsiEsc` to use)
+Plugin 'gcmt/taboo.vim' " Rename tabs with TabooRename; reset with TabooReset
+Plugin 'knsh14/vim-github-link' " Allow copying GitHub link directly from Vim
+Plugin 'sotte/presenting.vim' " Vim slideshows!
 " Unsorted/Testing
 " UNUSED/UNWANTED/REPLACED
 "Plugin 'scrooloose/syntastic' " Auto syntax checking
@@ -60,6 +98,7 @@ Plugin 'AnsiEsc.vim' " Interpret color codes in log files (call `:AnsiEsc` to us
 "Plugin 'Glench/Vim-Jinja2-Syntax' " Jinja syntax (used at Vivial)
 "Plugin 'Valloric/YouCompleteMe' " Powerful auto-completion (requires compile)
 "Plugin 'nvie/vim-flake8' " Python linter Flake8 (not actually needed?)
+"Plugin 'ashisha/image.vim' " auto-ascii-art (doesn't work with MacVim)
 call vundle#end()
 filetype plugin indent on
 
@@ -111,10 +150,12 @@ set backspace=indent,eol,start
 set foldmethod=syntax
 set foldlevelstart=30
 set mouse=a
-set ttymouse=sgr
 set showbreak=>>>\ 
 set breakindent
 set breakindentopt=min:40,shift:2,sbr
+if !has("nvim")
+  set ttymouse=sgr
+endif
 
 " Tab width and tabs-to-spaces
 set expandtab
@@ -125,6 +166,10 @@ set tabstop=2
 " Visibly show tab characters, trailing whitespace
 set list
 set listchars=tab:>·,trail:·
+
+" Split to the right/below, instead of left/above
+set splitright
+set splitbelow
 
 " Syntax highlighting and other options
 syntax on
@@ -139,10 +184,18 @@ else
 end
 
 " Put swap, undo, and backup files in ~/.vim
-set directory=$VIMHOME/swap/
-set backupdir=$VIMHOME/backup/
-set undodir=$VIMHOME/undo/
-set undofile " Allow undo in a file that was previously open
+if has("nvim")
+  " use different directories, because nvim is weird
+  set directory=$VIMHOME/nswap/
+  set backupdir=$VIMHOME/nbackup/
+  set undodir=$VIMHOME/nundo/
+  set undofile " Allow undo in a file that was previously open
+else
+  set directory=$VIMHOME/swap/
+  set backupdir=$VIMHOME/backup/
+  set undodir=$VIMHOME/undo/
+  set undofile " Allow undo in a file that was previously open
+endif
 
 " Prefer unix line endings
 set fileformats=unix,dos
@@ -172,14 +225,25 @@ let g:netrw_nogx=1
 let g:ale_lint_on_text_changed = 'always' " check during both normal and insert, might want to disable on battery
 " TODO: add check for battery, based on proc status, might want to attach to
 " CursorHold
+let g:ale_echo_msg_format = '[%linter%][%severity%] %s'
+let g:ale_loclist_msg_format = '[%linter%][%severity%] %s'
 
 " OmniSharp setup
 let g:OmniSharp_diagnostic_showid = 1 " show offending rule ID in linter messages
+
+" Prevent vim.zip from loading (why would I want Vim to open my zips for me?!)
+let g:loaded_zipPlugin = 1
+let g:loaded_zip = 1
 
 
 "*************************************
 "***** Custom mappings and fixes *****
 "*************************************
+
+" Change C-p MD preview key to C-m (to avoid conflict with the ctrlp)
+let vim_markdown_preview_hotkey='<C-m>'
+let vim_markdown_preview_browser='Google Chrome'
+let vim_markdown_preview_github=1
 
 " Shortcut to write to a file that we need sudo access for
 cmap w!! w !sudo tee > /dev/null %
@@ -212,6 +276,13 @@ endfunction
 nnoremap <silent> gx :<C-u> call openbrowser#_keymap_smart_search('n')<CR>
 xnoremap <silent> gx :<C-u> call openbrowser#_keymap_smart_search('v')<CR>
 
+" Find-in-files interactively
+map <Leader>p :CocList -I grep -i<CR>
+
+" Run tests
+map <Leader>t :TestNearest<CR>
+map<Leader>T :TestFile<CR>
+
 
 "************************
 "***** Autocommands *****
@@ -239,8 +310,9 @@ if has("gui_running")
 
   if has("win32") || has("win64")
     set guifont=Consolas:h9:cANSI:qDRAFT
-    set lines=65
   endif
+  set lines=78
+  set columns=242
   "set guifont=xos4\ Terminus\ 12
   "colorscheme slate
   "set transparency=15
@@ -262,4 +334,56 @@ else
   let &t_SR .= "\<Esc>[3 q"
   " Normal mode
   let &t_EI .= "\<Esc>[2 q"
+endif
+
+
+"******************************
+"***** Experimental stuff *****
+"******************************
+if os == "mac"
+  function! CreateUsualBuffers()
+    cd ~/gitwork/monorepo/server
+    " First tab is notes
+    :TabooRename NOTES
+    :e ~/quicknotes
+    :vs
+    :e ~/standupnotes
+    :vs
+    :e ~/questions
+    " Second tab is terminal stuff
+    " removed for now because it's better to just have spontaneous terminals
+    " :tabnew
+    " :TabooRename TERMINAL
+    " :terminal ++curwin tmux
+    " :vs
+    " :terminal ++curwin tmux
+    " :vs
+    " :terminal ++curwin tmux
+    " Finally, a normal tab
+    :tabnew
+    :vs
+    :vs
+  endfunction
+  command! Usuals :call CreateUsualBuffers()
+
+  " Changed dev process, so this has been replaced by a quick pytest run
+  " nmap <Leader>t :terminal ++curwin tmux<CR>
+
+  " Go to fixture definition
+  nmap <silent>gf :execute "lvimgrep /\\(def \\<" . expand("<cword>") . "\\>\\<Bar>\\<" . expand("<cword>") . "\\> = generate_mutation_fixture\\)/ tests/fixtures/**/*.py"<CR>
+  " Use COC to jump to the definition
+  nmap <silent>gd <Plug>(coc-definition)
+
+  " Change linters based on project
+  " Note: mypy is told to skip import-checking to reduce feedback lag
+  "       The full version will run on commit, so I can catch it there.
+  au BufNewFile,BufRead /Users/ibb/gitwork/monorepo/**/*.py
+    \   let b:ale_linters = ["flake8", "mypy"]
+    \ | let b:ale_fixers = ["black"]
+    \ | let b:ale_fix_on_save = 1
+    \ | let b:ale_python_mypy_options = '--follow-imports=skip'
+
+  au BufNewFile,BufRead /Users/ibb/gitwork/infra/**/*.tf
+    \   let b:ale_fixers = ["terraform"]
+    \ | let b:ale_fix_on_save = 1
 endif

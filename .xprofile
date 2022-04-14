@@ -11,6 +11,7 @@ udiskie --tray &
 blueman-applet &
 solaar -w hide &
 (sleep 2; nextcloud) &
+which gkraken && gkraken --hide-window &
 
 # disable screensaver
 xset dpms 0 0 0
@@ -20,6 +21,9 @@ xset s off
 
 # screenshots
 flameshot &
+
+# Disables using PS4 touchpad as mouse (interferes with games)
+xinput set-prop "Wireless Controller Touchpad" "Device Enabled" 0 &
 
 # enable keyring
 eval $(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)
@@ -49,6 +53,7 @@ QT_AUTO_SCREEN_SCALE_FACTOR=0
 # Gimme some eye-candy!
 # feh --bg-max /home/ibb/backgrounds/1352085388.jayaxer_all_business_by_jayaxer.jpg
 [ "`cat /etc/hostname`" = "Azeban" ] && feh --bg-max /home/ibb/backgrounds/raccoon-in-dark.jpg
+[ "`cat /etc/hostname`" = "Bastet" ] && feh --bg-max /home/ibb/backgrounds/bastet-abstract.jpg
 
 # change caps lock to compose key (c`e to type accented e)
 setxkbmap -option compose:caps

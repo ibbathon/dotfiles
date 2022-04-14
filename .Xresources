@@ -14,22 +14,25 @@ Xft.rgba: rgb
 ! *.font: -*-terminesspowerline-medium-*-*-*-12-*-*-*-*-*-*-*
 ! *.boldFont: -*-terminesspowerline-bold-*-*-*-12-*-*-*-*-*-*-*
 
-*.font: -*-terminus-medium-*-*-*-12-*-*-*-*-*-*-*
-UXTerm*font: -*-terminus-medium-*-*-*-12-*-*-*-*-*-*-*
-*.defaultFont: -*-terminus-medium-*-*-*-12-*-*-*-*-*-*-*
-*.boldFont: -*-terminus-bold-*-*-*-12-*-*-*-*-*-*-*
-*VT100.utf8Fonts.font: -*-terminus-medium-*-*-*-12-*-*-*-*-*-*-*
-*VT100.utf8Fonts.font2: -*-terminus-medium-*-*-*-14-*-*-*-*-*-*-*
-*VT100.utf8Fonts.font3: -*-terminus-medium-*-*-*-16-*-*-*-*-*-*-*
-*VT100.utf8Fonts.font4: -*-terminus-medium-*-*-*-18-*-*-*-*-*-*-*
-*VT100.utf8Fonts.font5: -*-terminus-medium-*-*-*-20-*-*-*-*-*-*-*
-*VT100.utf8Fonts.font6: -*-terminus-medium-*-*-*-24-*-*-*-*-*-*-*
-*VT100.font1: -*-terminus-medium-*-*-*-12-*-*-*-*-*-*-*
-*VT100.font2: -*-terminus-medium-*-*-*-14-*-*-*-*-*-*-*
-*VT100.font3: -*-terminus-medium-*-*-*-16-*-*-*-*-*-*-*
-*VT100.font4: -*-terminus-medium-*-*-*-18-*-*-*-*-*-*-*
-*VT100.font5: -*-terminus-medium-*-*-*-20-*-*-*-*-*-*-*
-*VT100.font6: -*-terminus-medium-*-*-*-24-*-*-*-*-*-*-*
+! *.font: -*-spleen-medium-*-*-*-12-*-*-*-*-*-*-*
+! UXTerm*font: -*-spleen-medium-*-*-*-12-*-*-*-*-*-*-*
+! *.defaultFont: -*-spleen-medium-*-*-*-12-*-*-*-*-*-*-*
+! *.boldFont: -*-spleen-bold-*-*-*-12-*-*-*-*-*-*-*
+! *VT100.utf8Fonts.font: -*-spleen-medium-*-*-*-12-*-*-*-*-*-*-*
+! *VT100.utf8Fonts.font2: -*-spleen-medium-*-*-*-14-*-*-*-*-*-*-*
+! *VT100.utf8Fonts.font3: -*-spleen-medium-*-*-*-16-*-*-*-*-*-*-*
+! *VT100.utf8Fonts.font4: -*-spleen-medium-*-*-*-18-*-*-*-*-*-*-*
+! *VT100.utf8Fonts.font5: -*-spleen-medium-*-*-*-20-*-*-*-*-*-*-*
+! *VT100.utf8Fonts.font6: -*-spleen-medium-*-*-*-24-*-*-*-*-*-*-*
+! *VT100.font1: -*-spleen-medium-*-*-*-12-*-*-*-*-*-*-*
+! *VT100.font2: -*-spleen-medium-*-*-*-14-*-*-*-*-*-*-*
+! *VT100.font3: -*-spleen-medium-*-*-*-16-*-*-*-*-*-*-*
+! *VT100.font4: -*-spleen-medium-*-*-*-18-*-*-*-*-*-*-*
+! *VT100.font5: -*-spleen-medium-*-*-*-20-*-*-*-*-*-*-*
+! *VT100.font6: -*-spleen-medium-*-*-*-24-*-*-*-*-*-*-*
+
+*.faceName: Spleen
+*.faceSize: 12
 
 ! *.font: -*-terminesspowerline-medium-*-*-*-12-*-*-*-*-*-*-*
 ! UXTerm*font: -*-terminesspowerline-medium-*-*-*-12-*-*-*-*-*-*-*

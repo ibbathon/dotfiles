@@ -132,9 +132,9 @@ keys = [
     Key([], "XF86AudioMute",
         lazy.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle")),
     # Media control
-    Key([], "XF86AudioPlay", lazy.spawn("playerctl play-pause")),
-    Key([], "XF86AudioPrev", lazy.spawn("playerctl previous")),
-    Key([], "XF86AudioNext", lazy.spawn("playerctl next")),
+    # Key([], "XF86AudioPlay", lazy.spawn("playerctl play-pause")),
+    # Key([], "XF86AudioPrev", lazy.spawn("playerctl previous")),
+    # Key([], "XF86AudioNext", lazy.spawn("playerctl next")),
 
     # Brightness control
     Key([], "XF86MonBrightnessDown", lazy.spawn("sudo xbacklight -set 1")),
@@ -331,31 +331,31 @@ follow_mouse_focus = True
 bring_front_click = False
 cursor_warp = False
 floating_layout = layout.Floating(float_rules=[
-    {'wmclass': 'confirm'},
-    {'wmclass': 'dialog'},
-    {'wmclass': 'download'},
-    {'wmclass': 'error'},
-    {'wmclass': 'file_progress'},
-    {'wmclass': 'notification'},
-    {'wmclass': 'splash'},
-    {'wmclass': 'toolbar'},
-    {'wmclass': 'confirmreset'},  # gitk
-    {'wmclass': 'makebranch'},  # gitk
-    {'wmclass': 'maketag'},  # gitk
-    {'wname': 'branchdialog'},  # gitk
-    {'wname': 'pinentry'},  # GPG key password entry
-    {'wmclass': 'ssh-askpass'},  # ssh-askpass
+    Match(wm_class='confirm'),
+    Match(wm_class='dialog'),
+    Match(wm_class='download'),
+    Match(wm_class='error'),
+    Match(wm_class='file_progress'),
+    Match(wm_class='notification'),
+    Match(wm_class='splash'),
+    Match(wm_class='toolbar'),
+    Match(wm_class='confirmreset'),  # gitk
+    Match(wm_class='makebranch'),  # gitk
+    Match(wm_class='maketag'),  # gitk
+    Match(title='branchdialog'),  # gitk
+    Match(title='pinentry'),  # GPG key password entry
+    Match(wm_class='ssh-askpass'),  # ssh-askpass
 
     # My games/apps
-    {'wmclass': 'fungal-pirates.py'},
-    {'wname': 'pygame window'},
+    Match(wm_class='fungal-pirates.py'),
+    Match(title='pygame window'),
     # For some reason, Kivy apps start without a name.
     # For now, use the class, which probably isn't unique.
-    {'wmclass': 'python'},
+    Match(wm_class='python'),
 
-    {'wmclass': 'openmw-launcher'},  # Morrowind
-    {'wmclass': 'pavucontrol'},  # Audio controls
-    {'wmclass': 'steam'},  # All Steam windows
+    Match(wm_class='openmw-launcher'),  # Morrowind
+    Match(wm_class='pavucontrol'),  # Audio controls
+    Match(wm_class='steam'),  # All Steam windows
     # Zoom "you're using audio!" window
     # This isn't perfect, as it still floats the main zoom window, but at
     # least the meeting window isn't floated
