@@ -11,6 +11,7 @@
 " close vim, go to .vim/bundle/coc.nvim and run npm i
 " reopen vim
 " :CocInstall coc-lists
+" :CocInstall coc-jedi
 
 " Determine OS first
 if has('win32') || has('win64')
@@ -61,7 +62,6 @@ Plugin 'omnisharp/omnisharp-vim' " C-Sharp syntax/completion/linting
 Plugin 'adamclerk/vim-razor' " *.cshtml files
 Plugin 'othree/xml.vim' " Better XML support (such as auto-folding)
 Plugin 'JamshedVesuna/vim-markdown-preview' " Preview MD with Ctrl-m
-Plugin 'davidhalter/jedi-vim' " Python auto-completion through Jedi
 Plugin 'pappasam/coc-jedi' " Python LSP IDE support
 Plugin 'hashivim/vim-terraform' " Terraform support
 " Appearance
@@ -227,6 +227,12 @@ let g:ale_lint_on_text_changed = 'always' " check during both normal and insert,
 " CursorHold
 let g:ale_echo_msg_format = '[%linter%][%severity%] %s'
 let g:ale_loclist_msg_format = '[%linter%][%severity%] %s'
+" Have black/isort/flake8/mypy run automatically on my projects, too
+au BufNewFile,BufRead /home/ibb/gitwork/**/*.py
+  \   let b:ale_linters = ["flake8", "mypy"]
+  \ | let b:ale_fixers = ["black", "isort"]
+  \ | let b:ale_fix_on_save = 1
+  \ | let b:ale_python_mypy_options = '--follow-imports=skip'
 
 " OmniSharp setup
 let g:OmniSharp_diagnostic_showid = 1 " show offending rule ID in linter messages
