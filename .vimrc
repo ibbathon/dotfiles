@@ -231,6 +231,7 @@ let g:ale_loclist_msg_format = '[%linter%][%severity%] %s'
 au BufNewFile,BufRead /home/ibb/gitwork/**/*.py
   \   let b:ale_linters = ["flake8", "mypy"]
   \ | let b:ale_fixers = ["black", "isort"]
+  \ | let b:ale_python_black_options = '--line-length=80'
   \ | let b:ale_fix_on_save = 1
   \ | let b:ale_python_mypy_options = '--follow-imports=skip'
 
@@ -387,6 +388,7 @@ if os == "mac"
     \   let b:ale_linters = ["flake8", "mypy"]
     \ | let b:ale_fixers = ["black", "isort"]
     \ | let b:ale_fix_on_save = 1
+    \ | unlet b:ale_python_black_options
     \ | let b:ale_python_mypy_options = '--follow-imports=skip'
 
   au BufNewFile,BufRead /Users/ibb/gitwork/infra/**/*.tf
