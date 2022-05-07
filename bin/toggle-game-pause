@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# Get pid via cursor. If app is running, STOP it. If STOPped, CONT instead.
+# Acquired from:
+# https://www.reddit.com/r/linux_gaming/comments/j9b4yo/nyrna_13_released_simple_program_to_pause_games/g8jd0xi/?utm_source=reddit&utm_medium=web2x&context=3
+
+pid="$(xdotool selectwindow getwindowpid)"
+state="$(ps -q $pid -o state --no-headers)"
+signal="-STOP"
+
+# STOP = T
+if [ "$state" = "T" ]; then
+  signal="-CONT"
+fi
+
+kill $signal $pid
