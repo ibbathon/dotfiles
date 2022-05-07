@@ -24,13 +24,15 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import re
-from libqtile.config import Key, Screen, Group, Drag, Match
-from libqtile.command import lazy
-from libqtile import layout, bar, widget, hook
-import platform
 import datetime  # noqa: F401
+import platform
+import re
 import subprocess
+
+from libqtile import bar, hook, layout, widget
+from libqtile.command import lazy
+from libqtile.config import Drag, Group, Key, Match, Screen
+from libqtile.log_utils import logger
 
 try:
     from typing import List  # noqa: F401
@@ -40,19 +42,19 @@ except ImportError:
 # Use HOST to determine computer-specific options, such as battery/wlan widgets
 use_battery_widget = False
 use_wlan_widget = False
-wlan_int = 'wlp2s0'
+wlan_int = "wlp2s0"
 is_creative_machine = False
 if platform.node() in ["WanderingMonk", "Tripitaka"]:
     is_creative_machine = True
 if platform.node() in ["Tripitaka"]:
-    wlan_int = 'wlan0'
+    wlan_int = "wlan0"
     use_wlan_widget = True
     use_battery_widget = True
 if platform.node() in ["Azeban"]:
-    wlan_int = 'wlan0'
+    wlan_int = "wlan0"
     use_wlan_widget = True
 if platform.node() in ["BelowTheArch"]:
-    wlan_int = 'wlan0'
+    wlan_int = "wlan0"
     use_wlan_widget = True
 if platform.node() == "some_other_laptop":
     wlan_int = "wlo1"
@@ -91,13 +93,10 @@ keys = [
     # Move windows up or down in current stack
     Key([mod, "control"], "k", lazy.layout.shuffle_down()),
     Key([mod, "control"], "j", lazy.layout.shuffle_up()),
-
     # Switch window focus to other pane(s) of stack
     Key([mod], "Tab", lazy.layout.next()),
-
     # Swap panes of split stack
     Key([mod, "shift"], "Tab", lazy.layout.rotate()),
-
     # Toggle between split and unsplit sides of stack.
     # Split = all windows displayed
     # Unsplit = 1 window displayed, like Max layout, but still with
@@ -107,39 +106,38 @@ keys = [
     Key([mod], "x", lazy.spawn("firefox")),
     # Key([mod], "l", lazy.spawn("light-locker-command -l")),
     Key([], "Print", lazy.spawn("flameshot gui")),
-
     # Change/modify layouts
     Key([mod], "grave", lazy.next_layout()),
     Key([mod, "control"], "Left", lazy.layout.increase_ratio()),
     Key([mod, "control"], "Right", lazy.layout.decrease_ratio()),
-
     # Modify current window
     Key([mod], "q", lazy.window.kill()),
     Key([mod, "control"], "f", lazy.window.toggle_fullscreen()),
     Key([mod, "control"], "Tab", lazy.window.toggle_floating()),
     Key([mod, "control"], "g", lazy.window.toggle_maximize()),
-
     # Qtile system commands
     Key([mod, "control"], "r", lazy.restart()),
     Key([mod, "control"], "q", lazy.shutdown()),
     Key([mod], "space", lazy.spawncmd()),
-
     # Audio control
-    Key([], "XF86AudioRaiseVolume",
-        lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ +5%")),
-    Key([], "XF86AudioLowerVolume",
-        lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ -5%")),
-    Key([], "XF86AudioMute",
-        lazy.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle")),
+    Key(
+        [],
+        "XF86AudioRaiseVolume",
+        lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ +5%"),
+    ),
+    Key(
+        [],
+        "XF86AudioLowerVolume",
+        lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ -5%"),
+    ),
+    Key([], "XF86AudioMute", lazy.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle")),
     # Media control
     # Key([], "XF86AudioPlay", lazy.spawn("playerctl play-pause")),
     # Key([], "XF86AudioPrev", lazy.spawn("playerctl previous")),
     # Key([], "XF86AudioNext", lazy.spawn("playerctl next")),
-
     # Brightness control
     Key([], "XF86MonBrightnessDown", lazy.spawn("sudo xbacklight -set 1")),
     Key([], "XF86MonBrightnessUp", lazy.spawn("sudo xbacklight -set 100")),
-
     # Quick-pause for games
     Key([mod, "control"], "m", lazy.spawn("/home/ibb/bin/toggle-game-pause")),
 ]
@@ -155,14 +153,15 @@ groups = [
 ]
 
 for i in groups:
-    keys.extend([
-        # mod1 + letter of group = switch to group
-        Key([mod], i.name, lazy.group[i.name].toscreen()),
-
-        # mod1 + shift + letter of group =
-        #  switch to & move focused window to group
-        Key([mod, "shift"], i.name, lazy.window.togroup(i.name)),
-    ])
+    keys.extend(
+        [
+            # mod1 + letter of group = switch to group
+            Key([mod], i.name, lazy.group[i.name].toscreen()),
+            # mod1 + shift + letter of group =
+            #  switch to & move focused window to group
+            Key([mod, "shift"], i.name, lazy.window.togroup(i.name)),
+        ]
+    )
 
 layouts = [
     layout.Max(border_width=0),
@@ -171,7 +170,7 @@ layouts = [
 ]
 
 widget_defaults = dict(
-    font='sans',
+    font="sans",
     fontsize=12,
     padding=3,
 )
@@ -185,71 +184,89 @@ class CustomVolume(widget.PulseVolume):
         text = ""
 
         if self.volume <= 0:
-            text = u'\U0001f507'
+            text = "\U0001f507"
         elif self.volume <= 30:
-            text = u'\U0001f508'
+            text = "\U0001f508"
         elif self.volume < 80:
-            text = u'\U0001f509'
+            text = "\U0001f509"
         elif self.volume >= 80:
-            text = u'\U0001f50a'
+            text = "\U0001f50a"
         if self.volume == -1:
-            text += ' M'
+            text += " M"
         else:
-            text += ' {}%'.format(self.volume)
+            text += " {}%".format(self.volume)
 
         self.text = text
 
 
 widget_settings = dict(
     groupbox=dict(klass=widget.GroupBox),
-    prompt=dict(
-        klass=widget.Prompt,
-        settings=dict(background=colors["bar-important"])),
+    prompt=dict(klass=widget.Prompt, settings=dict(background=colors["bar-important"])),
     windowname=dict(
-        klass=widget.WindowName,
-        settings=dict(background=colors["bar-center"])),
+        klass=widget.TaskList,
+        settings=dict(
+            background=colors["bar-center"],
+            mouse_callbacks={"Button2": lazy.window.kill()},
+        ),
+    ),
     countdown=dict(
         klass=widget.Countdown,
         settings=dict(
-            background=colors["bar-center"], date=countdown_date,
-            update_interval=60, format="{D}d {H}h {M}m " + countdown_text)),
+            background=colors["bar-center"],
+            date=countdown_date,
+            update_interval=60,
+            format="{D}d {H}h {M}m " + countdown_text,
+        ),
+    ),
     updates=dict(
         klass=widget.CheckUpdates,
         settings=dict(
             background=colors["bar-important"],
-            colour_have_updates=colors["bar-updates"])),
+            colour_have_updates=colors["bar-updates"],
+        ),
+    ),
     systray=dict(klass=widget.Systray),
-    clock=dict(
-        klass=widget.Clock,
-        settings=dict(format='%Y-%m-%d %a %H:%M')),
+    clock=dict(klass=widget.Clock, settings=dict(format="%Y-%m-%d %a %H:%M")),
     volume=dict(
         klass=CustomVolume,
-        settings=dict(emoji=True)),
+        settings=dict(
+            emoji=True,
+            mouse_callbacks={"Button1": lazy.spawn("pavucontrol")},
+        ),
+    ),
     battery=dict(
         klass=widget.Battery,
         settings=dict(
-            charge_char="^", discharge_char="v", hide_threshold=0.999,
-            format=" {percent:2.0%} {char}")),
+            charge_char="^",
+            discharge_char="v",
+            hide_threshold=0.999,
+            format=" {percent:2.0%} {char}",
+        ),
+    ),
     wifi=dict(
         klass=widget.Wlan,
-        settings=dict(
-            interface=wlan_int, format="Wifi: {essid} {quality}/70")),
+        settings=dict(interface=wlan_int, format="Wifi: {essid} {quality}/70"),
+    ),
     layout=dict(klass=widget.CurrentLayout),
 )
 
-main_screen_widgets = [[
-    "layout",
-    "groupbox",
-    "prompt",
-], [
-    "windowname",
-    # "countdown",
-], [
-    "updates",
-    "systray",
-    "clock",
-    "volume",
-]]
+main_screen_widgets = [
+    [
+        "layout",
+        "groupbox",
+        "prompt",
+    ],
+    [
+        "windowname",
+        # "countdown",
+    ],
+    [
+        "updates",
+        "systray",
+        "clock",
+        "volume",
+    ],
+]
 second_screen_widgets = [list(main_screen_widgets[i]) for i in range(3)]
 second_screen_widgets[2].remove("systray")
 if use_wlan_widget:
@@ -262,13 +279,15 @@ third_screen_widgets = [list(second_screen_widgets[i]) for i in range(3)]
 
 
 def build_arrow(widgets, char, foreground, background):
-    widgets.append(widget.TextBox(
-        background=background,
-        foreground=foreground,
-        fontsize=18,
-        text=char,
-        padding=0,
-    ))
+    widgets.append(
+        widget.TextBox(
+            background=background,
+            foreground=foreground,
+            fontsize=18,
+            text=char,
+            padding=0,
+        )
+    )
 
 
 def build_screen_widgets(widget_keys):
@@ -286,8 +305,7 @@ def build_screen_widgets(widget_keys):
     widgets = []
     for i, key in enumerate(all_widget_keys):
         ws = widget_settings[key]
-        settings = dict(
-            background=colors[f"bar-{'alt2' if i % 2 else 'alt1'}"])
+        settings = dict(background=colors[f"bar-{'alt2' if i % 2 else 'alt1'}"])
         if "settings" in ws:
             settings.update(ws["settings"])
         bg = settings["background"]
@@ -296,7 +314,7 @@ def build_screen_widgets(widget_keys):
             fg = raw_colors["black"]
             if i > 0:
                 fg = widget_colors[i - 1]
-            build_arrow(widgets, u"\uE0B2", bg, fg)
+            build_arrow(widgets, "\uE0B2", bg, fg)
 
         widgets.append(ws["klass"](**settings))
 
@@ -304,7 +322,7 @@ def build_screen_widgets(widget_keys):
             fg = raw_colors["black"]
             if i < len(widget_colors) - 1:
                 fg = widget_colors[i + 1]
-            build_arrow(widgets, u"\uE0B0", bg, fg)
+            build_arrow(widgets, "\uE0B0", bg, fg)
 
     return widgets
 
@@ -317,10 +335,15 @@ screens = [
 
 # Drag floating layouts.
 mouse = [
-    Drag([mod], "Button1", lazy.window.set_position_floating(),
-         start=lazy.window.get_position()),
-    Drag([mod], "Button3", lazy.window.set_size_floating(),
-         start=lazy.window.get_size()),
+    Drag(
+        [mod],
+        "Button1",
+        lazy.window.set_position_floating(),
+        start=lazy.window.get_position(),
+    ),
+    Drag(
+        [mod], "Button3", lazy.window.set_size_floating(), start=lazy.window.get_size()
+    ),
     # Click([mod], "Button2", lazy.window.bring_to_front())
 ]
 
@@ -330,45 +353,47 @@ main = None
 follow_mouse_focus = True
 bring_front_click = False
 cursor_warp = False
-floating_layout = layout.Floating(float_rules=[
-    Match(wm_class='confirm'),
-    Match(wm_class='dialog'),
-    Match(wm_class='download'),
-    Match(wm_class='error'),
-    Match(wm_class='file_progress'),
-    Match(wm_class='notification'),
-    Match(wm_class='splash'),
-    Match(wm_class='toolbar'),
-    Match(wm_class='confirmreset'),  # gitk
-    Match(wm_class='makebranch'),  # gitk
-    Match(wm_class='maketag'),  # gitk
-    Match(title='branchdialog'),  # gitk
-    Match(title='pinentry'),  # GPG key password entry
-    Match(wm_class='ssh-askpass'),  # ssh-askpass
-
-    # My games/apps
-    Match(wm_class='fungal-pirates.py'),
-    Match(title='pygame window'),
-    # For some reason, Kivy apps start without a name.
-    # For now, use the class, which probably isn't unique.
-    Match(wm_class='python'),
-
-    Match(wm_class='openmw-launcher'),  # Morrowind
-    Match(wm_class='pavucontrol'),  # Audio controls
-    Match(wm_class='steam'),  # All Steam windows
-    # Zoom "you're using audio!" window
-    # This isn't perfect, as it still floats the main zoom window, but at
-    # least the meeting window isn't floated
-    Match(wm_class='zoom', title=re.compile(r'^zoom$')),
-])
+floating_layout = layout.Floating(
+    float_rules=[
+        Match(wm_class="confirm"),
+        Match(wm_class="dialog"),
+        Match(wm_class="download"),
+        Match(wm_class="error"),
+        Match(wm_class="file_progress"),
+        Match(wm_class="notification"),
+        Match(wm_class="splash"),
+        Match(wm_class="toolbar"),
+        Match(wm_class="confirmreset"),  # gitk
+        Match(wm_class="makebranch"),  # gitk
+        Match(wm_class="maketag"),  # gitk
+        Match(title="branchdialog"),  # gitk
+        Match(title="pinentry"),  # GPG key password entry
+        Match(wm_class="ssh-askpass"),  # ssh-askpass
+        # My games/apps
+        Match(wm_class="fungal-pirates.py"),
+        Match(title="pygame window"),
+        # For some reason, Kivy apps start without a name.
+        # For now, use the class, which probably isn't unique.
+        Match(wm_class="python"),
+        Match(wm_class="openmw-launcher"),  # Morrowind
+        Match(wm_class="pavucontrol"),  # Audio controls
+        Match(wm_class="steam"),  # All Steam windows
+        # Zoom "you're using audio!" window
+        # This isn't perfect, as it still floats the main zoom window, but at
+        # least the meeting window isn't floated
+        Match(wm_class="zoom", title=re.compile(r"^zoom$")),
+    ]
+)
 auto_fullscreen = True
 focus_on_window_activation = "smart"
 
 
 if platform.node() == "BelowTheArch":
+
     @hook.subscribe.startup_once
     def autostart():
-        subprocess.Popen('kodi')
+        subprocess.Popen("kodi")
+
 
 # XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this
 # string besides java UI toolkits; you can see several discussions on the
