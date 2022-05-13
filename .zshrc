@@ -142,27 +142,15 @@ if [[ -z $DOCKER_SHORTCUTS_DEFINED ]]; then
     echo $(docker-compose ps -q "$1")
   }
 
-  if [[ $COMPUTER == "LegalShield" ]]; then
-    dce(){
-      CMD="${@:2}"
-      docker-compose exec $1 bash -c "stty cols $COLUMNS rows $LINES && bash -c \"$CMD\"";
-    }
+  dce() {
+    CMD="${@:2}"
+    docker-compose exec $1 sh -c "stty cols $COLUMNS rows $LINES && sh -c \"$CMD\"";
+  }
 
-    # Opens a bash console on a container: `dcb adonis`
-    dcb() {
-      dce "$1" /bin/bash
-    }
-  else
-    dce() {
-      CMD="${@:2}"
-      docker-compose exec $1 sh -c "stty cols $COLUMNS rows $LINES && sh -c \"$CMD\"";
-    }
-
-    # Opens a sh console on a container: `dcb backend`
-    dcb() {
-      dce "$1" /bin/sh
-    }
-  fi
+  # Opens a sh console on a container: `dcb backend`
+  dcb() {
+    dce "$1" /bin/sh
+  }
 
   # Watch the logs for all the running containers: `dcl`
   # Watch the logs for a single container: `dcl adonis`
@@ -178,42 +166,6 @@ if [[ -z $DOCKER_SHORTCUTS_DEFINED ]]; then
   dca() {
     docker attach $(dcgetcid "$1")
   }
-fi
-
-
-### Security
-export GIT_USERNAME="ibbathon"
-export GIT_PERSONAL_ACCESS_TOKEN=`cat ${HOME}/.ssh/github-pat`
-
-
-### LegalShield-specific
-if [[ $COMPUTER == "LegalShield" ]]; then
-  alias be='bundle exec'
-  alias rails='bundle exec rails'
-  alias rspec='bundle exec rspec'
-  alias rubocop='bundle exec rubocop'
-  alias rake='bundle exec rake'
-
-  # Pathing for various languages/tools
-  export PATH="$HOME/.bin:$PATH"
-  export PATH="$PATH:/usr/local/opt/postgresql@10/bin"
-  eval "$(rbenv init - --no-rehash)"
-  export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
-  
-  
-  ## My shortcuts for working within PPLSI
-  
-  # Shortcuts for accessing databases
-  psql_dev() {
-    dce postgres psql -U admin adonis_development
-  }
-  psql_test() {
-    dce postgres psql -U admin adonis_test
-  }
-  
-  # Fix delete key on Windows keyboard for iTerm2
-  bindkey    "^[[3~"          delete-char
-  bindkey    "^[3;5~"         delete-char
 fi
 
 
@@ -264,6 +216,9 @@ if [[ $COMPUTER == "VaultHealth" ]]; then
   alias dc="docker-compose"
   alias dcd="docker-compose -f docker-compose-dev.yml"
   alias dcd-build="dcd build api admin-api lambda"
+
+  # pull in GH PAT
+  export GITHUB_PACKAGES_TOKEN=`cat $HOME/.ssh/gh_pat`
 
 
   #!!! These two are automatically added by terraform and so shouldn't
