@@ -389,10 +389,13 @@ focus_on_window_activation = "smart"
 
 
 if platform.node() == "BelowTheArch":
-
     @hook.subscribe.startup_once
     def autostart():
         subprocess.Popen("kodi")
+elif platform.node() == "Osiris":
+    @hook.subscribe.startup_once
+    def autostart():
+        subprocess.Popen(["firefox", "localhost:8096"])
 
 
 # XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this
