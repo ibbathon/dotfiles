@@ -7,6 +7,10 @@ else
   COMPUTER="$HOST"
 fi
 
+if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+  IS_SSH="true"
+fi
+
 # Case-insensitive tab-completion
 autoload -Uz compinit && compinit
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
@@ -52,7 +56,10 @@ alias proton_shutdown=ShutDownProtonGame
 
 
 ### Prompt setup
-PROMPT="%F{red}%? %F{magenta}%~ %F{green}%#%f "
+if [ -n "$IS_SSH" ]; then
+  EXTRA_PROMPT="%F{blue}%m "
+fi
+PROMPT="${EXTRA_PROMPT}%F{red}%? %F{magenta}%~ %F{green}%#%f "
 # Git info
 autoload -Uz vcs_info
 precmd_vcs_info() { vcs_info }

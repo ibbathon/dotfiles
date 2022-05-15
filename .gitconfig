@@ -20,4 +20,4 @@
 [pull]
 	rebase = false
 [core]
-	excludesfile = /Users/ibb/.gitignore.global
+	excludesfile = ~/.gitignore.global

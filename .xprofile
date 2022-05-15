@@ -59,4 +59,4 @@ QT_AUTO_SCREEN_SCALE_FACTOR=0
 setxkbmap -option compose:caps
 localectl set-x11-keymap compose:caps
 
-[ -x /home/ibb/helpers/xprofile.local ] && /home/ibb/helpers/xprofile.local
+[ -x /home/ibb/xprofile.local ] && /home/ibb/xprofile.local
