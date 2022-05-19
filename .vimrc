@@ -156,6 +156,7 @@ set breakindentopt=min:40,shift:2,sbr
 if !has("nvim")
   set ttymouse=sgr
 endif
+set visualbell  " disable audio bells
 
 " Tab width and tabs-to-spaces
 set expandtab
