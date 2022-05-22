@@ -44,9 +44,9 @@ use_battery_widget = False
 use_wlan_widget = False
 wlan_int = "wlp2s0"
 is_creative_machine = False
-if platform.node() in ["WanderingMonk", "Tripitaka"]:
+if platform.node() in ["WanderingMonk", "AmaNoUzume"]:
     is_creative_machine = True
-if platform.node() in ["Tripitaka"]:
+if platform.node() in ["AmaNoUzume"]:
     wlan_int = "wlan0"
     use_wlan_widget = True
     use_battery_widget = True
