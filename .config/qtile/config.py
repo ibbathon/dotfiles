@@ -250,7 +250,7 @@ widget_settings = dict(
     layout=dict(klass=widget.CurrentLayout),
 )
 
-main_screen_widgets = [
+screen_1_widgets = [
     [
         "layout",
         "groupbox",
@@ -267,15 +267,14 @@ main_screen_widgets = [
         "volume",
     ],
 ]
-second_screen_widgets = [list(main_screen_widgets[i]) for i in range(3)]
-second_screen_widgets[2].remove("systray")
 if use_wlan_widget:
-    main_screen_widgets[2].append("wifi")
-    second_screen_widgets[2].append("wifi")
+    screen_1_widgets[2].append("wifi")
 if use_battery_widget:
-    main_screen_widgets[2].append("battery")
-    second_screen_widgets[2].append("battery")
-third_screen_widgets = [list(second_screen_widgets[i]) for i in range(3)]
+    screen_1_widgets[2].append("battery")
+screen_2_widgets = [list(screen_1_widgets[i]) for i in range(3)]
+screen_2_widgets[2].remove("systray")
+screen_3_widgets = [list(screen_2_widgets[i]) for i in range(3)]
+screen_4_widgets = [list(screen_3_widgets[i]) for i in range(3)]
 
 
 def build_arrow(widgets, char, foreground, background):
@@ -328,9 +327,10 @@ def build_screen_widgets(widget_keys):
 
 
 screens = [
-    Screen(top=bar.Bar(build_screen_widgets(main_screen_widgets), 24)),
-    Screen(top=bar.Bar(build_screen_widgets(second_screen_widgets), 24)),
-    Screen(top=bar.Bar(build_screen_widgets(third_screen_widgets), 24)),
+    Screen(top=bar.Bar(build_screen_widgets(screen_1_widgets), 24)),
+    Screen(top=bar.Bar(build_screen_widgets(screen_2_widgets), 24)),
+    Screen(top=bar.Bar(build_screen_widgets(screen_3_widgets), 24)),
+    Screen(top=bar.Bar(build_screen_widgets(screen_4_widgets), 24)),
 ]
 
 # Drag floating layouts.
