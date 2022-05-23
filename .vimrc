@@ -229,7 +229,7 @@ let g:ale_lint_on_text_changed = 'always' " check during both normal and insert,
 let g:ale_echo_msg_format = '[%linter%][%severity%] %s'
 let g:ale_loclist_msg_format = '[%linter%][%severity%] %s'
 " Have black/isort/flake8/mypy run automatically on my projects, too
-au BufNewFile,BufRead /home/ibb/gitwork/**/*.py
+au BufNewFile,BufRead $HOME/gitwork/**/*.py
   \   let b:ale_linters = ["flake8", "mypy"]
   \ | let b:ale_fixers = ["black", "isort"]
   \ | let b:ale_python_black_options = '--line-length=79'
@@ -385,14 +385,14 @@ if os == "mac"
   " Change linters based on project
   " Note: mypy is told to skip import-checking to reduce feedback lag
   "       The full version will run on commit, so I can catch it there.
-  au BufNewFile,BufRead /Users/ibb/gitwork/monorepo/**/*.py
+  au BufNewFile,BufRead $HOME/gitwork/monorepo/**/*.py
     \   let b:ale_linters = ["flake8", "mypy"]
     \ | let b:ale_fixers = ["black", "isort"]
     \ | let b:ale_fix_on_save = 1
     \ | unlet b:ale_python_black_options
     \ | let b:ale_python_mypy_options = '--follow-imports=skip'
 
-  au BufNewFile,BufRead /Users/ibb/gitwork/infra/**/*.tf
+  au BufNewFile,BufRead $HOME/gitwork/infra/**/*.tf
     \   let b:ale_fixers = ["terraform"]
     \ | let b:ale_fix_on_save = 1
 endif
