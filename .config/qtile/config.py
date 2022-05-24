@@ -32,7 +32,7 @@ import subprocess
 from libqtile import bar, hook, layout, widget
 from libqtile.command import lazy
 from libqtile.config import Drag, Group, Key, Match, Screen
-from libqtile.log_utils import logger
+from libqtile.log_utils import logger  # noqa: F401
 
 try:
     from typing import List  # noqa: F401
@@ -130,7 +130,11 @@ keys = [
         "XF86AudioLowerVolume",
         lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ -5%"),
     ),
-    Key([], "XF86AudioMute", lazy.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle")),
+    Key(
+        [],
+        "XF86AudioMute",
+        lazy.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle"),
+    ),
     # Media control
     # Key([], "XF86AudioPlay", lazy.spawn("playerctl play-pause")),
     # Key([], "XF86AudioPrev", lazy.spawn("playerctl previous")),
@@ -165,7 +169,7 @@ for i in groups:
 
 layouts = [
     layout.Max(border_width=0),
-    layout.Tile(border_width=0),
+    layout.Bsp(border_width=0),
     layout.Floating(border_width=2),
 ]
 
@@ -201,7 +205,9 @@ class CustomVolume(widget.PulseVolume):
 
 widget_settings = dict(
     groupbox=dict(klass=widget.GroupBox),
-    prompt=dict(klass=widget.Prompt, settings=dict(background=colors["bar-important"])),
+    prompt=dict(
+        klass=widget.Prompt, settings=dict(background=colors["bar-important"])
+    ),
     windowname=dict(
         klass=widget.TaskList,
         settings=dict(
@@ -304,7 +310,9 @@ def build_screen_widgets(widget_keys):
     widgets = []
     for i, key in enumerate(all_widget_keys):
         ws = widget_settings[key]
-        settings = dict(background=colors[f"bar-{'alt2' if i % 2 else 'alt1'}"])
+        settings = dict(
+            background=colors[f"bar-{'alt2' if i % 2 else 'alt1'}"]
+        )
         if "settings" in ws:
             settings.update(ws["settings"])
         bg = settings["background"]
@@ -342,7 +350,10 @@ mouse = [
         start=lazy.window.get_position(),
     ),
     Drag(
-        [mod], "Button3", lazy.window.set_size_floating(), start=lazy.window.get_size()
+        [mod],
+        "Button3",
+        lazy.window.set_size_floating(),
+        start=lazy.window.get_size(),
     ),
     # Click([mod], "Button2", lazy.window.bring_to_front())
 ]
@@ -389,10 +400,13 @@ focus_on_window_activation = "smart"
 
 
 if platform.node() == "BelowTheArch":
+
     @hook.subscribe.startup_once
     def autostart():
         subprocess.Popen("kodi")
+
 elif platform.node() == "Osiris":
+
     @hook.subscribe.startup_once
     def autostart():
         subprocess.Popen(["firefox", "localhost:8096"])
