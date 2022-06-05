@@ -1,0 +1,90 @@
+# use Alt+arrow keys to change TTY
+
+# Connect to wireless, if needed
+iwctl
+timedatectl set-ntp true
+
+fdisk /dev/<dev>
+# create new GPT disklabel, create boot, swap, root, type them correctly
+g
+n +500M
+n +32G
+n
+t 1 1
+t 2 19
+w
+
+# format
+mkfs.fat -F 32 -n BOOT /dev/<dev>1
+mkswap -L SWAP /dev/<dev>2
+mkfs.ext4 -L ROOT /dev/<dev>3
+
+# mount
+mount /dev/nvme0n1p3 /mnt
+mount --mkdir /dev/nvme0n1p1 /mnt/boot
+swapon /dev/nvme0n1p2
+
+# configure pacman
+# edit /etc/pacman.conf; enable color and simultaneous downloads
+# edit /etc/xdg/reflector/reflector.conf; add --verbose, --fastest 10, --threads 5
+systemctl start reflector & journalctl -xefu reflector
+
+# packages!
+pacstrap /mnt base linux linux-firmware intel-ucode git openssh python zsh neovim sudo iwd dhcpcd grub efibootmgr
+
+genfstab -L /mnt >> /mnt/etc/fstab
+arch-chroot /mnt
+# re-edit pacman.conf
+
+ln -s /usr/bin/nvim /usr/bin/vim
+ln -s /usr/bin/vim /usr/bin/vi
+ln -sf /usr/share/zoneinfo/America/Chicago /etc/localtime
+hwclock --systohc
+vim /etc/locale.gen  # uncomment en_US.UTF-8 UTF-8
+locale-gen
+vim /etc/locale.conf  # LANG=en_US.UTF-8
+vim /etc/hostname  # here's where the fun is!
+
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+grub-mkconfig -o /boot/grub/grub.cfg
+
+passwd
+
+# Ctrl-D out of chroot
+umount -R /mnt
+
+
+
+# after reboot
+
+# run this pacman on another screen (remove unneeded packages)
+pacman -S npm ripgrep firefox qtile xorg nvidia pulseaudio pavucontrol bluez pulseaudio-bluetooth lightdm light-locker lightdm-gtk-greeter notification-daemon udiskie blueman solaar xorg-xset flameshot xorg-xinput gnome-keyring qbittorrent xterm gcc feh 
+
+# network
+systemctl enable --now iwd dhcpcd sshd
+iwctl
+
+# set up user
+useradd -m -G wheel -s /bin/zsh ibb
+passwd ibb
+usermod -s /bin/zsh root
+EDITOR=vim visudo
+
+# dotfiles
+mkdir gitwork
+cd gitwork
+git clone https://github.com/ibbathon/dotfiles
+cd
+for f in bin .gitconfig .gitconfig.local helpers .inputrc .pam_environment .tmux.conf.local .vimrc .xinitrc .xprofile .Xresources .zprofile .zshrc; do ln -s ~/gitwork/dotfiles/$f; done
+
+mkdir -p .config/qtile .config/nvim .ipython/profile_default .vim/undo .vim/swap .vim/backup .vim/nundo .vim/nswap .vim/nbackup .vim/bundle
+ln -s ~/gitwork/dotfiles/.config/qtile/config.py .config/qtile
+ln -s ~/gitwork/dotfiles/.config/nvim/init.vim .config/nvim
+ln -s ~/gitwork/dotfiles/.ipython/profile_default/ipython_config.py .ipython/profile_default
+ln -s ~/gitwork/dotfiles/.vim/after .vim
+
+# vim
+head -n 20 .vimrc
+# and follow instructions
+
+
