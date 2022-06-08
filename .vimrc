@@ -385,7 +385,7 @@ if os == "mac"
   " Change linters based on project
   " Note: mypy is told to skip import-checking to reduce feedback lag
   "       The full version will run on commit, so I can catch it there.
-  au BufNewFile,BufRead $HOME/gitwork/monorepo/**/*.py
+  au BufNewFile,BufRead $HOME/gitwork/monorepo/**/*.py $HOME/gitwork/ls-platform/**/*.py
     \   let b:ale_linters = ["flake8", "mypy"]
     \ | let b:ale_fixers = ["black", "isort"]
     \ | let b:ale_fix_on_save = 1
