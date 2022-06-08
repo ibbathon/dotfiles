@@ -64,6 +64,7 @@ Plugin 'othree/xml.vim' " Better XML support (such as auto-folding)
 Plugin 'JamshedVesuna/vim-markdown-preview' " Preview MD with Ctrl-m
 Plugin 'pappasam/coc-jedi' " Python LSP IDE support
 Plugin 'hashivim/vim-terraform' " Terraform support
+Plugin 'cespare/vim-toml' " TOML support
 " Appearance
 Plugin 'vim-airline/vim-airline' " Status/Tabline
 Plugin 'morhetz/gruvbox' " Color scheme
@@ -320,7 +321,7 @@ if has("gui_running")
     set guifont=Consolas:h9:cANSI:qDRAFT
   endif
   set lines=78
-  set columns=242
+  set columns=161
   "set guifont=xos4\ Terminus\ 12
   "colorscheme slate
   "set transparency=15
