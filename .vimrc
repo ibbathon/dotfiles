@@ -351,27 +351,26 @@ endif
 "******************************
 if os == "mac"
   function! CreateUsualBuffers()
-    cd ~/gitwork/monorepo/server
     " First tab is notes
     :TabooRename NOTES
     :e ~/quicknotes
     :vs
-    :e ~/standupnotes
-    :vs
     :e ~/questions
-    " Second tab is terminal stuff
-    " removed for now because it's better to just have spontaneous terminals
-    " :tabnew
-    " :TabooRename TERMINAL
-    " :terminal ++curwin tmux
-    " :vs
-    " :terminal ++curwin tmux
-    " :vs
-    " :terminal ++curwin tmux
-    " Finally, a normal tab
+    " Second tab is editing monorepo/server
     :tabnew
+    :tcd ~/gitwork/monorepo/server
     :vs
+    normal! w
+    " Pre-open a file so we can do our file searches
+    :e rxapi/models/account.py
+    " Third tab is editing LS/api
+    :tabnew
+    :tcd ~/gitwork/ls-platform/api
     :vs
+    normal! w
+    :e app.py
+    " Default to editing monorepo
+    normal! gT
   endfunction
   command! Usuals :call CreateUsualBuffers()
 
