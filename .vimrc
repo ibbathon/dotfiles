@@ -233,7 +233,6 @@ let g:ale_loclist_msg_format = '[%linter%][%severity%] %s'
 au BufNewFile,BufRead $HOME/gitwork/**/*.py
   \   let b:ale_linters = ["flake8", "mypy"]
   \ | let b:ale_fixers = ["black", "isort"]
-  \ | let b:ale_python_black_options = '--line-length=79'
   \ | let b:ale_fix_on_save = 1
   \ | let b:ale_python_mypy_options = '--follow-imports=skip'
 
