@@ -32,7 +32,7 @@ Xft.rgba: rgb
 *VT100.font6: -*-spleen-medium-*-*-*-24-*-*-*-*-*-*-*
 
 *.faceName: Spleen
-*.faceSize: 10
+*.faceSize: 12
 
 ! *.font: -*-terminesspowerline-medium-*-*-*-12-*-*-*-*-*-*-*
 ! UXTerm*font: -*-terminesspowerline-medium-*-*-*-12-*-*-*-*-*-*-*
