@@ -12,6 +12,7 @@
 " reopen vim
 " :CocInstall coc-lists
 " :CocInstall coc-jedi
+" :CocInstall coc-tsserver
 
 " Determine OS first
 if has('win32') || has('win64')
@@ -57,7 +58,6 @@ Plugin 'VundleVim/Vundle.vim'
 " Languages
 Plugin 'leafgarland/typescript-vim' " TypeScript syntax
 Plugin 'peitalin/vim-jsx-typescript' " TypeScript-React syntax
-Plugin 'quramy/tsuquyomi' " Typescript completion
 Plugin 'omnisharp/omnisharp-vim' " C-Sharp syntax/completion/linting
 Plugin 'adamclerk/vim-razor' " *.cshtml files
 Plugin 'othree/xml.vim' " Better XML support (such as auto-folding)
