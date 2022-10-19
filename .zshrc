@@ -2,7 +2,7 @@ export EDITOR=nvim
 
 export UNAME=$(uname)
 if [[ $UNAME == "Darwin" ]]; then
-  COMPUTER="VaultHealth"
+  COMPUTER="StupidMac"
 else
   COMPUTER="$HOST"
 fi
@@ -28,7 +28,7 @@ setopt incappendhistory
 
 
 ### Aliases
-if [[ $COMPUTER == "VaultHealth" ]]; then
+if [[ $COMPUTER == "StupidMac" ]]; then
   alias ls='ls -aG'
 else
   alias ls='ls -a --color=auto'
@@ -37,12 +37,6 @@ alias cp='cp -i'
 alias mv='mv -i'
 alias vi=vim
 alias vim=nvim
-
-# Background-setting aliases so I can quickly switch to black for streaming
-if [[ $COMPUTER == "Archiater" ]]; then
-  alias hsetroot_stream='hsetroot -solid black'
-  alias hsetroot_normal='hsetroot -full backgrounds/1352085388.jayaxer_all_business_by_jayaxer.jpg'
-fi
 
 # Alias for shutting down proton games, because it refuses to do so gracefully
 function ShutDownProtonGame() {
@@ -138,41 +132,12 @@ fi
 
 
 ### Docker aliases
-# Justin's docker shortcuts, wrapped to prevent overdefinition
+# wrapped to prevent overdefinition
 if [[ -z $DOCKER_SHORTCUTS_DEFINED ]]; then
   DOCKER_SHORTCUTS_DEFINED="yes"
 
-  alias dc='docker-compose'
-  alias dcd='docker-compose -f docker-compose-dev.yml'
-
-  dcgetcid() {
-    echo $(docker-compose ps -q "$1")
-  }
-
-  dce() {
-    CMD="${@:2}"
-    docker-compose exec $1 sh -c "stty cols $COLUMNS rows $LINES && sh -c \"$CMD\"";
-  }
-
-  # Opens a sh console on a container: `dcb backend`
-  dcb() {
-    dce "$1" /bin/sh
-  }
-
-  # Watch the logs for all the running containers: `dcl`
-  # Watch the logs for a single container: `dcl adonis`
-  # optional tail if you want more than 25 lines: `dcl adonis 100`
-  dcl() {
-    TAIL=${2:-25}
-    docker-compose logs -f --tail="$TAIL" $1
-  }
-
-  # Attach your terminal to a container.
-  # If you have binding.pry in your code and browse the site
-  # then run `dca adonis` in a terminal to be able to type into Pry
-  dca() {
-    docker attach $(dcgetcid "$1")
-  }
+  alias dc='docker compose'
+  alias dcd='docker compose -f docker-compose-dev.yml'
 fi
 
 
@@ -200,42 +165,6 @@ if ls ~/.nvm/nvm.sh &> /dev/null; then
   # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
   # [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
   # Alternate NVM loader that hard-codes to a single version
-  export PATH=~/.nvm/versions/node/v12.22.3/bin:$PATH
+  export PATH=~/.nvm/versions/node/v16.18.0/bin:$PATH
   [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh" --no-use
-fi
-
-
-### VaultHealth-specific code
-if [[ $COMPUTER == "VaultHealth" ]]; then
-  export AWS_PROFILE="vlt"
-  function aws_docker_login {
-    aws-google-auth $@
-    aws ecr get-login-password $@ | \
-      docker login --username AWS --password-stdin \
-      291140025886.dkr.ecr.us-east-2.amazonaws.com
-  }
-  function aws_google_auth_creds {
-    AUTHOUT="$(aws-google-auth $@ --print-creds 1>&1 1>&2)"
-    if [ $? -eq 0 ]; then
-      $(echo "$AUTHOUT"|tail -n 1)
-    fi
-  }
-  alias dc="docker-compose"
-  alias dcd="docker-compose -f docker-compose-dev.yml"
-  alias dcd-build="dcd build api admin-api lambda"
-
-  # pull in GH PAT
-  export GITHUB_PACKAGES_TOKEN=`cat $HOME/.ssh/gh_pat`
-
-
-  #!!! These two are automatically added by terraform and so shouldn't
-  # be in the README.
-  autoload -U +X bashcompinit && bashcompinit
-  complete -o nospace -C /usr/local/bin/terraform terraform
-
-
-  alias ngrok-admin-api="ngrok http 127.0.0.1:5000"
-  alias ngrok-api="ngrok http 127.0.0.1:5001"
-  alias setup-stage-api="export FLASK_APP=application.py FLASK_ENV=development RX_CONFIG=stage.StageConfig RETOOL_AUTH_HEADER=123"
-  alias setup-stage-admin-api="export FLASK_APP=admin-application.py FLASK_ENV=development RX_CONFIG=stage.StageConfig RETOOL_AUTH_HEADER=123"
 fi
