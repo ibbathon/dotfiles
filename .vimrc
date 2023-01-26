@@ -10,9 +10,7 @@
 " :PluginInstall
 " close vim, go to .vim/bundle/coc.nvim and run npm i
 " reopen vim
-" :CocInstall coc-lists
-" :CocInstall coc-jedi
-" :CocInstall coc-tsserver
+" :CocInstall coc-lists coc-jedi coc-tsserver
 
 " Determine OS first
 if has('win32') || has('win64')
@@ -65,6 +63,7 @@ Plugin 'JamshedVesuna/vim-markdown-preview' " Preview MD with Ctrl-m
 Plugin 'pappasam/coc-jedi' " Python LSP IDE support
 Plugin 'hashivim/vim-terraform' " Terraform support
 Plugin 'cespare/vim-toml' " TOML support
+Plugin 'posva/vim-vue' " Vue support
 " Appearance
 Plugin 'vim-airline/vim-airline' " Status/Tabline
 Plugin 'morhetz/gruvbox' " Color scheme
@@ -83,7 +82,6 @@ Plugin 'rlue/vim-fold-rspec' " Folding for *_spec.rb files
 Plugin 'neoclide/coc-lists' " Allow CocList grep and other things
 " Other functionality
 Plugin 'ctrlpvim/ctrlp.vim' " Quick file search
-Plugin 'ajh17/vimcompletesme' " No-prereqs auto-completion
 Plugin 'tyru/open-browser.vim' " Replace netrw's broken gx
 Plugin 'AnsiEsc.vim' " Interpret color codes in log files (call `:AnsiEsc` to use)
 Plugin 'gcmt/taboo.vim' " Rename tabs with TabooRename; reset with TabooReset
@@ -91,6 +89,7 @@ Plugin 'knsh14/vim-github-link' " Allow copying GitHub link directly from Vim
 Plugin 'sotte/presenting.vim' " Vim slideshows!
 " Unsorted/Testing
 " UNUSED/UNWANTED/REPLACED
+"Plugin 'ajh17/vimcompletesme' " No-prereqs auto-completion (replaced by COC)
 "Plugin 'scrooloose/syntastic' " Auto syntax checking
 "Plugin 'davidhalter/jedi-vim' " Advanced Python auto-complete (causes flicker)
 "Plugin 'ervandew/supertab' " No-prereqs auto-completion
@@ -290,6 +289,16 @@ map <Leader>p :CocList -I grep -i<CR>
 " Run tests
 map <Leader>t :TestNearest<CR>
 map<Leader>T :TestFile<CR>
+
+" use <tab> to trigger coc completion
+function! IsPrevCharSpace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+inoremap <silent><expr> <Tab>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ IsPrevCharSpace() ? "\<Tab>" :
+      \ coc#refresh()
 
 
 "************************
