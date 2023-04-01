@@ -241,10 +241,9 @@ au BufNewFile,BufRead $HOME/gitwork/**/*.js*,$HOME/gitwork/**/*.ts*
   \ | let b:ale_fix_on_save = 1
 
 " CoC completion setup
-au BufNewFile,BufRead $HOME/gitwork/**/*.js*,$HOME/gitwork/**/*.ts*
-  \   inoremap <buffer><expr> <Right> coc#pum#visible() ? coc#pum#confirm() : "\<Right>"
-  \ | inoremap <buffer><expr> <Tab> coc#pum#visible() ? coc#pum#next(1) : "\<Tab>"
-  \ | inoremap <buffer><expr> <S-Tab> coc#pum#visible() ? coc#pum#prev(1) : "\<S-Tab>"
+inoremap <buffer><expr> <Right> coc#pum#visible() ? coc#pum#confirm() : "\<Right>"
+inoremap <buffer><expr> <Tab> coc#pum#visible() ? coc#pum#next(1) : "\<Tab>"
+inoremap <buffer><expr> <S-Tab> coc#pum#visible() ? coc#pum#prev(1) : "\<S-Tab>"
 
 " OmniSharp setup
 let g:OmniSharp_diagnostic_showid = 1 " show offending rule ID in linter messages
@@ -306,10 +305,10 @@ function! IsPrevCharSpace() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
-inoremap <silent><expr> <Tab>
-      \ coc#pum#visible() ? coc#pum#next(1) :
-      \ IsPrevCharSpace() ? "\<Tab>" :
-      \ coc#refresh()
+" inoremap <silent><expr> <Tab>
+"      \ coc#pum#visible() ? coc#pum#next(1) :
+"      \ IsPrevCharSpace() ? "\<Tab>" :
+"      \ coc#refresh()
 
 
 "************************
