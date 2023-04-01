@@ -84,6 +84,18 @@ export PATH=$PATH:~/.local/bin
 export PYTHONSTARTUP=${HOME}/helpers/ipython_startup.py
 
 
+### Mac-specific setup
+if [[ $COMPUTER == "StupidMac" ]]; then
+  # enable brew
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+
+  ### NEA-specific setup
+  DB_PASSWORD=$(kubectl get secret --namespace optos-framework optos-db-credentials -o jsonpath="{.data.PATRONI_SUPERUSER_PASSWORD}" | base64 --decode)
+  export OPTOS_DB_URL=postgresql://postgres:${DB_PASSWORD}@127.0.0.1:30432
+  export PANTS_CONCURRENT=true
+fi
+
+
 ### Key setup
 # create a zkbd compatible hash;
 # to add other keys to this hash, see: man 5 terminfo
@@ -159,12 +171,18 @@ if command -v pyenv &> /dev/null; then
   eval "$(pyenv init -)"
 fi
 
-if ls ~/.nvm/nvm.sh &> /dev/null; then
-  export NVM_DIR="$HOME/.nvm"
-  # Standard loader that autoloads from current directory
-  # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-  # [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-  # Alternate NVM loader that hard-codes to a single version
-  export PATH=~/.nvm/versions/node/v16.18.0/bin:$PATH
-  [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh" --no-use
+NVM_SETUP_FILE="$HOME/.nvm/nvm.sh"
+NVM_COMPL_FILE="$HOME/.nvm/bash_completion"
+if ls /opt/homebrew/opt/nvm/nvm.sh &> /dev/null; then
+  NVM_SETUP_FILE="/opt/homebrew/opt/nvm/nvm.sh"
+  NVM_COMPL_FILE="/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
 fi
+export NVM_DIR="$HOME/.nvm"
+# Standard loader that autoloads from current directory
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+# Alternate NVM loader that hard-codes to a single version
+# export PATH=~/.nvm/versions/node/v16.18.0/bin:$PATH
+# [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh" --no-use
+[ -s "$NVM_SETUP_FILE" ] && \. "$NVM_SETUP_FILE"
+[ -s "$NVM_COMPL_FILE" ] && \. "$NVM_COMPL_FILE"

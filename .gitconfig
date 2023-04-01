@@ -1,4 +1,19 @@
+[filter "lfs"]
+  required = true
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+[color]
+  diff = auto
+  status = auto
+[core]
+  pager = less -S
+[log]
+  decorate = short
 [alias]
+  lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset'
+  ll = !git lg --all
+  pushsafe = push --force-with-lease
   frequency = "!f() { \
     test -z \"$1\" || REVISION=\"$1\"; \
     git log --pretty=format: --name-only $REVISION \
@@ -14,10 +29,9 @@
     fi; \
     git diff --stat $(git merge-base HEAD $BASE); \
     }; f"
-
 [include]
   path = ~/.gitconfig.local
 [pull]
-	rebase = false
+  rebase = true
 [core]
-	excludesfile = ~/.gitignore.global
+  excludesfile = ~/.gitignore.global
