@@ -1,0 +1,1 @@
+ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="256c", TAG+="systemd", ENV{SYSTEMD_USER_WANTS}+="wacom.service"

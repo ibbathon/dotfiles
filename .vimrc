@@ -234,7 +234,18 @@ au BufNewFile,BufRead $HOME/gitwork/**/*.py
   \   let b:ale_linters = ["flake8", "mypy"]
   \ | let b:ale_fixers = ["black", "isort"]
   \ | let b:ale_fix_on_save = 1
+  \ | let b:ale_python_flake8_options = '--line-length=88'
   \ | let b:ale_python_mypy_options = '--follow-imports=skip'
+au BufNewFile,BufRead $HOME/gitwork/**/*.js*,$HOME/gitwork/**/*.ts*
+  \   let b:ale_linters = []
+  \ | let b:ale_fixers = ["prettier"]
+  \ | let b:ale_fix_on_save = 1
+
+" CoC completion setup
+au BufNewFile,BufRead $HOME/gitwork/**/*.js*,$HOME/gitwork/**/*.ts*
+  \   inoremap <buffer><expr> <Right> coc#pum#visible() ? coc#pum#confirm() : "\<Right>"
+  \ | inoremap <buffer><expr> <Tab> coc#pum#visible() ? coc#pum#next(1) : "\<Tab>"
+  \ | inoremap <buffer><expr> <S-Tab> coc#pum#visible() ? coc#pum#prev(1) : "\<S-Tab>"
 
 " OmniSharp setup
 let g:OmniSharp_diagnostic_showid = 1 " show offending rule ID in linter messages
