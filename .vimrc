@@ -233,8 +233,9 @@ au BufNewFile,BufRead $HOME/gitwork/**/*.py
   \   let b:ale_linters = ["flake8", "mypy"]
   \ | let b:ale_fixers = ["black", "isort"]
   \ | let b:ale_fix_on_save = 1
-  \ | let b:ale_python_flake8_options = '--line-length=88'
-  \ | let b:ale_python_mypy_options = '--follow-imports=skip'
+  \ | let b:ale_python_mypy_options = '--follow-imports=skip --ignore-missing-imports'
+  \ | let b:ale_python_flake8_options = '--max-line-length=100'
+
 au BufNewFile,BufRead $HOME/gitwork/**/*.js*,$HOME/gitwork/**/*.ts*
   \   let b:ale_linters = []
   \ | let b:ale_fixers = ["prettier"]
