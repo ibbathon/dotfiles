@@ -137,6 +137,7 @@ autocmd BufNewFile,BufRead COMMIT_EDITMSG let g:ycm_auto_trigger = 0
 "**********************
 "***** var config *****
 "**********************
+set history=2000
 set hlsearch
 set incsearch
 set ignorecase
@@ -242,9 +243,9 @@ au BufNewFile,BufRead $HOME/gitwork/**/*.js*,$HOME/gitwork/**/*.ts*
   \ | let b:ale_fix_on_save = 1
 
 " CoC completion setup
-inoremap <buffer><expr> <Right> coc#pum#visible() ? coc#pum#confirm() : "\<Right>"
-inoremap <buffer><expr> <Tab> coc#pum#visible() ? coc#pum#next(1) : "\<Tab>"
-inoremap <buffer><expr> <S-Tab> coc#pum#visible() ? coc#pum#prev(1) : "\<S-Tab>"
+inoremap <silent><expr> <Right> coc#pum#visible() ? coc#pum#confirm() : "\<Right>"
+inoremap <silent><expr> <Tab> coc#pum#visible() ? coc#pum#next(1) : "\<Tab>"
+inoremap <silent><expr> <S-Tab> coc#pum#visible() ? coc#pum#prev(1) : "\<S-Tab>"
 
 " OmniSharp setup
 let g:OmniSharp_diagnostic_showid = 1 " show offending rule ID in linter messages
