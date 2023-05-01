@@ -10,8 +10,7 @@
 " :PluginInstall
 " close vim, go to .vim/bundle/coc.nvim and run npm i
 " reopen vim
-" :CocInstall coc-lists
-" :CocInstall coc-jedi
+" :CocInstall coc-lists coc-jedi coc-tsserver
 
 " Determine OS first
 if has('win32') || has('win64')
@@ -57,13 +56,14 @@ Plugin 'VundleVim/Vundle.vim'
 " Languages
 Plugin 'leafgarland/typescript-vim' " TypeScript syntax
 Plugin 'peitalin/vim-jsx-typescript' " TypeScript-React syntax
-Plugin 'quramy/tsuquyomi' " Typescript completion
 Plugin 'omnisharp/omnisharp-vim' " C-Sharp syntax/completion/linting
 Plugin 'adamclerk/vim-razor' " *.cshtml files
 Plugin 'othree/xml.vim' " Better XML support (such as auto-folding)
 Plugin 'JamshedVesuna/vim-markdown-preview' " Preview MD with Ctrl-m
 Plugin 'pappasam/coc-jedi' " Python LSP IDE support
 Plugin 'hashivim/vim-terraform' " Terraform support
+Plugin 'cespare/vim-toml' " TOML support
+Plugin 'posva/vim-vue' " Vue support
 " Appearance
 Plugin 'vim-airline/vim-airline' " Status/Tabline
 Plugin 'morhetz/gruvbox' " Color scheme
@@ -82,7 +82,6 @@ Plugin 'rlue/vim-fold-rspec' " Folding for *_spec.rb files
 Plugin 'neoclide/coc-lists' " Allow CocList grep and other things
 " Other functionality
 Plugin 'ctrlpvim/ctrlp.vim' " Quick file search
-Plugin 'ajh17/vimcompletesme' " No-prereqs auto-completion
 Plugin 'tyru/open-browser.vim' " Replace netrw's broken gx
 Plugin 'AnsiEsc.vim' " Interpret color codes in log files (call `:AnsiEsc` to use)
 Plugin 'gcmt/taboo.vim' " Rename tabs with TabooRename; reset with TabooReset
@@ -90,6 +89,7 @@ Plugin 'knsh14/vim-github-link' " Allow copying GitHub link directly from Vim
 Plugin 'sotte/presenting.vim' " Vim slideshows!
 " Unsorted/Testing
 " UNUSED/UNWANTED/REPLACED
+"Plugin 'ajh17/vimcompletesme' " No-prereqs auto-completion (replaced by COC)
 "Plugin 'scrooloose/syntastic' " Auto syntax checking
 "Plugin 'davidhalter/jedi-vim' " Advanced Python auto-complete (causes flicker)
 "Plugin 'ervandew/supertab' " No-prereqs auto-completion
@@ -137,6 +137,7 @@ autocmd BufNewFile,BufRead COMMIT_EDITMSG let g:ycm_auto_trigger = 0
 "**********************
 "***** var config *****
 "**********************
+set history=2000
 set hlsearch
 set incsearch
 set ignorecase
@@ -232,9 +233,19 @@ let g:ale_loclist_msg_format = '[%linter%][%severity%] %s'
 au BufNewFile,BufRead $HOME/gitwork/**/*.py
   \   let b:ale_linters = ["flake8", "mypy"]
   \ | let b:ale_fixers = ["black", "isort"]
-  \ | let b:ale_python_black_options = '--line-length=79'
   \ | let b:ale_fix_on_save = 1
-  \ | let b:ale_python_mypy_options = '--follow-imports=skip'
+  \ | let b:ale_python_mypy_options = '--follow-imports=skip --ignore-missing-imports'
+  \ | let b:ale_python_flake8_options = '--max-line-length=100'
+
+au BufNewFile,BufRead $HOME/gitwork/**/*.js*,$HOME/gitwork/**/*.ts*
+  \   let b:ale_linters = []
+  \ | let b:ale_fixers = ["prettier"]
+  \ | let b:ale_fix_on_save = 1
+
+" CoC completion setup
+inoremap <silent><expr> <Right> coc#pum#visible() ? coc#pum#confirm() : "\<Right>"
+inoremap <silent><expr> <Tab> coc#pum#visible() ? coc#pum#next(1) : "\<Tab>"
+inoremap <silent><expr> <S-Tab> coc#pum#visible() ? coc#pum#prev(1) : "\<S-Tab>"
 
 " OmniSharp setup
 let g:OmniSharp_diagnostic_showid = 1 " show offending rule ID in linter messages
@@ -291,6 +302,16 @@ map <Leader>p :CocList -I grep -i<CR>
 map <Leader>t :TestNearest<CR>
 map<Leader>T :TestFile<CR>
 
+" use <tab> to trigger coc completion
+function! IsPrevCharSpace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+" inoremap <silent><expr> <Tab>
+"      \ coc#pum#visible() ? coc#pum#next(1) :
+"      \ IsPrevCharSpace() ? "\<Tab>" :
+"      \ coc#refresh()
+
 
 "************************
 "***** Autocommands *****
@@ -320,7 +341,7 @@ if has("gui_running")
     set guifont=Consolas:h9:cANSI:qDRAFT
   endif
   set lines=78
-  set columns=242
+  set columns=161
   "set guifont=xos4\ Terminus\ 12
   "colorscheme slate
   "set transparency=15
@@ -350,27 +371,26 @@ endif
 "******************************
 if os == "mac"
   function! CreateUsualBuffers()
-    cd ~/gitwork/monorepo/server
     " First tab is notes
     :TabooRename NOTES
     :e ~/quicknotes
     :vs
-    :e ~/standupnotes
-    :vs
     :e ~/questions
-    " Second tab is terminal stuff
-    " removed for now because it's better to just have spontaneous terminals
-    " :tabnew
-    " :TabooRename TERMINAL
-    " :terminal ++curwin tmux
-    " :vs
-    " :terminal ++curwin tmux
-    " :vs
-    " :terminal ++curwin tmux
-    " Finally, a normal tab
+    " Second tab is editing monorepo/server
     :tabnew
+    :tcd ~/gitwork/monorepo/server
     :vs
+    normal! w
+    " Pre-open a file so we can do our file searches
+    :e rxapi/models/account.py
+    " Third tab is editing LS/api
+    :tabnew
+    :tcd ~/gitwork/ls-platform/api
     :vs
+    normal! w
+    :e app.py
+    " Default to editing monorepo
+    normal! gT
   endfunction
   command! Usuals :call CreateUsualBuffers()
 
@@ -385,7 +405,7 @@ if os == "mac"
   " Change linters based on project
   " Note: mypy is told to skip import-checking to reduce feedback lag
   "       The full version will run on commit, so I can catch it there.
-  au BufNewFile,BufRead $HOME/gitwork/monorepo/**/*.py
+  au BufNewFile,BufRead $HOME/gitwork/monorepo/**/*.py,$HOME/gitwork/ls-platform/**/*.py
     \   let b:ale_linters = ["flake8", "mypy"]
     \ | let b:ale_fixers = ["black", "isort"]
     \ | let b:ale_fix_on_save = 1

@@ -2,7 +2,7 @@ export EDITOR=nvim
 
 export UNAME=$(uname)
 if [[ $UNAME == "Darwin" ]]; then
-  COMPUTER="VaultHealth"
+  COMPUTER="StupidMac"
 else
   COMPUTER="$HOST"
 fi
@@ -28,7 +28,7 @@ setopt incappendhistory
 
 
 ### Aliases
-if [[ $COMPUTER == "VaultHealth" ]]; then
+if [[ $COMPUTER == "StupidMac" ]]; then
   alias ls='ls -aG'
 else
   alias ls='ls -a --color=auto'
@@ -37,12 +37,6 @@ alias cp='cp -i'
 alias mv='mv -i'
 alias vi=vim
 alias vim=nvim
-
-# Background-setting aliases so I can quickly switch to black for streaming
-if [[ $COMPUTER == "Archiater" ]]; then
-  alias hsetroot_stream='hsetroot -solid black'
-  alias hsetroot_normal='hsetroot -full backgrounds/1352085388.jayaxer_all_business_by_jayaxer.jpg'
-fi
 
 # Alias for shutting down proton games, because it refuses to do so gracefully
 function ShutDownProtonGame() {
@@ -88,6 +82,18 @@ zstyle ':vcs_info:git*+set-message:*' hooks git-untracked
 export PATH=$PATH:~/.local/bin
 # Prefer IPython when executing `python`
 export PYTHONSTARTUP=${HOME}/helpers/ipython_startup.py
+
+
+### Mac-specific setup
+if [[ $COMPUTER == "StupidMac" ]]; then
+  # enable brew
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+
+  ### NEA-specific setup
+  DB_PASSWORD=$(kubectl get secret --namespace optos-framework optos-db-credentials -o jsonpath="{.data.PATRONI_SUPERUSER_PASSWORD}" | base64 --decode)
+  export OPTOS_DB_URL=postgresql://postgres:${DB_PASSWORD}@127.0.0.1:30432
+  export PANTS_CONCURRENT=true
+fi
 
 
 ### Key setup
@@ -138,41 +144,12 @@ fi
 
 
 ### Docker aliases
-# Justin's docker shortcuts, wrapped to prevent overdefinition
+# wrapped to prevent overdefinition
 if [[ -z $DOCKER_SHORTCUTS_DEFINED ]]; then
   DOCKER_SHORTCUTS_DEFINED="yes"
 
-  alias dc='docker-compose'
-  alias dcd='docker-compose -f docker-compose-dev.yml'
-
-  dcgetcid() {
-    echo $(docker-compose ps -q "$1")
-  }
-
-  dce() {
-    CMD="${@:2}"
-    docker-compose exec $1 sh -c "stty cols $COLUMNS rows $LINES && sh -c \"$CMD\"";
-  }
-
-  # Opens a sh console on a container: `dcb backend`
-  dcb() {
-    dce "$1" /bin/sh
-  }
-
-  # Watch the logs for all the running containers: `dcl`
-  # Watch the logs for a single container: `dcl adonis`
-  # optional tail if you want more than 25 lines: `dcl adonis 100`
-  dcl() {
-    TAIL=${2:-25}
-    docker-compose logs -f --tail="$TAIL" $1
-  }
-
-  # Attach your terminal to a container.
-  # If you have binding.pry in your code and browse the site
-  # then run `dca adonis` in a terminal to be able to type into Pry
-  dca() {
-    docker attach $(dcgetcid "$1")
-  }
+  alias dc='docker compose'
+  alias dcd='docker compose -f docker-compose-dev.yml'
 fi
 
 
@@ -194,48 +171,18 @@ if command -v pyenv &> /dev/null; then
   eval "$(pyenv init -)"
 fi
 
-if ls ~/.nvm/nvm.sh &> /dev/null; then
-  export NVM_DIR="$HOME/.nvm"
-  # Standard loader that autoloads from current directory
-  # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-  # [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-  # Alternate NVM loader that hard-codes to a single version
-  export PATH=~/.nvm/versions/node/v12.22.3/bin:$PATH
-  [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh" --no-use
+NVM_SETUP_FILE="$HOME/.nvm/nvm.sh"
+NVM_COMPL_FILE="$HOME/.nvm/bash_completion"
+if ls /opt/homebrew/opt/nvm/nvm.sh &> /dev/null; then
+  NVM_SETUP_FILE="/opt/homebrew/opt/nvm/nvm.sh"
+  NVM_COMPL_FILE="/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
 fi
-
-
-### VaultHealth-specific code
-if [[ $COMPUTER == "VaultHealth" ]]; then
-  export AWS_PROFILE="vlt"
-  function aws_docker_login {
-    aws-google-auth $@
-    aws ecr get-login-password $@ | \
-      docker login --username AWS --password-stdin \
-      291140025886.dkr.ecr.us-east-2.amazonaws.com
-  }
-  function aws_google_auth_creds {
-    AUTHOUT="$(aws-google-auth $@ --print-creds 1>&1 1>&2)"
-    if [ $? -eq 0 ]; then
-      $(echo "$AUTHOUT"|tail -n 1)
-    fi
-  }
-  alias dc="docker-compose"
-  alias dcd="docker-compose -f docker-compose-dev.yml"
-  alias dcd-build="dcd build api admin-api lambda"
-
-  # pull in GH PAT
-  export GITHUB_PACKAGES_TOKEN=`cat $HOME/.ssh/gh_pat`
-
-
-  #!!! These two are automatically added by terraform and so shouldn't
-  # be in the README.
-  autoload -U +X bashcompinit && bashcompinit
-  complete -o nospace -C /usr/local/bin/terraform terraform
-
-
-  alias ngrok-admin-api="ngrok http 127.0.0.1:5000"
-  alias ngrok-api="ngrok http 127.0.0.1:5001"
-  alias setup-stage-api="export FLASK_APP=application.py FLASK_ENV=development RX_CONFIG=stage.StageConfig RETOOL_AUTH_HEADER=123"
-  alias setup-stage-admin-api="export FLASK_APP=admin-application.py FLASK_ENV=development RX_CONFIG=stage.StageConfig RETOOL_AUTH_HEADER=123"
-fi
+export NVM_DIR="$HOME/.nvm"
+# Standard loader that autoloads from current directory
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+# Alternate NVM loader that hard-codes to a single version
+# export PATH=~/.nvm/versions/node/v16.18.0/bin:$PATH
+# [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh" --no-use
+[ -s "$NVM_SETUP_FILE" ] && \. "$NVM_SETUP_FILE"
+[ -s "$NVM_COMPL_FILE" ] && \. "$NVM_COMPL_FILE"

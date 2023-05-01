@@ -108,8 +108,10 @@ keys = [
     Key([], "Print", lazy.spawn("flameshot gui")),
     # Change/modify layouts
     Key([mod], "grave", lazy.next_layout()),
-    Key([mod, "control"], "Left", lazy.layout.increase_ratio()),
-    Key([mod, "control"], "Right", lazy.layout.decrease_ratio()),
+    Key([mod, "control"], "Left", lazy.layout.grow_left()),
+    Key([mod, "control"], "Right", lazy.layout.grow_right()),
+    Key([mod, "control"], "Up", lazy.layout.grow_up()),
+    Key([mod, "control"], "Down", lazy.layout.grow_down()),
     # Modify current window
     Key([mod], "q", lazy.window.kill()),
     Key([mod, "control"], "f", lazy.window.toggle_fullscreen()),
