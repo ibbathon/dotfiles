@@ -35,4 +35,5 @@ blueman-applet &
 
 feh --bg-max ~/wallpaper/default
 
-qtile start
+xterm
+# qtile start

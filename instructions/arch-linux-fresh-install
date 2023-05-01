@@ -30,7 +30,7 @@ swapon /dev/nvme0n1p2
 systemctl start reflector & journalctl -xefu reflector
 
 # packages!
-pacstrap /mnt base linux linux-firmware intel-ucode git openssh python zsh neovim sudo iwd dhcpcd grub efibootmgr
+pacstrap /mnt base base-devel linux linux-firmware intel-ucode git openssh python zsh neovim sudo iwd dhcpcd grub efibootmgr
 
 genfstab -L /mnt >> /mnt/etc/fstab
 arch-chroot /mnt
@@ -58,7 +58,7 @@ umount -R /mnt
 # after reboot
 
 # run this pacman on another screen (remove unneeded packages)
-pacman -S npm ripgrep firefox qtile xorg nvidia pulseaudio pavucontrol bluez pulseaudio-bluetooth lightdm light-locker lightdm-gtk-greeter notification-daemon udiskie blueman solaar xorg-xset flameshot xorg-xinput gnome-keyring qbittorrent xterm gcc feh 
+pacman -S npm ripgrep firefox qtile xorg nvidia pulseaudio pavucontrol bluez pulseaudio-bluetooth lightdm light-locker lightdm-gtk-greeter notification-daemon udiskie blueman solaar xorg-xset flameshot xorg-xinput gnome-keyring qbittorrent xterm gcc feh xorg-xinit xclip fakeroot make ttf-font-awesome tmux python-iwlib
 
 # network
 systemctl enable --now iwd dhcpcd sshd
@@ -87,4 +87,18 @@ ln -s ~/gitwork/dotfiles/.vim/after .vim
 head -n 20 .vimrc
 # and follow instructions
 
+# pikaur
+cd gitwork
+git clone https://aur.archlinux.org/pikaur
+cd pikaur
+makepkg -si
+cd
 
+# aur packages
+pikaur -S spleen-font
+
+# tmux
+cd gitwork
+git clone https://github.com/gpakosz/.tmux
+cd 
+ln -s ~/gitwork/.tmux/.tmux.conf

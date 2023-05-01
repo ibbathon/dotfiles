@@ -248,7 +248,8 @@ widget_settings = dict(
             charge_char="^",
             discharge_char="v",
             hide_threshold=0.999,
-            format=" {percent:2.0%} {char}",
+            format=" {char} {percent:2.0%} {hour:d}:{min:02d}",
+            update_interval=5,
         ),
     ),
     wifi=dict(
