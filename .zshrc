@@ -184,5 +184,5 @@ export NVM_DIR="$HOME/.nvm"
 # Alternate NVM loader that hard-codes to a single version
 # export PATH=~/.nvm/versions/node/v16.18.0/bin:$PATH
 # [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh" --no-use
-[ -s "$NVM_SETUP_FILE" ] && \. "$NVM_SETUP_FILE"
-[ -s "$NVM_COMPL_FILE" ] && \. "$NVM_COMPL_FILE"
+if [ -f "$NVM_SETUP_FILE" ]; then source "$NVM_SETUP_FILE"; fi
+if [ -f "$NVM_COMPL_FILE" ]; then source "$NVM_COMPL_FILE"; fi
