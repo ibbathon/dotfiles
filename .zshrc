@@ -53,11 +53,19 @@ alias proton_shutdown=ShutDownProtonGame
 if [ -n "$IS_SSH" ]; then
   EXTRA_PROMPT="%F{blue}%m "
 fi
-PROMPT="${EXTRA_PROMPT}%F{red}%? %F{magenta}%~ %F{green}%#%f "
+check_kubeconfig() {
+  if [ -n "$KUBECONFIG" ]; then
+    KUBE_MACHINE=`echo $KUBECONFIG|sed "s/.*\/\([^\/]*\)\.yaml/\1/"`
+    KUBE_PROMPT="%F{yellow}k8s:${KUBE_MACHINE} "
+  else
+    unset KUBE_PROMPT
+  fi
+}
+PROMPT='${EXTRA_PROMPT}${KUBE_PROMPT}%F{red}%? %F{magenta}%~ %F{green}%#%f '
 # Git info
 autoload -Uz vcs_info
 precmd_vcs_info() { vcs_info }
-precmd_functions+=( precmd_vcs_info )
+precmd_functions+=( precmd_vcs_info check_kubeconfig )
 setopt prompt_subst
 RPROMPT=\$vcs_info_msg_0_
 zstyle ':vcs_info:git:*' formats '%F{yellow}%b %F{green}%c%F{red}%u%F{cyan}%m%f'
