@@ -45,7 +45,7 @@ locale-gen
 vim /etc/locale.conf  # LANG=en_US.UTF-8
 vim /etc/hostname  # here's where the fun is!
 
-grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB  # include --removable for nvme drives
 grub-mkconfig -o /boot/grub/grub.cfg
 
 passwd
