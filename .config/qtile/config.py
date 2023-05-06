@@ -50,7 +50,7 @@ if platform.node() in ["AmaNoUzume"]:
     wlan_int = "wlan0"
     use_wlan_widget = True
     use_battery_widget = True
-if platform.node() in ["Azeban"]:
+if platform.node() in ["Bastet"]:
     wlan_int = "wlan0"
     use_wlan_widget = True
 if platform.node() in ["BelowTheArch"]:
