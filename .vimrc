@@ -296,7 +296,7 @@ nnoremap <silent> gx :<C-u> call openbrowser#_keymap_smart_search('n')<CR>
 xnoremap <silent> gx :<C-u> call openbrowser#_keymap_smart_search('v')<CR>
 
 " Find-in-files interactively
-map <Leader>p :CocList -I grep -i<CR>
+map <Leader>p :CocList -I grep -i --sort path<CR>
 
 " Run tests
 map <Leader>t :TestNearest<CR>
