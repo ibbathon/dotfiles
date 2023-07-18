@@ -179,6 +179,9 @@ if command -v pyenv &> /dev/null; then
   eval "$(pyenv init -)"
 fi
 
+# Fucking pants
+export PATH=$PATH:~/bin
+
 NVM_SETUP_FILE="$HOME/.nvm/nvm.sh"
 NVM_COMPL_FILE="$HOME/.nvm/bash_completion"
 if ls /opt/homebrew/opt/nvm/nvm.sh &> /dev/null; then
