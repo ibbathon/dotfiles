@@ -31,7 +31,5 @@
     }; f"
 [include]
   path = ~/.gitconfig.local
-[pull]
-  rebase = true
 [core]
   excludesfile = ~/.gitignore.global
