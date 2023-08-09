@@ -33,3 +33,5 @@
   path = ~/.gitconfig.local
 [core]
   excludesfile = ~/.gitignore.global
+[pull]
+  ff = only
