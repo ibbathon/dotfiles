@@ -236,11 +236,13 @@ au BufNewFile,BufRead $HOME/gitwork/**/*.py
   \ | let b:ale_fix_on_save = 1
   \ | let b:ale_python_mypy_options = '--follow-imports=skip --ignore-missing-imports'
   \ | let b:ale_python_flake8_options = '--max-line-length=100'
-
 au BufNewFile,BufRead $HOME/gitwork/**/*.js*,$HOME/gitwork/**/*.ts*
   \   let b:ale_linters = []
   \ | let b:ale_fixers = ["prettier"]
   \ | let b:ale_fix_on_save = 1
+" Don't run fixers on certain NEA projects because they're fucking morons
+au BufNewFile,BufRead $HOME/gitwork/model-blythe-110/**/*.py,$HOME/gitwork/model-stanford/**/*.py
+  \   let b:ale_fixers = []
 
 " CoC completion setup
 inoremap <silent><expr> <Right> coc#pum#visible() ? coc#pum#confirm() : "\<Right>"
