@@ -149,10 +149,12 @@ keys = [
 ]
 
 groups = [
-    Group("a", label="a "),  # Chrome
+    Group("a", label="a "),  # Internet
     Group("s", label="s "),  # Slack
     Group("d", label="d "),  # Terminal
     Group("f", label="f "),  # Games
+    Group("g", label="g "),  # Internet
+    Group("h", label="h "),  # Misc
     Group("j", label="j ", matches=[Match(wm_class="zoom")]),  # Zoom
     Group("k", label="k "),  # Misc
     Group("l", label="l "),  # Misc
@@ -207,9 +209,7 @@ class CustomVolume(widget.PulseVolume):
 
 widget_settings = dict(
     groupbox=dict(klass=widget.GroupBox),
-    prompt=dict(
-        klass=widget.Prompt, settings=dict(background=colors["bar-important"])
-    ),
+    prompt=dict(klass=widget.Prompt, settings=dict(background=colors["bar-important"])),
     windowname=dict(
         klass=widget.TaskList,
         settings=dict(
@@ -313,9 +313,7 @@ def build_screen_widgets(widget_keys):
     widgets = []
     for i, key in enumerate(all_widget_keys):
         ws = widget_settings[key]
-        settings = dict(
-            background=colors[f"bar-{'alt2' if i % 2 else 'alt1'}"]
-        )
+        settings = dict(background=colors[f"bar-{'alt2' if i % 2 else 'alt1'}"])
         if "settings" in ws:
             settings.update(ws["settings"])
         bg = settings["background"]
