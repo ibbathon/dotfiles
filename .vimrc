@@ -241,7 +241,7 @@ au BufNewFile,BufRead $HOME/gitwork/**/*.js*,$HOME/gitwork/**/*.ts*
   \ | let b:ale_fixers = ["prettier"]
   \ | let b:ale_fix_on_save = 1
 " Don't run fixers on certain NEA projects because they're fucking morons
-au BufNewFile,BufRead $HOME/gitwork/model-blythe-110/**/*.py,$HOME/gitwork/model-stanford/**/*.py
+au BufNewFile,BufRead $HOME/gitwork/model-blythe-110/**/*.py,$HOME/gitwork/model-stanford/**/*.py,$HOME/gitwork/energy-mgmt-reports/**/*.py
   \   let b:ale_fixers = []
 
 " CoC completion setup

@@ -94,6 +94,8 @@ export PYTHONSTARTUP=${HOME}/helpers/ipython_startup.py
 
 ### Mac-specific setup
 if [[ $COMPUTER == "StupidMac" ]]; then
+  # use the far-superior GNU versions of grep
+  export PATH="/opt/homebrew/opt/grep/libexec/gnubin:$PATH"
   # enable brew
   eval "$(/opt/homebrew/bin/brew shellenv)"
 
