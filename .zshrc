@@ -138,6 +138,9 @@ key[ShiftTab]="${terminfo[kcbt]}"
 [[ -n "${key[PageDown]}"  ]] && bindkey -- "${key[PageDown]}"  history-beginning-search-forward
 [[ -n "${key[ShiftTab]}"  ]] && bindkey -- "${key[ShiftTab]}"  reverse-menu-complete
 
+# allow reverse-incremental search
+bindkey '^R' history-incremental-search-backward
+
 # Finally, make sure the terminal is in application mode, when zle is
 # active. Only then are the values from $terminfo valid.
 if (( ${+terminfo[smkx]} && ${+terminfo[rmkx]} )); then
