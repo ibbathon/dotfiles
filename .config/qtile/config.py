@@ -206,14 +206,6 @@ class CustomVolume(widget.PulseVolume):
 
         self.text = text
 
-    def get_server_info(self):
-        super().get_server_info()
-        # periodically re-query PA to get changed default sink
-        self.timeout_add(1, self.call_get_server_info)
-
-    def call_get_server_info(self):
-        self.get_server_info()
-
 
 widget_settings = dict(
     groupbox=dict(klass=widget.GroupBox),
