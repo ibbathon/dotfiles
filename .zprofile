@@ -1,13 +1,18 @@
+zmodload zsh/zprof
+
 export UNAME=$(uname)
 if [[ $UNAME == "Darwin" ]]; then
   COMPUTER="StupidMac"
+  DATE=/opt/homebrew/bin/gdate
 else
   COMPUTER="$HOST"
+  DATE=date
 fi
 
 if [[ $COMPUTER == "StupidMac" ]]; then
   # enable brew
   eval "$(/opt/homebrew/bin/brew shellenv)"
+
   ### Env Managers
   if command -v nodenv &> /dev/null; then
     export PATH="$PATH:$HOME/.nodenv/bin"
@@ -26,19 +31,22 @@ if [[ $COMPUTER == "StupidMac" ]]; then
     eval "$(pyenv init -)"
   fi
 
-  NVM_SETUP_FILE="$HOME/.nvm/nvm.sh"
-  NVM_COMPL_FILE="$HOME/.nvm/bash_completion"
-  if ls /opt/homebrew/opt/nvm/nvm.sh &> /dev/null; then
-    NVM_SETUP_FILE="/opt/homebrew/opt/nvm/nvm.sh"
-    NVM_COMPL_FILE="/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
+  # only do nvm if we haven't already initialized
+  if ! command -v nvm &> /dev/null; then
+    NVM_SETUP_FILE="$HOME/.nvm/nvm.sh"
+    NVM_COMPL_FILE="$HOME/.nvm/bash_completion"
+    if ls /opt/homebrew/opt/nvm/nvm.sh &> /dev/null; then
+      NVM_SETUP_FILE="/opt/homebrew/opt/nvm/nvm.sh"
+      NVM_COMPL_FILE="/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
+    fi
+    export NVM_DIR="$HOME/.nvm"
+    # Standard loader that autoloads from current directory
+    # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    # [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+    # Alternate NVM loader that hard-codes to a single version
+    # export PATH=~/.nvm/versions/node/v16.18.0/bin:$PATH
+    # [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh" --no-use
+    [ -s "$NVM_SETUP_FILE" ] && \. "$NVM_SETUP_FILE"
+    [ -s "$NVM_COMPL_FILE" ] && \. "$NVM_COMPL_FILE"
   fi
-  export NVM_DIR="$HOME/.nvm"
-  # Standard loader that autoloads from current directory
-  # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-  # [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-  # Alternate NVM loader that hard-codes to a single version
-  # export PATH=~/.nvm/versions/node/v16.18.0/bin:$PATH
-  # [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh" --no-use
-  [ -s "$NVM_SETUP_FILE" ] && \. "$NVM_SETUP_FILE"
-  [ -s "$NVM_COMPL_FILE" ] && \. "$NVM_COMPL_FILE"
 fi
