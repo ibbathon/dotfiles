@@ -39,6 +39,7 @@ alias cp='cp -i'
 alias mv='mv -i'
 alias vi=vim
 alias vim=nvim
+alias docker='sudo docker'
 
 # Alias for shutting down proton games, because it refuses to do so gracefully
 function ShutDownProtonGame() {

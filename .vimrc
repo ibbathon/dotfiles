@@ -159,6 +159,9 @@ if !has("nvim")
 endif
 set visualbell  " disable audio bells
 
+" include Taboo tab names when writing sessions
+set sessionoptions+=tabpages,globals
+
 " Tab width and tabs-to-spaces
 set expandtab
 set shiftwidth=2
