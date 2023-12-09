@@ -230,15 +230,15 @@ let g:netrw_nogx=1
 let g:ale_lint_on_text_changed = 'always' " check during both normal and insert, might want to disable on battery
 " TODO: add check for battery, based on proc status, might want to attach to
 " CursorHold
-let g:ale_echo_msg_format = '[%linter%][%severity%] %s'
-let g:ale_loclist_msg_format = '[%linter%][%severity%] %s'
+let g:ale_echo_msg_format = '[%severity%:%linter%:%code%] %s'
+let g:ale_loclist_msg_format = '[%linter%:%code%] %s'
 " Have black/isort/flake8/mypy run automatically on my projects, too
 au BufNewFile,BufRead $HOME/gitwork/**/*.py
   \   let b:ale_linters = ["flake8", "mypy"]
   \ | let b:ale_fixers = ["black", "isort"]
   \ | let b:ale_fix_on_save = 1
   \ | let b:ale_python_mypy_options = '--follow-imports=skip --ignore-missing-imports'
-  \ | let b:ale_python_flake8_options = '--max-line-length=100'
+  \ | let b:ale_python_flake8_options = '--max-line-length=88'
 au BufNewFile,BufRead $HOME/gitwork/**/*.js*,$HOME/gitwork/**/*.ts*
   \   let b:ale_linters = []
   \ | let b:ale_fixers = ["prettier"]
