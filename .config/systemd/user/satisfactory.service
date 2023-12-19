@@ -1,0 +1,9 @@
+[Unit]
+Description=Satisfactory Dedicated Server
+
+[Service]
+WorkingDirectory=/Bastion/SteamLibrary/steamapps/common/SatisfactoryDedicatedServer
+ExecStart=/Bastion/SteamLibrary/steamapps/common/SatisfactoryDedicatedServer/FactoryServer.sh -multihome=0.0.0.0 -ServerQueryPort=16000 -BeaconPort=16001 -Port=16002
+
+[Install]
+WantedBy=default.target
