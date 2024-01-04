@@ -56,6 +56,7 @@ Plugin 'VundleVim/Vundle.vim'
 " Languages
 Plugin 'leafgarland/typescript-vim' " TypeScript syntax
 Plugin 'peitalin/vim-jsx-typescript' " TypeScript-React syntax
+Plugin 'maxmellon/vim-jsx-pretty' " better syntax highlighting for jsx
 Plugin 'omnisharp/omnisharp-vim' " C-Sharp syntax/completion/linting
 Plugin 'adamclerk/vim-razor' " *.cshtml files
 Plugin 'othree/xml.vim' " Better XML support (such as auto-folding)
