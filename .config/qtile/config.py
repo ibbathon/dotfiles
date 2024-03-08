@@ -179,7 +179,7 @@ layouts = [
 
 widget_defaults = dict(
     font="sans",
-    fontsize=12,
+    fontsize=20,
     padding=3,
 )
 extension_defaults = widget_defaults.copy()
@@ -233,7 +233,7 @@ widget_settings = dict(
             colour_have_updates=colors["bar-updates"],
         ),
     ),
-    systray=dict(klass=widget.Systray),
+    systray=dict(klass=widget.Systray, settings=dict(icon_size=30)),
     clock=dict(klass=widget.Clock, settings=dict(format="%Y-%m-%d %a %H:%M")),
     volume=dict(
         klass=CustomVolume,
@@ -291,7 +291,7 @@ def build_arrow(widgets, char, foreground, background):
         widget.TextBox(
             background=background,
             foreground=foreground,
-            fontsize=18,
+            fontsize=30,
             text=char,
             padding=0,
         )
@@ -336,10 +336,10 @@ def build_screen_widgets(widget_keys):
 
 
 screens = [
-    Screen(top=bar.Bar(build_screen_widgets(screen_1_widgets), 24)),
-    Screen(top=bar.Bar(build_screen_widgets(screen_2_widgets), 24)),
-    Screen(top=bar.Bar(build_screen_widgets(screen_3_widgets), 24)),
-    Screen(top=bar.Bar(build_screen_widgets(screen_4_widgets), 24)),
+    Screen(top=bar.Bar(build_screen_widgets(screen_1_widgets), 40)),
+    Screen(top=bar.Bar(build_screen_widgets(screen_2_widgets), 40)),
+    Screen(top=bar.Bar(build_screen_widgets(screen_3_widgets), 40)),
+    Screen(top=bar.Bar(build_screen_widgets(screen_4_widgets), 40)),
 ]
 
 # Drag floating layouts.

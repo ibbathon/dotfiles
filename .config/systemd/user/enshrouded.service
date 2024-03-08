@@ -1,0 +1,9 @@
+[Unit]
+Description=Enshrouded Dedicated Server
+
+[Service]
+WorkingDirectory=/Bastion/SteamLibrary/steamapps/common/EnshroudedServer
+ExecStart=/usr/bin/wine64 enshrouded_server.exe
+
+[Install]
+WantedBy=default.target
