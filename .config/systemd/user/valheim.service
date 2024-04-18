@@ -1,0 +1,9 @@
+[Unit]
+Description=Valheim Dedicated Server
+
+[Service]
+WorkingDirectory=/Bastion/SteamLibrary/steamapps/common/Valheim dedicated server
+ExecStart=/usr/bin/zsh "/Bastion/SteamLibrary/steamapps/common/Valheim dedicated server/start_server_bepinex.sh"
+
+[Install]
+WantedBy=default.target

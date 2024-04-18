@@ -199,6 +199,7 @@ class CustomVolume(widget.PulseVolume):
             text = "\U0001f509"
         elif self.volume >= 80:
             text = "\U0001f50a"
+
         if self.volume == -1:
             text += " M"
         else:
