@@ -1,3 +1,4 @@
 # Ignoring changes to .gitconfig.local allows me to use different local
 # settings for each computer
 .gitconfig.local
+.Xresources.local

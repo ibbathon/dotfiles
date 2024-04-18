@@ -42,6 +42,7 @@ except ImportError:
 # Use HOST to determine computer-specific options, such as battery/wlan widgets
 use_battery_widget = False
 use_wlan_widget = False
+use_large_fonts = False
 wlan_int = "wlp2s0"
 is_creative_machine = False
 if platform.node() in ["WanderingMonk", "AmaNoUzume"]:
@@ -53,12 +54,23 @@ if platform.node() in ["AmaNoUzume"]:
 if platform.node() in ["Bastet"]:
     wlan_int = "wlan0"
     use_wlan_widget = True
+    use_large_fonts = True
 if platform.node() in ["BelowTheArch"]:
     wlan_int = "wlan0"
     use_wlan_widget = True
 if platform.node() == "some_other_laptop":
     wlan_int = "wlo1"
     use_wlan_widget = True
+
+widget_size = 12
+sys_icon_size = 20
+arrow_size = 18
+bar_size = 24
+if use_large_fonts:
+    widget_font = 20
+    sys_icon_size = 30
+    arrow_size = 30
+    bar_size = 40
 
 
 countdown_date = datetime.datetime(2021, 4, 29, 14, 30, 0)
@@ -179,7 +191,7 @@ layouts = [
 
 widget_defaults = dict(
     font="sans",
-    fontsize=20,
+    fontsize=widget_size,
     padding=3,
 )
 extension_defaults = widget_defaults.copy()
@@ -234,7 +246,7 @@ widget_settings = dict(
             colour_have_updates=colors["bar-updates"],
         ),
     ),
-    systray=dict(klass=widget.Systray, settings=dict(icon_size=30)),
+    systray=dict(klass=widget.Systray, settings=dict(icon_size=sys_icon_size)),
     clock=dict(klass=widget.Clock, settings=dict(format="%Y-%m-%d %a %H:%M")),
     volume=dict(
         klass=CustomVolume,
@@ -292,7 +304,7 @@ def build_arrow(widgets, char, foreground, background):
         widget.TextBox(
             background=background,
             foreground=foreground,
-            fontsize=30,
+            fontsize=arrow_size,
             text=char,
             padding=0,
         )
@@ -337,10 +349,10 @@ def build_screen_widgets(widget_keys):
 
 
 screens = [
-    Screen(top=bar.Bar(build_screen_widgets(screen_1_widgets), 40)),
-    Screen(top=bar.Bar(build_screen_widgets(screen_2_widgets), 40)),
-    Screen(top=bar.Bar(build_screen_widgets(screen_3_widgets), 40)),
-    Screen(top=bar.Bar(build_screen_widgets(screen_4_widgets), 40)),
+    Screen(top=bar.Bar(build_screen_widgets(screen_1_widgets), bar_size)),
+    Screen(top=bar.Bar(build_screen_widgets(screen_2_widgets), bar_size)),
+    Screen(top=bar.Bar(build_screen_widgets(screen_3_widgets), bar_size)),
+    Screen(top=bar.Bar(build_screen_widgets(screen_4_widgets), bar_size)),
 ]
 
 # Drag floating layouts.

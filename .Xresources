@@ -1,5 +1,5 @@
 ! If failing due to preprocessor nonsense, install gcc
-Xft.dpi: 144
+#include ".Xresources.local"
 Xft.autohint: 1
 Xft.lcdfilter: lcddefault
 Xft.hintstyle: hintfull

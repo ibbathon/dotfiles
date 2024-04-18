@@ -1,3 +1,5 @@
+set +e
+
 source /etc/X11/xinit/xinitrc.d/50-systemd-user.sh
 /usr/lib/notification-daemon-1.0/notification-daemon &
 

@@ -1,0 +1,4 @@
+! for 1920x1080 screens
+Xft.dpi: 72
+! for 4k screens
+Xft.dpi: 144
