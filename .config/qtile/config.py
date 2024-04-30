@@ -407,6 +407,9 @@ floating_layout = layout.Floating(
         # This isn't perfect, as it still floats the main zoom window, but at
         # least the meeting window isn't floated
         Match(wm_class="zoom", title=re.compile(r"^zoom$")),
+        # Godot has a lot of dialog windows that don't identify correctly as
+        # dialog windows, so just have everything default to floating
+        Match(wm_class="Godot_Engine"),
     ]
 )
 auto_fullscreen = True

@@ -55,7 +55,7 @@ QT_AUTO_SCREEN_SCALE_FACTOR=0
 [ "`cat /etc/hostname`" = "Azeban" ] && feh --bg-max /home/ibb/backgrounds/raccoon-in-dark.jpg
 [ "`cat /etc/hostname`" = "Bastet" ] && feh --bg-max /home/ibb/backgrounds/luis-montes-bastet.jpg
 [ "`cat /etc/hostname`" = "AmaNoUzume" ] && feh --bg-max /home/ibb/backgrounds/ame-no-uzume.jpg
-[ "`cat /etc/hostname`" = "Xochiquetzal" ] && feh --bg-max /home/ibb/backgrounds/laboratorio-de-arte-eutimio-garcia-xochiquetzal-concept-1.jpg
+[ "`cat /etc/hostname`" = "Brigid" ] && feh --bg-max /home/ibb/backgrounds/brigid-celtic-goddess-jpg.png
 
 # change caps lock to compose key (c`e to type accented e)
 setxkbmap -option compose:caps
