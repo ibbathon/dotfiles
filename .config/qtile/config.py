@@ -67,7 +67,7 @@ sys_icon_size = 20
 arrow_size = 18
 bar_size = 24
 if use_large_fonts:
-    widget_font = 20
+    widget_size = 20
     sys_icon_size = 30
     arrow_size = 30
     bar_size = 40
