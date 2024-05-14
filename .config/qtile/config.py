@@ -410,6 +410,7 @@ floating_layout = layout.Floating(
         # Godot has a lot of dialog windows that don't identify correctly as
         # dialog windows, so just have everything default to floating
         Match(wm_class="Godot_Engine"),
+        Match(wm_class="Godot_Editor"),
     ]
 )
 auto_fullscreen = True
