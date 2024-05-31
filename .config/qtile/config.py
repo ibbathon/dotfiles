@@ -30,8 +30,8 @@ import re
 import subprocess
 
 from libqtile import bar, hook, layout, widget
-from libqtile.command import lazy
 from libqtile.config import Drag, Group, Key, Match, Screen
+from libqtile.lazy import lazy
 from libqtile.log_utils import logger  # noqa: F401
 
 try:
