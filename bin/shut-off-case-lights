@@ -1,0 +1,3 @@
+#!/bin/sh
+liquidctl -m "Smart" set led1 color off
+liquidctl -m "Smart" set led2 color off
