@@ -41,23 +41,15 @@ except ImportError:
 
 # Use HOST to determine computer-specific options, such as battery/wlan widgets
 use_battery_widget = False
-use_wlan_widget = False
+use_wlan_widget = True
 use_large_fonts = False
-wlan_int = "wlp2s0"
-is_creative_machine = False
-if platform.node() in ["WanderingMonk", "AmaNoUzume"]:
-    is_creative_machine = True
+wlan_int = "wlan0"
 if platform.node() in ["AmaNoUzume"]:
-    wlan_int = "wlan0"
-    use_wlan_widget = True
     use_battery_widget = True
 if platform.node() in ["Bastet"]:
-    wlan_int = "wlan0"
-    use_wlan_widget = True
     use_large_fonts = True
-if platform.node() in ["BelowTheArch"]:
-    wlan_int = "wlan0"
-    use_wlan_widget = True
+if platform.node() in ["Osiris"]:
+    use_wlan_widget = False
 if platform.node() == "some_other_laptop":
     wlan_int = "wlo1"
     use_wlan_widget = True
