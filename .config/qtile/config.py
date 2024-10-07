@@ -50,6 +50,14 @@ if platform.node() in ["Bastet"]:
     use_large_fonts = True
 if platform.node() in ["Osiris"]:
     use_wlan_widget = False
+if platform.node() in ["Brigid"]:
+    # Brigid has two wifi adapters, but we want to track the
+    # external, better one
+    devices = subprocess.run(["iwctl","device","list"], capture_output=True)
+    wlan_int = re.search(
+        r"(wlan\d)\s*9c:ef:d5:f8:99:bd",
+        devices.stdout.decode(),
+    ).group(1)
 if platform.node() == "some_other_laptop":
     wlan_int = "wlo1"
     use_wlan_widget = True
