@@ -1,0 +1,6 @@
+[Unit]
+Description=sync PCSX2 files across computers
+
+[Service]
+Type=oneshot
+ExecStart=/bin/zsh /home/ibb/bin/sync_pcsx2

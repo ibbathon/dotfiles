@@ -1,0 +1,31 @@
+#!/bin/zsh
+
+echo "*** Pinging steamdeck"
+STEAMDECK=false
+ping -c 1 -W 0.3 steamdeck
+[ $? -eq 0 ] && STEAMDECK=true
+
+BASTET_BASE=ibb@Bastet:/home/ibb/.config/PCSX2
+DECK_BASE=deck@steamdeck:/home/deck/.config/PCSX2
+LOCAL_BASE=~/.config/PCSX2
+
+function copy_files() {
+  rsync -au --info=NAME $1/sstates $1/memcards $2
+}
+
+echo ""
+echo "*** Copying Bastet to Osiris"
+copy_files ${BASTET_BASE} ${LOCAL_BASE}
+if [ $STEAMDECK = "true" ]; then
+  echo ""
+  echo "*** Copying Deck to Osiris"
+  copy_files ${DECK_BASE} ${LOCAL_BASE}
+fi
+echo ""
+echo "*** Copying Osiris to Bastet"
+copy_files ${LOCAL_BASE} ${BASTET_BASE}
+if [ $STEAMDECK = "true" ]; then
+  echo ""
+  echo "*** Copying Osiris to Deck"
+  copy_files ${LOCAL_BASE} ${DECK_BASE}
+fi
