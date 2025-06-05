@@ -30,7 +30,9 @@ import re
 import subprocess
 
 from libqtile import bar, hook, layout, widget
-from libqtile.config import Drag, Group, Key, Match, Screen
+from libqtile.config import (
+    Drag, Group, InvertMatch, Key, Match, MatchAll, MatchAny, Screen
+)
 from libqtile.lazy import lazy
 from libqtile.log_utils import logger  # noqa: F401
 
@@ -53,7 +55,7 @@ if platform.node() in ["Osiris"]:
 if platform.node() in ["Brigid"]:
     # Brigid has two wifi adapters, but we want to track the
     # external, better one
-    devices = subprocess.run(["iwctl","device","list"], capture_output=True)
+    devices = subprocess.run(["iwctl", "device", "list"], capture_output=True)
     wlan_int = re.search(
         r"(wlan\d)\s*9c:ef:d5:f8:99:bd",
         devices.stdout.decode(),
@@ -409,8 +411,18 @@ floating_layout = layout.Floating(
         Match(wm_class="zoom", title=re.compile(r"^zoom$")),
         # Godot has a lot of dialog windows that don't identify correctly as
         # dialog windows, so just have everything default to floating
+        MatchAll(
+            Match(wm_class="Godot_Editor"),
+            # However, the main editor *starts* with a simple name of "Godot"
+            # and later has a name like "scene.tscn - Game Name - Godot Engine"
+            InvertMatch(
+                MatchAny(
+                    Match(title="Godot"),
+                    Match(title=re.compile(r".* - .* - Godot Engine")),
+                )
+            )
+        ),
         Match(wm_class="Godot_Engine"),
-        Match(wm_class="Godot_Editor"),
     ]
 )
 auto_fullscreen = True
