@@ -344,6 +344,11 @@ function! s:show_documentation()
   endif
 endfunction
 
+" Use [c and ]c to navigate errors/warnings from Coc. I used those mappings
+" because they correspond to the standard built-in vim mappings.
+nmap <silent> [c :call CocAction('diagnosticNext')<cr>
+nmap <silent> ]c :call CocAction('diagnosticPrevious')<cr>
+
 "************************
 "***** Autocommands *****
 "************************
