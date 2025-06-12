@@ -1,7 +1,10 @@
 # Ignoring changes to .gitconfig.local allows me to use different local
-# settings for each computer
-.gitconfig.local
-.Xresources.local
+# settings for each computer.
+# This used to work, but doesn't anymore, for some reason.
+#.gitconfig.local
+#.Xresources.local
+
 # Similar for Godot's config
+# This one works because I explicitly don't commit the empty versions.
 .config/godot/favorite_dirs.local
 .config/godot/recent_dirs.local
