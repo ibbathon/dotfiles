@@ -2,3 +2,6 @@
 # settings for each computer
 .gitconfig.local
 .Xresources.local
+# Similar for Godot's config
+.config/godot/favorite_dirs.local
+.config/godot/recent_dirs.local
