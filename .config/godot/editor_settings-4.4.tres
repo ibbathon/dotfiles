@@ -1,0 +1,107 @@
+[gd_resource type="EditorSettings" load_steps=4 format=3]
+
+[sub_resource type="InputEventKey" id="InputEventKey_71iku"]
+keycode = 4194306
+
+[sub_resource type="InputEventKey" id="InputEventKey_g72du"]
+keycode = 4194310
+
+[sub_resource type="InputEventKey" id="InputEventKey_w1bfg"]
+keycode = 4194326
+
+[resource]
+interface/editor/main_font_size = 12
+interface/editor/code_font_size = 12
+interface/editor/show_update_spinner = false
+interface/theme/spacing_preset = "Custom"
+interface/theme/base_color = Color(0.21, 0.24, 0.29, 1)
+interface/theme/accent_color = Color(0.44, 0.73, 0.98, 1)
+interface/theme/contrast = 0.3
+interface/theme/base_spacing = 2
+interface/multi_window/maximize_window = true
+text_editor/appearance/whitespace/line_spacing = 0
+text_editor/behavior/navigation/scroll_past_end_of_file = true
+text_editor/behavior/navigation/drag_and_drop_selection = false
+text_editor/behavior/files/trim_trailing_whitespace_on_save = true
+text_editor/behavior/files/auto_reload_scripts_on_external_change = true
+text_editor/behavior/files/open_dominant_script_on_scene_change = true
+text_editor/external/exec_path = "/usr/bin/nvim"
+text_editor/external/exec_flags = " --server godothost --remote-send \"<C-\\><C-N>:n {file}<CR>{line}G{col}|\""
+text_editor/completion/auto_brace_complete = false
+text_editor/completion/add_string_name_literals = true
+text_editor/completion/add_node_path_literals = true
+text_editor/external/use_external_editor = true
+editors/3d_gizmos/gizmo_settings/bone_axis_length = 0.1
+network/connection/network_mode = 1
+project_manager/default_renderer = "gl_compatibility"
+export/android/java_sdk_path = ""
+export/android/android_sdk_path = ""
+export/android/debug_keystore = ""
+export/android/debug_keystore_pass = "android"
+export/macos/rcodesign = ""
+export/web/http_port = 8060
+export/web/tls_key = ""
+export/web/tls_certificate = ""
+export/windows/rcedit = "/opt/rcedit/rcedit-x64.exe"
+export/windows/osslsigncode = ""
+export/windows/wine = "/usr/bin/wine"
+_default_feature_profile = "2D Only"
+_use_favorites_root_selection = false
+network/debug_adapter/request_timeout = 1000
+editors/3d_gizmos/gizmo_colors/path = Color(0.5, 0.5, 1, 0.9)
+editors/grid_map/editor_side = 1
+_editor_settings_advanced_mode = true
+_project_settings_advanced_mode = true
+_export_template_download_directory = "/home/ibb/.cache/godot"
+_script_setup_templates_dictionary = {}
+_script_setup_use_script_templates = false
+shortcuts = [{
+"name": "spatial_editor/viewport_zoom_modifier_1",
+"shortcuts": [SubResource("InputEventKey_w1bfg")]
+}, {
+"name": "spatial_editor/viewport_zoom_modifier_2",
+"shortcuts": []
+}]
+builtin_action_overrides = [{
+"events": [SubResource("InputEventKey_71iku"), SubResource("InputEventKey_g72du")],
+"name": "ui_text_completion_replace"
+}]
+metadata/script_setup_templates_dictionary = {
+"AnimatedSprite2D": "0NodeDefault",
+"Area2D": "0NodeDefault",
+"Button": "0NodeDefault",
+"C": "0ObjectEmpty",
+"Ca": "0ObjectEmpty",
+"Can": "0ObjectEmpty",
+"Canv": "0ObjectEmpty",
+"Canva": "0ObjectEmpty",
+"Canvas": "0ObjectEmpty",
+"CanvasI": "0ObjectEmpty",
+"CanvasIt": "0ObjectEmpty",
+"CanvasIte": "0ObjectEmpty",
+"CanvasItem": "0NodeDefault",
+"CanvasLayer": "0NodeDefault",
+"CenterContainer": "0ObjectEmpty",
+"CharacterBody2D": "0ObjectEmpty",
+"CharacterBody3D": "0ObjectEmpty",
+"Collectible": "0NodeDefault",
+"Control": "0ObjectEmpty",
+"HBoxContainer": "0NodeDefault",
+"Label": "0NodeDefault",
+"Node": "0ObjectEmpty",
+"Node2D": "0ObjectEmpty",
+"R": "0ObjectEmpty",
+"Re": "0ObjectEmpty",
+"Res": "0ObjectEmpty",
+"Reso": "0ObjectEmpty",
+"Resou": "0ObjectEmpty",
+"Resour": "0ObjectEmpty",
+"Resourc": "0ObjectEmpty",
+"Resource": "0ObjectEmpty",
+"RigidBody2D": "0NodeDefault",
+"State": "0NodeDefault",
+"TabContainer": "0NodeDefault",
+"VBoxContainer": "0NodeDefault"
+}
+metadata/script_setup_use_script_templates = true
+metadata/export_template_download_directory = "/home/ibb"
