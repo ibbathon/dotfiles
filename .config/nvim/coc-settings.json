@@ -1,4 +1,12 @@
 {
+  "diagnostic.warningSign": "WW",
   "tsserver.log": "verbose",
-  "suggest.noselect": true
+  "suggest.noselect": true,
+  "languageserver": {
+    "godot": {
+      "host": "127.0.0.1",
+      "port": 6005,
+      "filetypes": ["gdscript"]
+    }
+  }
 }

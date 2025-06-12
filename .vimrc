@@ -65,6 +65,7 @@ Plugin 'pappasam/coc-jedi' " Python LSP IDE support
 Plugin 'hashivim/vim-terraform' " Terraform support
 Plugin 'cespare/vim-toml' " TOML support
 Plugin 'posva/vim-vue' " Vue support
+Plugin 'habamax/vim-godot' " Godot/GDScript support
 " Appearance
 Plugin 'vim-airline/vim-airline' " Status/Tabline
 Plugin 'morhetz/gruvbox' " Color scheme
@@ -133,6 +134,9 @@ let g:syntastic_ruby_checkers = ['rubocop']
 
 " Disable ycm for commit message editing
 autocmd BufNewFile,BufRead COMMIT_EDITMSG let g:ycm_auto_trigger = 0
+
+" Configure Godot
+let g:godot_executable = '/usr/bin/godot'
 
 
 "**********************
