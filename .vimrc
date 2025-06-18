@@ -89,6 +89,7 @@ Plugin 'AnsiEsc.vim' " Interpret color codes in log files (call `:AnsiEsc` to us
 Plugin 'gcmt/taboo.vim' " Rename tabs with TabooRename; reset with TabooReset
 Plugin 'knsh14/vim-github-link' " Allow copying GitHub link directly from Vim
 Plugin 'sotte/presenting.vim' " Vim slideshows!
+Plugin 'mfussenegger/nvim-dap' " Debug Adapter Protocol support (i.e. Godot debugging)
 " Unsorted/Testing
 " UNUSED/UNWANTED/REPLACED
 "Plugin 'ajh17/vimcompletesme' " No-prereqs auto-completion (replaced by COC)
@@ -137,6 +138,14 @@ autocmd BufNewFile,BufRead COMMIT_EDITMSG let g:ycm_auto_trigger = 0
 
 " Configure Godot
 let g:godot_executable = '/usr/bin/godot'
+lua << EOF
+  local dap = require('dap')
+  dap.adapters.godot = {
+    type = "server",
+    host = '127.0.0.1',
+    port = 6006,
+  }
+EOF
 
 
 "**********************
