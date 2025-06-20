@@ -283,6 +283,10 @@ let g:OmniSharp_diagnostic_showid = 1 " show offending rule ID in linter message
 let g:loaded_zipPlugin = 1
 let g:loaded_zip = 1
 
+" CtrlP setup
+" Don't jump to window if already open in buffer, just open a new one
+let g:ctrlp_switch_buffer = '0'
+
 
 "*************************************
 "***** Custom mappings and fixes *****
