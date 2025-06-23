@@ -31,7 +31,14 @@ import subprocess
 
 from libqtile import bar, hook, layout, widget
 from libqtile.config import (
-    Drag, Group, InvertMatch, Key, Match, MatchAll, MatchAny, Screen
+    Drag,
+    Group,
+    InvertMatch,
+    Key,
+    Match,
+    MatchAll,
+    MatchAny,
+    Screen,
 )
 from libqtile.lazy import lazy
 from libqtile.log_utils import logger  # noqa: F401
@@ -251,7 +258,7 @@ widget_settings = dict(
     systray=dict(klass=widget.Systray, settings=dict(icon_size=sys_icon_size)),
     clock=dict(klass=widget.Clock, settings=dict(format="%Y-%m-%d %a %H:%M")),
     volume=dict(
-        klass=CustomVolume,
+        klass=CustomVolume,  # widget.PulseVolume,
         settings=dict(
             emoji=True,
             mouse_callbacks={"Button1": lazy.spawn("pavucontrol")},
@@ -300,6 +307,12 @@ screen_2_widgets[2].remove("systray")
 screen_3_widgets = [list(screen_2_widgets[i]) for i in range(3)]
 screen_4_widgets = [list(screen_3_widgets[i]) for i in range(3)]
 
+# For some reason, qtile no longer respects screen order
+if platform.node() == "Bastet":
+    screen_1_widgets, screen_3_widgets = screen_3_widgets, screen_1_widgets
+if platform.node() == "Brigid":
+    screen_1_widgets, screen_2_widgets = screen_2_widgets, screen_1_widgets
+
 
 def build_arrow(widgets, char, foreground, background):
     widgets.append(
@@ -313,7 +326,7 @@ def build_arrow(widgets, char, foreground, background):
     )
 
 
-def build_screen_widgets(widget_keys):
+def build_screen_widgets(widget_keys, screen_num: int):
     all_widget_keys = [k for g in widget_keys for k in g]
     widget_colors = []
     for i, key in enumerate(all_widget_keys):
@@ -326,6 +339,7 @@ def build_screen_widgets(widget_keys):
             widget_colors.append(colors["bar-alt1"])
 
     widgets = []
+    widgets.append(widget.TextBox(str(screen_num)))
     for i, key in enumerate(all_widget_keys):
         ws = widget_settings[key]
         settings = dict(background=colors[f"bar-{'alt2' if i % 2 else 'alt1'}"])
@@ -337,7 +351,7 @@ def build_screen_widgets(widget_keys):
             fg = raw_colors["black"]
             if i > 0:
                 fg = widget_colors[i - 1]
-            build_arrow(widgets, "\uE0B2", bg, fg)
+            build_arrow(widgets, "\ue0b2", bg, fg)
 
         widgets.append(ws["klass"](**settings))
 
@@ -345,16 +359,16 @@ def build_screen_widgets(widget_keys):
             fg = raw_colors["black"]
             if i < len(widget_colors) - 1:
                 fg = widget_colors[i + 1]
-            build_arrow(widgets, "\uE0B0", bg, fg)
+            build_arrow(widgets, "\ue0b0", bg, fg)
 
     return widgets
 
 
 screens = [
-    Screen(top=bar.Bar(build_screen_widgets(screen_1_widgets), bar_size)),
-    Screen(top=bar.Bar(build_screen_widgets(screen_2_widgets), bar_size)),
-    Screen(top=bar.Bar(build_screen_widgets(screen_3_widgets), bar_size)),
-    Screen(top=bar.Bar(build_screen_widgets(screen_4_widgets), bar_size)),
+    Screen(top=bar.Bar(build_screen_widgets(screen_1_widgets, 1), bar_size)),
+    Screen(top=bar.Bar(build_screen_widgets(screen_2_widgets, 2), bar_size)),
+    Screen(top=bar.Bar(build_screen_widgets(screen_3_widgets, 3), bar_size)),
+    Screen(top=bar.Bar(build_screen_widgets(screen_4_widgets, 4), bar_size)),
 ]
 
 # Drag floating layouts.
@@ -420,7 +434,7 @@ floating_layout = layout.Floating(
                     Match(title="Godot"),
                     Match(title=re.compile(r".* - .* - Godot Engine")),
                 )
-            )
+            ),
         ),
         Match(wm_class="Godot_Engine"),
     ]
