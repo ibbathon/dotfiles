@@ -1,0 +1,12 @@
+#!/bin/zsh
+
+HOSTS=(Osiris AmaNoUzume Brigid Bastet)
+DIR=$1
+if [[ "$DIR" == "" ]]; then
+  DIR=$PWD
+fi
+
+for h in $HOSTS; do
+  echo "updating $DIR on $h"
+  ssh $h "cd $DIR; git pull"
+done
