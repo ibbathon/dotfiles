@@ -331,7 +331,7 @@ xnoremap <silent> gx :<C-u> call openbrowser#_keymap_smart_search('v')<CR>
 
 " Find-in-files interactively
 map <Leader>p :CocList -I grep -i --sort path<CR>
-map <Leader>pp :exe 'CocList -I --input='.expand('<cword>').' grep -i --sort path'<CR>
+map <Leader>o :exe 'CocList -I --input='.expand('<cword>').' grep -i --sort path'<CR>
 
 " Run tests
 map <Leader>t :TestNearest<CR>
