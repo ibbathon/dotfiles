@@ -159,9 +159,9 @@ keys = [
         lazy.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle"),
     ),
     # Media control
-    # Key([], "XF86AudioPlay", lazy.spawn("playerctl play-pause")),
-    # Key([], "XF86AudioPrev", lazy.spawn("playerctl previous")),
-    # Key([], "XF86AudioNext", lazy.spawn("playerctl next")),
+    Key([], "XF86AudioPlay", lazy.spawn("playerctl play-pause")),
+    Key([], "XF86AudioPrev", lazy.spawn("playerctl previous")),
+    Key([], "XF86AudioNext", lazy.spawn("playerctl next")),
     # Brightness control
     Key([], "XF86MonBrightnessDown", lazy.spawn("sudo xbacklight -set 1")),
     Key([], "XF86MonBrightnessUp", lazy.spawn("sudo xbacklight -set 100")),
