@@ -380,6 +380,9 @@ autocmd FileType gitcommit let &colorcolumn=72
 " JBuilder is a ruby filetype
 autocmd BufRead,BufNewFile *.jbuilder set filetype=ruby
 
+" gssr files are just json
+autocmd BufRead,BufNewFile *.gssr set filetype=json
+
 
 "***************************
 "***** GUI vs terminal *****
