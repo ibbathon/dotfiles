@@ -308,10 +308,10 @@ screen_3_widgets = [list(screen_2_widgets[i]) for i in range(3)]
 screen_4_widgets = [list(screen_3_widgets[i]) for i in range(3)]
 
 # For some reason, qtile no longer respects screen order
-if platform.node() == "Bastet":
-    screen_1_widgets, screen_3_widgets = screen_3_widgets, screen_1_widgets
-if platform.node() == "Brigid":
-    screen_1_widgets, screen_3_widgets = screen_3_widgets, screen_1_widgets
+# if platform.node() == "Bastet":
+#    screen_1_widgets, screen_3_widgets = screen_3_widgets, screen_1_widgets
+# if platform.node() == "Brigid":
+#    screen_1_widgets, screen_3_widgets = screen_3_widgets, screen_1_widgets
 
 
 def build_arrow(widgets, char, foreground, background):
