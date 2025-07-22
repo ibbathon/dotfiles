@@ -1,0 +1,4 @@
+#!/bin/zsh
+
+ADDRESSES=`ip addr | grep -o "inet [0-9.]\+" | grep -o "[0-9.]\+" | grep -v "^\(172\|127\)" | head -c -1 | tr "\n" "a" | sed "s/a/, /g"`
+echo "$ADDRESSES"

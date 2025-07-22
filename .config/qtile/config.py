@@ -50,15 +50,16 @@ except ImportError:
 
 # Use HOST to determine computer-specific options, such as battery/wlan widgets
 use_battery_widget = False
-use_wlan_widget = True
+use_wlan_widget = False
 use_large_fonts = False
 wlan_int = "wlan0"
 if platform.node() in ["AmaNoUzume"]:
+    use_wlan_widget = True
     use_battery_widget = True
 if platform.node() in ["Bastet"]:
     use_large_fonts = True
 if platform.node() in ["Osiris"]:
-    use_wlan_widget = False
+    pass
 if platform.node() in ["Brigid"]:
     pass
     # Brigid has two wifi adapters, but we want to track the
@@ -230,6 +231,16 @@ class CustomVolume(widget.PulseVolume):
         self.text = text
 
 
+def ip_addresses_func(*args, **kwargs):
+    result = ""
+    try:
+        proc = subprocess.run("/home/ibb/bin/get-ip-addresses", capture_output=True)
+        result = proc.stdout.decode().replace("\n", "")
+    except Exception:
+        pass
+    return result if result else "no connection"
+
+
 widget_settings = dict(
     groupbox=dict(klass=widget.GroupBox),
     prompt=dict(klass=widget.Prompt, settings=dict(background=colors["bar-important"])),
@@ -280,6 +291,13 @@ widget_settings = dict(
         settings=dict(interface=wlan_int, format="Wifi: {essid} {quality}/70"),
     ),
     layout=dict(klass=widget.CurrentLayout),
+    ip_addresses=dict(
+        klass=widget.GenPollText,
+        settings=dict(
+            func=ip_addresses_func,
+            update_interval=10,
+        ),
+    ),
 )
 
 screen_1_widgets = [
@@ -297,6 +315,7 @@ screen_1_widgets = [
         "systray",
         "clock",
         "volume",
+        "ip_addresses",
     ],
 ]
 if use_wlan_widget:
