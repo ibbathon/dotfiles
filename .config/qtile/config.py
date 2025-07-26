@@ -298,6 +298,13 @@ widget_settings = dict(
             update_interval=10,
         ),
     ),
+    thermals=dict(
+        klass=widget.ThermalSensor,
+        settings=dict(
+            format="CPU: {temp}{unit}",
+            tag_sensor="Package id 0",
+        ),
+    ),
 )
 
 screen_1_widgets = [
@@ -316,6 +323,7 @@ screen_1_widgets = [
         "clock",
         "volume",
         "ip_addresses",
+        "thermals",
     ],
 ]
 if use_wlan_widget:
