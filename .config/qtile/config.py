@@ -173,9 +173,9 @@ keys = [
 
 groups = [
     Group("a", label="a "),  # Internet
-    Group("s", label="s "),  # Slack
+    Group("s", label="s ", matches=[Match(wm_class="discord")]),  # Slack
     Group("d", label="d "),  # Terminal
-    Group("f", label="f "),  # Games
+    Group("f", label="f ", matches=[Match(wm_class="steam")]),  # Games
     Group("g", label="g "),  # Internet
     Group("h", label="h "),  # Misc
     Group("j", label="j ", matches=[Match(wm_class="zoom")]),  # Zoom
