@@ -303,6 +303,7 @@ widget_settings = dict(
         settings=dict(
             format="CPU: {temp}{unit}",
             tag_sensor="Package id 0",
+            threshold=70.0,
         ),
     ),
 )
