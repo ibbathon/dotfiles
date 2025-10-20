@@ -1,0 +1,9 @@
+[Unit]
+Description=ARBTT Activity Tracking Capture
+
+[Service]
+WorkingDirectory=/home/ibb
+ExecStart=/usr/bin/arbtt-capture
+
+[Install]
+WantedBy=default.target

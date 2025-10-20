@@ -383,6 +383,12 @@ autocmd BufRead,BufNewFile *.jbuilder set filetype=ruby
 " gssr files are just json
 autocmd BufRead,BufNewFile *.gssr set filetype=json
 
+" set tmux window title based on filename
+autocmd BufEnter * call system("tmux rename-window nvim:" . expand("%"))
+autocmd VimLeave * call system("tmux setw automatic-rename")
+autocmd BufEnter * let &titlestring = ' ' . expand("%:t")
+set title
+
 
 "***************************
 "***** GUI vs terminal *****
