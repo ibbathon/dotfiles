@@ -1,0 +1,3 @@
+#!/bin/zsh
+
+WINEPREFIX=/Bastion/GuildWars2 wine '/Bastion/GuildWars2/drive_c/Program Files/Guild Wars 2/Gw2-64.exe'
