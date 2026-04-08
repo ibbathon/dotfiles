@@ -13,6 +13,9 @@ solaar -w hide &
 (sleep 2; nextcloud) &
 which gkraken && gkraken --hide-window &
 
+# authentication popups for fucking polkit
+lxqt-policykit-agent &
+
 # disable screensaver
 xset dpms 0 0 0
 xset -dpms

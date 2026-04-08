@@ -447,6 +447,8 @@ floating_layout = layout.Floating(
         Match(wm_class="python"),
         Match(wm_class="openmw-launcher"),  # Morrowind
         Match(wm_class="pavucontrol"),  # Audio controls
+        # Authentication popup from lxqt-policykit-agent
+        Match(wm_class="lxqt-policykit-agent"),
         # Match(wm_class="steam"),  # All Steam windows
         # Zoom "you're using audio!" window
         # This isn't perfect, as it still floats the main zoom window, but at
