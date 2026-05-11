@@ -386,6 +386,9 @@ tmux_conf_urlscan_options="--compact --dedupe"
 # increase history size
 #set -g history-limit 10000
 
+# try to fix tmux vim color issues
+set -ga terminal-overrides ',xterm-256color:Tc'
+
 # start with mouse mode enabled
 set -g mouse on
 

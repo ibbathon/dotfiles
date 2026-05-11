@@ -105,6 +105,12 @@ Plugin 'mfussenegger/nvim-dap' " Debug Adapter Protocol support (i.e. Godot debu
 call vundle#end()
 filetype plugin indent on
 
+" we need to do some fuckery to enable proper colors in tmux
+set t_8f=[38;2;%lu;%lu;%lum
+set t_8b=[38;2;%lu;%lu;%lum
+set t_Co=256
+set termguicolors
+
 " pathogen config
 "execute pathogen#infect()
 
@@ -230,6 +236,10 @@ if globpath(&runtimepath, 'colors/gruvbox.vim', 1) !=# ''
   set background=dark
   colorscheme gruvbox
 end
+
+" set up spell-check and adjust color to something more usable
+set spell spelllang=en_us
+hi SpellBad gui=underline guibg=#770000
 
 " Netrw setup
 let g:netrw_mousemaps=0 " Stupid Netrw
