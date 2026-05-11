@@ -60,7 +60,7 @@ Plugin 'maxmellon/vim-jsx-pretty' " better syntax highlighting for jsx
 Plugin 'omnisharp/omnisharp-vim' " C-Sharp syntax/completion/linting
 Plugin 'adamclerk/vim-razor' " *.cshtml files
 Plugin 'othree/xml.vim' " Better XML support (such as auto-folding)
-Plugin 'JamshedVesuna/vim-markdown-preview' " Preview MD with Ctrl-m
+Plugin 'iamcco/markdown-preview.nvim' " Preview MD with Ctrl-m
 Plugin 'pappasam/coc-jedi' " Python LSP IDE support
 Plugin 'hashivim/vim-terraform' " Terraform support
 Plugin 'cespare/vim-toml' " TOML support
@@ -290,13 +290,11 @@ function s:PathRelativeToPwd(path)
   return a:path
 endfunction
 
-" Change C-p MD preview key to C-m (to avoid conflict with the ctrlp)
-let vim_markdown_preview_hotkey='<C-m>'
-let vim_markdown_preview_browser='Google Chrome'
-let vim_markdown_preview_github=1
-
 " Shortcut to write to a file that we need sudo access for
 cmap w!! w !sudo tee > /dev/null %
+
+" markdown preview shortcut
+nmap <C-m> <Plug>MarkdownPreview
 
 " For some reason, C-PageUp and C-PageDown are not mapped correctly; remap them
 map [5^ :tabp<CR>
