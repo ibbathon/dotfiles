@@ -247,30 +247,17 @@ let g:ale_lint_on_text_changed = 'always' " check during both normal and insert,
 let g:ale_echo_msg_format = '[%severity%:%linter%:%code%] %s'
 let g:ale_loclist_msg_format = '[%linter%:%code%] %s'
 " Have black/isort/flake8/mypy run automatically on my projects, too
-au BufNewFile,BufRead $HOME/gitwork/**/*.py
+au BufNewFile,BufRead $HOME/*gitwork/**/*.py
   \   let b:ale_linters = ["flake8", "mypy"]
   \ | let b:ale_fixers = ["black", "isort"]
   \ | let b:ale_fix_on_save = 1
   \ | let b:ale_python_mypy_options = '--follow-imports=skip --ignore-missing-imports'
   \ | let b:ale_python_flake8_options = '--max-line-length=88'
   \ | let b:ale_python_isort_options = '--profile black'
-au BufNewFile,BufRead $HOME/gitwork/**/*.js*,$HOME/gitwork/**/*.ts*
+au BufNewFile,BufRead $HOME/*gitwork/**/*.js*,$HOME/*gitwork/**/*.ts*
   \   let b:ale_linters = []
   \ | let b:ale_fixers = ["prettier"]
   \ | let b:ale_fix_on_save = 1
-" Don't run fixers on certain NEA projects because they're fucking morons
-for reponame in [
-  \ "model-blythe-110",
-  \ "model-stanford",
-  \ "energy-mgmt-reports",
-  \ "model-arlington",
-  \ "model-north-central-valley",
-  \ "model-blytheiv",
-  \ "model-yellow-pine",
-  \ "connector-hydralink",
-\ ]
-  execute "au BufNewFile,BufRead $HOME/gitwork/" . reponame . "/**/*.py let b:ale_fixers = []"
-endfor
 
 " CoC completion setup
 inoremap <silent><expr> <Right> coc#pum#visible() ? coc#pum#confirm() : "\<Right>"
@@ -292,6 +279,16 @@ let g:ctrlp_switch_buffer = '0'
 "*************************************
 "***** Custom mappings and fixes *****
 "*************************************
+
+" Function to return a relative path based on an absolute path if said path
+" is a child of the pwd
+function s:PathRelativeToPwd(path)
+  let cwd = getcwd() .. '/'
+  if stridx(a:path, cwd) == 0
+    return substitute(a:path, cwd, '', '')
+  endif
+  return a:path
+endfunction
 
 " Change C-p MD preview key to C-m (to avoid conflict with the ctrlp)
 let vim_markdown_preview_hotkey='<C-m>'
@@ -384,7 +381,7 @@ autocmd BufRead,BufNewFile *.jbuilder set filetype=ruby
 autocmd BufRead,BufNewFile *.gssr set filetype=json
 
 " set tmux window title based on filename
-autocmd BufEnter * call system("tmux rename-window nvim:" . expand("%"))
+autocmd BufEnter * call system("tmux rename-window nvim:" . s:PathRelativeToPwd(expand("%")))
 autocmd VimLeave * call system("tmux setw automatic-rename")
 autocmd BufEnter * let &titlestring = ' ' . expand("%:t")
 set title
@@ -423,56 +420,4 @@ else
   let &t_SR .= "\<Esc>[3 q"
   " Normal mode
   let &t_EI .= "\<Esc>[2 q"
-endif
-
-
-"******************************
-"***** Experimental stuff *****
-"******************************
-if os == "mac"
-  function! CreateUsualBuffers()
-    " First tab is notes
-    :TabooRename NOTES
-    :e ~/quicknotes
-    :vs
-    :e ~/questions
-    " Second tab is editing monorepo/server
-    :tabnew
-    :tcd ~/gitwork/monorepo/server
-    :vs
-    normal! w
-    " Pre-open a file so we can do our file searches
-    :e rxapi/models/account.py
-    " Third tab is editing LS/api
-    :tabnew
-    :tcd ~/gitwork/ls-platform/api
-    :vs
-    normal! w
-    :e app.py
-    " Default to editing monorepo
-    normal! gT
-  endfunction
-  command! Usuals :call CreateUsualBuffers()
-
-  " Changed dev process, so this has been replaced by a quick pytest run
-  " nmap <Leader>t :terminal ++curwin tmux<CR>
-
-  " Go to fixture definition
-  nmap <silent>gf :execute "lvimgrep /\\(def \\<" . expand("<cword>") . "\\>\\<Bar>\\<" . expand("<cword>") . "\\> = generate_mutation_fixture\\)/ tests/fixtures/**/*.py"<CR>
-  " Use COC to jump to the definition
-  nmap <silent>gd <Plug>(coc-definition)
-
-  " Change linters based on project
-  " Note: mypy is told to skip import-checking to reduce feedback lag
-  "       The full version will run on commit, so I can catch it there.
-  au BufNewFile,BufRead $HOME/gitwork/monorepo/**/*.py,$HOME/gitwork/ls-platform/**/*.py
-    \   let b:ale_linters = ["flake8", "mypy"]
-    \ | let b:ale_fixers = ["black", "isort"]
-    \ | let b:ale_fix_on_save = 1
-    \ | unlet b:ale_python_black_options
-    \ | let b:ale_python_mypy_options = '--follow-imports=skip'
-
-  au BufNewFile,BufRead $HOME/gitwork/infra/**/*.tf
-    \   let b:ale_fixers = ["terraform"]
-    \ | let b:ale_fix_on_save = 1
 endif
