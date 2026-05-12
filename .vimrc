@@ -66,6 +66,7 @@ Plugin 'hashivim/vim-terraform' " Terraform support
 Plugin 'cespare/vim-toml' " TOML support
 Plugin 'posva/vim-vue' " Vue support
 Plugin 'habamax/vim-godot' " Godot/GDScript support
+Plugin 'https://gitlab.com/greyshadowsoftware/tia.vim' " support for my Type It All formats
 " Appearance
 Plugin 'vim-airline/vim-airline' " Status/Tabline
 Plugin 'morhetz/gruvbox' " Color scheme
@@ -132,6 +133,8 @@ let g:airline_mode_map = {
 let g:airline_section_c = '%f'
 let g:airline_symbols_ascii = 1
 silent! call airline#extensions#whitespace#disable()
+let g:airline#extensions#wordcount#filetypes =
+  \ ['asciidoc', 'help', 'mail', 'markdown', 'rmd', 'nroff', 'org', 'plaintex', 'rst', 'tex', 'text', 'tiac']
 
 " Keep docstring first line visible when folding Python
 let g:SimpylFold_docstring_preview = 1
@@ -237,8 +240,8 @@ if globpath(&runtimepath, 'colors/gruvbox.vim', 1) !=# ''
   colorscheme gruvbox
 end
 
-" set up spell-check and adjust color to something more usable
-set spell spelllang=en_us
+" set up spell-check for a few filetypes and adjust color to something more usable
+au BufNewFile,BufRead *.md,*.txt,*.tiac setlocal spell spelllang=en_us
 hi SpellBad gui=underline guibg=#770000
 
 " Netrw setup
