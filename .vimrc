@@ -241,7 +241,8 @@ if globpath(&runtimepath, 'colors/gruvbox.vim', 1) !=# ''
 end
 
 " set up spell-check for a few filetypes and adjust color to something more usable
-au BufNewFile,BufRead *.md,*.txt,*.tiac setlocal spell spelllang=en_us
+" spellcapcheck= disables first-word capitalization checking
+au BufNewFile,BufRead *.md,*.txt,*.tiac setlocal spell spelllang=en_us spellcapcheck=
 hi SpellBad gui=underline guibg=#770000
 
 " Netrw setup
