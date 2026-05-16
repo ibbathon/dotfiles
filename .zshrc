@@ -11,6 +11,9 @@ fi
 
 if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
   IS_SSH="true"
+  if [ -z "$(ip addr | grep '192\.168\.')" ]; then
+    IS_REMOTE="true"
+  fi
 fi
 
 # Case-insensitive tab-completion
@@ -51,10 +54,22 @@ function ShutDownProtonGame() {
 }
 alias proton_shutdown=ShutDownProtonGame
 
+# aliases for managing my VPS
+if [[ $COMPUTER == "ibbmarsh.com" ]]; then
+  alias pguser='sudo -i -u postgres'
+fi
+
 
 ### Prompt setup
 if [ -n "$IS_SSH" ]; then
-  EXTRA_PROMPT="%F{blue}%m "
+  USER_PROMPT=
+  if [[ "$USERNAME" != "ibb" ]]; then
+    USER_PROMPT="%F{red}%n@"
+  fi
+  EXTRA_PROMPT="${USER_PROMPT}%F{blue}%m "
+  if [ -n "$IS_REMOTE" ]; then
+    EXTRA_PROMPT="${USER_PROMPT}%F{green}%m "
+  fi
 fi
 check_kubeconfig() {
   if [ -n "$KUBECONFIG" ]; then
