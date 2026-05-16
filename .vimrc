@@ -12,6 +12,21 @@
 " reopen vim
 " :CocInstall coc-lists coc-jedi coc-tsserver
 
+" Index:
+" SETP: pre-script definitions
+" VUDL: Vundle
+" VARC: built-in var config
+" PLGC: plugin config
+" CSTM: custom methods (and their key mappings)
+" MPNG: key mappings
+" FTYP: filetype-specific config
+" MSCL: miscellaneous mappings and other config
+" GTUI: GUI vs TUI
+
+"##############################################################################
+"##### SETP: pre-script definitions ###########################################
+"##############################################################################
+
 " Determine OS first
 if has('win32') || has('win64')
   let os = "windows"
@@ -38,18 +53,21 @@ if os == "mac"
   " set pythonthreehome=/Users/ibb/.pyenv/versions/3.8.10/Library/Frameworks/Python.framework/Versions/3.8
 end
 
+
+"##############################################################################
+"##### VUDL: Vundle and plugin config #########################################
+"##############################################################################
+
 " Need to disable ALE's LSP before loading plugins, so it doesn't conflict
 " with COC's LSP. Also need to edit CocConfig and add
 " "diagnostic.displayByAle": true
 let g:ale_disable_lsp = 1
 
-"************************************
-"***** Vundle and plugin config *****
-"************************************
 set nocompatible
 set encoding=utf-8
 filetype off
 set rtp+=$VIMHOME/bundle/Vundle.vim
+
 call vundle#begin('$VIMHOME/bundle')
 " Necessary to prevent cleaning the main plugin
 Plugin 'VundleVim/Vundle.vim'
@@ -104,6 +122,12 @@ Plugin 'mfussenegger/nvim-dap' " Debug Adapter Protocol support (i.e. Godot debu
 "Plugin 'nvie/vim-flake8' " Python linter Flake8 (not actually needed?)
 "Plugin 'ashisha/image.vim' " auto-ascii-art (doesn't work with MacVim)
 call vundle#end()
+
+
+"##############################################################################
+"##### VARC: built-in var config ##############################################
+"##############################################################################
+
 filetype plugin indent on
 
 " we need to do some fuckery to enable proper colors in tmux
@@ -112,54 +136,7 @@ set t_8b=[38;2;%lu;%lu;%lum
 set t_Co=256
 set termguicolors
 
-" pathogen config
-"execute pathogen#infect()
-
-" airline config
-let g:airline_section_y = ''
-let g:airline_mode_map = {
-      \ '__' : '--',
-      \ 'n'  : 'N ',
-      \ 'i'  : 'I ',
-      \ 'R'  : 'R ',
-      \ 'c'  : 'C ',
-      \ 'v'  : 'Vc',
-      \ 'V'  : 'Vl',
-      \ '' : 'Vb',
-      \ 's'  : 'Sc',
-      \ 'S'  : 'Sl',
-      \ '' : 'Sb',
-      \ }
-let g:airline_section_c = '%f'
-let g:airline_symbols_ascii = 1
-silent! call airline#extensions#whitespace#disable()
-let g:airline#extensions#wordcount#filetypes =
-  \ ['asciidoc', 'help', 'mail', 'markdown', 'rmd', 'nroff', 'org', 'plaintex', 'rst', 'tex', 'text', 'tiac']
-
-" Keep docstring first line visible when folding Python
-let g:SimpylFold_docstring_preview = 1
-
-" Use Rubocop by default for Ruby files
-let g:syntastic_ruby_checkers = ['rubocop']
-
-" Disable ycm for commit message editing
-autocmd BufNewFile,BufRead COMMIT_EDITMSG let g:ycm_auto_trigger = 0
-
-" Configure Godot
-let g:godot_executable = '/usr/bin/godot'
-lua << EOF
-  local dap = require('dap')
-  dap.adapters.godot = {
-    type = "server",
-    host = '127.0.0.1',
-    port = 6006,
-  }
-EOF
-
-
-"**********************
-"***** var config *****
-"**********************
+" all the basics
 set history=2000
 set hlsearch
 set incsearch
@@ -180,7 +157,8 @@ set breakindentopt=min:40,shift:2,sbr
 if !has("nvim")
   set ttymouse=sgr
 endif
-set visualbell  " disable audio bells
+" disable audio bells
+set visualbell
 
 " include Taboo tab names when writing sessions
 set sessionoptions+=tabpages,globals
@@ -234,16 +212,57 @@ set colorcolumn=80,120
 " Automatically reload files which have only had a timestamp change
 set autoread
 
+
+"##############################################################################
+"##### PLGC: plugin config ####################################################
+"##############################################################################
+
 " This only works if gruvbox Vundle is installed, but it's so much prettier
 if globpath(&runtimepath, 'colors/gruvbox.vim', 1) !=# ''
   set background=dark
   colorscheme gruvbox
 end
 
-" set up spell-check for a few filetypes and adjust color to something more usable
-" spellcapcheck= disables first-word capitalization checking
-au BufNewFile,BufRead *.md,*.txt,*.tiac setlocal spell spelllang=en_us spellcapcheck=
-hi SpellBad gui=underline guibg=#770000
+" airline config
+let g:airline_section_y = ''
+let g:airline_mode_map = {
+      \ '__' : '--',
+      \ 'n'  : 'N ',
+      \ 'i'  : 'I ',
+      \ 'R'  : 'R ',
+      \ 'c'  : 'C ',
+      \ 'v'  : 'Vc',
+      \ 'V'  : 'Vl',
+      \ '' : 'Vb',
+      \ 's'  : 'Sc',
+      \ 'S'  : 'Sl',
+      \ '' : 'Sb',
+      \ }
+let g:airline_section_c = '%f'
+let g:airline_symbols_ascii = 1
+silent! call airline#extensions#whitespace#disable()
+let g:airline#extensions#wordcount#filetypes =
+  \ ['asciidoc', 'help', 'mail', 'markdown', 'rmd', 'nroff', 'org', 'plaintex', 'rst', 'tex', 'text', 'tiac']
+
+" Keep docstring first line visible when folding Python
+let g:SimpylFold_docstring_preview = 1
+
+" Use Rubocop by default for Ruby files
+let g:syntastic_ruby_checkers = ['rubocop']
+
+" Disable ycm for commit message editing
+autocmd BufNewFile,BufRead COMMIT_EDITMSG let g:ycm_auto_trigger = 0
+
+" Configure Godot
+let g:godot_executable = '/usr/bin/godot'
+lua << EOF
+  local dap = require('dap')
+  dap.adapters.godot = {
+    type = "server",
+    host = '127.0.0.1',
+    port = 6006,
+  }
+EOF
 
 " Netrw setup
 let g:netrw_mousemaps=0 " Stupid Netrw
@@ -290,9 +309,9 @@ let g:loaded_zip = 1
 let g:ctrlp_switch_buffer = '0'
 
 
-"*************************************
-"***** Custom mappings and fixes *****
-"*************************************
+"##############################################################################
+"##### CSTM: custom methods ###################################################
+"##############################################################################
 
 " Function to return a relative path based on an absolute path if said path
 " is a child of the pwd
@@ -304,6 +323,56 @@ function s:PathRelativeToPwd(path)
   return a:path
 endfunction
 
+" move to first non-whitespace on line or start of line if already there
+function! LineHome()
+  let x = col('.')
+  execute "normal ^"
+  if x == col('.')
+    execute "normal 0"
+  endif
+  return ""
+endfunction
+map <Home> :call LineHome()<CR>:echo<CR>
+imap <Home> <C-R>=LineHome()<CR>
+map ^[[1~ :call LineHome()<CR>:echo<CR>
+imap ^[[1~ <C-R>=LineHome()<CR>
+
+" use <tab> to trigger coc completion
+function! IsPrevCharSpace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+" inoremap <silent><expr> <Tab>
+"      \ coc#pum#visible() ? coc#pum#next(1) :
+"      \ IsPrevCharSpace() ? "\<Tab>" :
+"      \ coc#refresh()
+
+" Use K to show documentation in preview window.
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+" wipe out all deleted or all unloaded buffers (depending on "listed")
+function! s:bwipeout(listed) abort
+    let l:buffers = filter(getbufinfo(), {_, v -> !v.loaded && (!v.listed || a:listed)})
+    if !empty(l:buffers)
+        execute 'bwipeout' join(map(l:buffers, {_, v -> v.bufnr}))
+    endif
+endfunction
+command! -bar -bang Cleanup call s:bwipeout(<bang>0)
+
+
+"##############################################################################
+"##### MPNG: key mappings #####################################################
+"##############################################################################
+
 " Shortcut to write to a file that we need sudo access for
 cmap w!! w !sudo tee > /dev/null %
 
@@ -313,26 +382,6 @@ nmap <C-m> <Plug>MarkdownPreview
 " For some reason, C-PageUp and C-PageDown are not mapped correctly; remap them
 map [5^ :tabp<CR>
 map [6^ :tabn<CR>
-
-" Autocomplete braces
-" These are annoying, so I'm commenting them out for now
-" inoremap {<CR> {<CR>}<Esc>ko
-" inoremap [<CR> [<CR>]<Esc>ko
-
-" Home moves to first non-whitespace on line
-" If already on first non-whitespace, jumps to actual beginning of line
-map <Home> :call LineHome()<CR>:echo<CR>
-imap <Home> <C-R>=LineHome()<CR>
-map ^[[1~ :call LineHome()<CR>:echo<CR>
-imap ^[[1~ <C-R>=LineHome()<CR>
-function! LineHome()
-  let x = col('.')
-  execute "normal ^"
-  if x == col('.')
-    execute "normal 0"
-  endif
-  return ""
-endfunction
 
 " Use open-browser to open https? links
 nnoremap <silent> gx :<C-u> call openbrowser#_keymap_smart_search('n')<CR>
@@ -346,39 +395,25 @@ map <Leader>o :exe 'CocList -I --input='.expand('<cword>').' grep -i --sort path
 map <Leader>t :TestNearest<CR>
 map <Leader>T :TestFile<CR>
 
-" use <tab> to trigger coc completion
-function! IsPrevCharSpace() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-" inoremap <silent><expr> <Tab>
-"      \ coc#pum#visible() ? coc#pum#next(1) :
-"      \ IsPrevCharSpace() ? "\<Tab>" :
-"      \ coc#refresh()
-
-" Use K to show documentation in preview window.
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  elseif (coc#rpc#ready())
-    call CocActionAsync('doHover')
-  else
-    execute '!' . &keywordprg . " " . expand('<cword>')
-  endif
-endfunction
+" Autocomplete braces
+" These are annoying, so I'm commenting them out for now
+" inoremap {<CR> {<CR>}<Esc>ko
+" inoremap [<CR> [<CR>]<Esc>ko
 
 " Use [c and ]c to navigate errors/warnings from Coc. I used those mappings
 " because they correspond to the standard built-in vim mappings.
 nmap <silent> [c :call CocAction('diagnosticNext')<cr>
 nmap <silent> ]c :call CocAction('diagnosticPrevious')<cr>
 
-"************************
-"***** Autocommands *****
-"************************
 
-" Close scratch buffer when leaving insert mode, to clean up my panes
-autocmd InsertLeave * if pumvisible() == 0 && bufname("%") != "[Command Line]"|pclose|endif
+"##############################################################################
+"##### FTYP: filetype-specific config #########################################
+"##############################################################################
+
+" set up spell-check for a few filetypes and adjust color to something more usable
+" spellcapcheck= disables first-word capitalization checking
+au BufNewFile,BufRead *.md,*.txt,*.tiac setlocal spell spelllang=en_us spellcapcheck=
+hi SpellBad gui=underline guibg=#770000
 
 " Delete netrw's buffer, so I can actually quit
 autocmd FileType netrw setl bufhidden=delete
@@ -392,6 +427,14 @@ autocmd BufRead,BufNewFile *.jbuilder set filetype=ruby
 " gssr files are just json
 autocmd BufRead,BufNewFile *.gssr set filetype=json
 
+
+"##############################################################################
+"##### MSCL: miscellaneous mappings and other config ##########################
+"##############################################################################
+
+" Close scratch buffer when leaving insert mode, to clean up my panes
+autocmd InsertLeave * if pumvisible() == 0 && bufname("%") != "[Command Line]"|pclose|endif
+
 " set tmux window title based on filename
 autocmd BufEnter * call system("tmux rename-window nvim:" . s:PathRelativeToPwd(expand("%")))
 autocmd VimLeave * call system("tmux setw automatic-rename")
@@ -399,9 +442,9 @@ autocmd BufEnter * let &titlestring = ' ' . expand("%:t")
 set title
 
 
-"***************************
-"***** GUI vs terminal *****
-"***************************
+"##############################################################################
+"##### GTUI: GUI vs TUI #######################################################
+"##############################################################################
 
 if has("gui_running")
   " Only do the following in macvim or gvim
