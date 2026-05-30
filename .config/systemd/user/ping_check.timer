@@ -1,0 +1,10 @@
+[Unit]
+Description=tracks ping times (network up availability) over time
+
+[Timer]
+# run 120s (2m) after booting, and then every 10s after that
+OnBootSec=120
+OnUnitActiveSec=10
+
+[Install]
+WantedBy=timers.target

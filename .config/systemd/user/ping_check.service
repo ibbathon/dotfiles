@@ -1,0 +1,6 @@
+[Unit]
+Description=tracks ping times (network up availability) over time
+
+[Service]
+Type=oneshot
+ExecStart=/bin/zsh /home/ibb/bin/ping_check

@@ -1,0 +1,111 @@
+#!/bin/zsh
+# attempts to check all GDScript files in the current project (by cwd) for
+# unused methods or unused vars
+# WARNING: this cannot detect certain indirect ways of calling methods, so
+# make sure you double-check before removing any given methods/vars
+# WARNING: this also will not differentiate between two same-named methods,
+# so Word.factory will count as Paragraph.factory being used
+
+built_in_virtuals=(
+  _ready
+  _init
+  _input
+  _draw
+  _notification
+  _process
+  _get_recognized_extensions
+  _handles_type
+  _load
+  _enter_tree
+  _exit_tree
+)
+
+zmodload zsh/zutil
+zparseopts -D -F -K -- \
+  -ignore+:=arg_ignore \
+  {h,-help}=arg_help ||
+  return 1
+
+if [ -n "$arg_help" ]; then
+  echo "check_gdscript_for_unused [--ignore <filename>] ..."
+  echo "  checks all gd files in current project directory (recursive) for any"
+  echo "  methods, vars, or constants which are not mentioned in any gd files"
+  echo ""
+  echo "  --ignore <filename> will ignore the given filename for internal-only"
+  echo "    variable usage"
+  return 0
+fi
+
+ignore_params=()
+for ignore_file in $arg_ignore; do
+  if [ "$ignore_file" != "--ignore" ]; then
+    ignore_params+=("--exclude=${ignore_file/=/}")
+  fi
+done
+
+function check_name() {
+  name=$1
+  typestr=$2
+  filename=$3
+
+  isonready=$(grep $filename -e "@onready.*var ${name}")
+  isexport=$(grep $filename -e "@export.*var ${name}")
+  isresource=$(grep $filename -e "extends Resource")
+  prefix="func"
+  if [ $typestr = "variable" ]; then
+    prefix="var"
+  elif [ $typestr = "const" ]; then
+    prefix="const"
+  fi
+
+  # resource exports should be checked in all .gd files, as they might be
+  # stored resources or ways for other objects to set vars on this object
+  if [ -n "$isexport" ]; then
+    grep **/*.gd -Pe "(?<!${prefix} )\b${name}\b" > /dev/null 2>&1
+    if [ $? -ne 0 ]; then
+      echo "unused resource export $name in $filename"
+    fi
+  # similar behavior for constants
+  elif [ $typestr = "const" ]; then
+    grep **/*.gd -Pe "(?<!${prefix} )\b${name}\b" > /dev/null 2>&1
+    if [ $? -ne 0 ]; then
+      echo "unused const $name in $filename"
+    fi
+  # private variables start with an underscore, but the naming convention for
+  # onready vars is to not do so, even though they're supposed to be used internally
+  # in both these cases, the var *should* be used in this file, but not elsewhere
+  elif [[ "$name" =~ ^"_" || -n "$isonready" ]]; then
+    grep $filename -Pe "(?<!${prefix} )\b${name}\b" > /dev/null 2>&1
+    if [ $? -ne 0 ]; then
+      echo "unused internal $typestr $name in $filename"
+    fi
+    grep **/*.gd --exclude $filename $ignore_params -Pe "\.${name}\b" > /dev/null 2>&1
+    if [ $? -eq 0 ]; then
+      echo "internal $typestr $name used outside $filename"
+    fi
+  # finally, we have the public vars/methods, which can be used anywhere, but
+  # should be used externally by at least one other file
+  else
+    grep **/*.gd --exclude $filename -Pe "\.${name}\b" > /dev/null 2>&1
+    if [ $? -ne 0 ]; then
+      echo "unused public $typestr $name in $filename"
+    fi
+  fi
+}
+
+for filename in **/*.gd; do
+  METHODS="$(grep $filename -oPe '(?<=^func )[^(]*' | grep -Pve "(${(j:|:)built_in_virtuals})")"
+  for method in ${=METHODS}; do
+    check_name "$method" method "$filename"
+  done
+
+  VARIABLES="$(grep $filename -oe '^.*var [^: ]*' | grep -Pv '^\t' | grep -oPe '(?<=var )[^A-Z][^: ]*')"
+  for variable in ${=VARIABLES}; do
+    check_name "$variable" variable "$filename"
+  done
+
+  CONSTS="$(grep $filename -oPe '(?<=^const )[^: ]*')"
+  for const in ${=CONSTS}; do
+    check_name "$const" const "$filename"
+  done
+done

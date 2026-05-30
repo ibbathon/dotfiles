@@ -1,0 +1,13 @@
+#!/bin/zsh
+
+GATEWAY=$(ip route | grep -o "default via [0-9.]*" | grep -o "[0-9.]*" | grep -v "^\(172\|127\)")
+TIME=$(date +"%Y%m%d %H%M%S")
+
+if [ -z "$GATEWAY" ]; then
+  RESULT="unreachable"
+else
+  RESULT=$(ping -c 1 $GATEWAY | grep -o "\(time=[0-9.]* ms\|Unreachable\)" | sed "s/Un/un/" | sed "s/time/ping/")
+fi
+
+mkdir -p ~/tmp/script_output
+echo "$TIME: $RESULT" >> ~/tmp/script_output/ping_check

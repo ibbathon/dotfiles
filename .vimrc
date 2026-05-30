@@ -160,6 +160,9 @@ endif
 " disable audio bells
 set visualbell
 
+" make sure to keep 5 lines of context whenever scrolling
+set scrolloff=5
+
 " include Taboo tab names when writing sessions
 set sessionoptions+=tabpages,globals
 
