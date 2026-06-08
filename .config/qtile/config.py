@@ -141,7 +141,7 @@ keys = [
     Key([mod, "control"], "Tab", lazy.window.toggle_floating()),
     Key([mod, "control"], "g", lazy.window.toggle_maximize()),
     # Qtile system commands
-    Key([mod, "control"], "r", lazy.restart()),
+    Key([mod, "control"], "r", lazy.reload_config()),
     Key([mod, "control"], "q", lazy.shutdown()),
     Key([mod], "space", lazy.spawncmd()),
     # Audio control
@@ -201,7 +201,7 @@ layouts = [
 ]
 
 widget_defaults = dict(
-    font="sans",
+    font="PowerLine",
     fontsize=widget_size,
     padding=3,
 )
