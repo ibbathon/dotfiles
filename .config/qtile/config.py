@@ -173,7 +173,7 @@ keys = [
 
 groups = [
     Group("a", label="a "),  # Internet
-    Group("s", label="s ", matches=[Match(wm_class="discord")]),  # Slack
+    Group("s", label="s ", matches=[Match(wm_class="discord")], layout="bsp"),  # Slack
     Group("d", label="d "),  # Terminal
     Group("f", label="f ", matches=[Match(wm_class="steam")]),  # Games
     Group("g", label="g "),  # Internet
