@@ -128,7 +128,9 @@ keys = [
     Key([mod], "Return", lazy.spawn("uxterm -e 'tmux -2'")),
     Key([mod], "x", lazy.spawn("firefox")),
     # Key([mod], "l", lazy.spawn("light-locker-command -l")),
-    Key([], "Print", lazy.spawn("flameshot gui")),
+    # Key([], "Print", lazy.spawn("flameshot gui")),
+    Key([], "Print", lazy.spawn("shutter -a")),
+    Key(["control"], "Print", lazy.spawn("shutter -s")),
     # Change/modify layouts
     Key([mod], "grave", lazy.next_layout()),
     Key([mod, "control"], "Left", lazy.layout.grow_left()),

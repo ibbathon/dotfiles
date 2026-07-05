@@ -23,7 +23,8 @@ xset s 0 0
 xset s off
 
 # screenshots
-flameshot &
+#flameshot &
+shutter --min_at_startup &
 
 # Disables using PS4 touchpad as mouse (interferes with games)
 xinput set-prop "Wireless Controller Touchpad" "Device Enabled" 0 &

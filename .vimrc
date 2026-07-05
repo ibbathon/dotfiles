@@ -86,7 +86,7 @@ Plugin 'posva/vim-vue' " Vue support
 Plugin 'habamax/vim-godot' " Godot/GDScript support
 Plugin 'https://gitlab.com/greyshadowsoftware/tia.vim' " support for my Type It All formats
 " Appearance
-Plugin 'vim-airline/vim-airline' " Status/Tabline
+"Plugin 'vim-airline/vim-airline' " Status/Tabline
 Plugin 'morhetz/gruvbox' " Color scheme
 " Wrappers
 Plugin 'tpope/vim-fugitive' " Adds git commands like Gstatus
@@ -214,6 +214,22 @@ set colorcolumn=80,120
 
 " Automatically reload files which have only had a timestamp change
 set autoread
+
+" My custom statusline, because airline sucks
+function! StatusDiagnostic() abort
+  let info = get(b:, 'coc_diagnostic_info', {})
+  if empty(info) | return '' | endif
+  let msgs = []
+  if get(info, 'error', 0)
+    call add(msgs, '%#DiffDelete#E' . info['error'] . '%*')
+  endif
+  if get(info, 'warning', 0)
+    call add(msgs, '%#DiffText#W' . info['warning'] . '%*')
+  endif
+  return join(msgs, ' ') . ' ' . get(g:, 'coc_status', '')
+endfunction
+let wordcnt_statusline = 'W%{has_key(wordcount(), "visual_words") ? wordcount().visual_words . "/" : ""}%{wordcount().words}'
+let &statusline='%<%.50f %#DiffAdd#%m%* %h%w%r%=%{%StatusDiagnostic()%}%=%(%{%wordcnt_statusline%}%) %(L%l/%L C%c%V %P%)'
 
 
 "##############################################################################
