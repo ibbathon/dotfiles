@@ -414,6 +414,10 @@ map <Leader>o :exe 'CocList -I --input='.expand('<cword>').' grep -i --sort path
 map <Leader>t :TestNearest<CR>
 map <Leader>T :TestFile<CR>
 
+" Quickly insert implementation TODO (Python-style) comment
+imap <Leader>d <C-\><C-n>$a # TODO (NOW): implement
+map <Leader>d <C-\><C-n>$a # TODO (NOW): implement<C-\><C-n>
+
 " Autocomplete braces
 " These are annoying, so I'm commenting them out for now
 " inoremap {<CR> {<CR>}<Esc>ko
