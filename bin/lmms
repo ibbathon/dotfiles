@@ -1,0 +1,6 @@
+#!/bin/zsh
+
+LMMS=$(ls /home/ibb/Downloads/lmms-* | tail -n 1)
+echo $LMMS
+
+$LMMS
